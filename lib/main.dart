@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/activities_screen.dart';
+import 'screens/notifications_screen.dart';
+import 'screens/add_activity_screen.dart';
 
 void main() {
   runApp(SiSaKetTravelApp());
@@ -17,6 +20,12 @@ class SiSaKetTravelApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         fontFamily: 'Kanit',
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: Colors.orange[400],
+          foregroundColor: Colors.white,
+        ),
       ),
       home: MainScreen(),
       debugShowCheckedModeBanner: false,
@@ -35,6 +44,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
     SearchScreen(),
+    ActivitiesScreen(),
+    NotificationsScreen(),
     ProfileScreen(),
   ];
 
@@ -52,6 +63,8 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Colors.orange[600],
         unselectedItemColor: Colors.grey[600],
         elevation: 8,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -64,12 +77,36 @@ class _MainScreenState extends State<MainScreen> {
             label: 'ค้นหา',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.local_activity_outlined),
+            activeIcon: Icon(Icons.local_activity),
+            label: 'กิจกรรม',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_outlined),
+            activeIcon: Icon(Icons.notifications),
+            label: 'แจ้งเตือน',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             activeIcon: Icon(Icons.person),
             label: 'โปรไฟล์',
           ),
         ],
       ),
+      floatingActionButton: _currentIndex == 2 // Show only on Activities screen
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddActivityScreen(),
+                  ),
+                );
+              },
+              backgroundColor: Colors.orange[400],
+              child: const Icon(Icons.add, color: Colors.white),
+            )
+          : null,
     );
   }
 }
