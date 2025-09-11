@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  final bool isSignup;
+  const LoginScreen({Key? key, this.isSignup = false}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isLogin = true;
+  late bool isLogin;
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
   String name = '';
+
+  @override
+  void initState() {
+    super.initState();
+    isLogin = !widget.isSignup;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +58,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // ไปหน้าหลักหลังล็อกอิน/สมัครสมาชิกสำเร็จ
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // ส่งข้อมูลกลับไป ProfileScreen (mock)
+                      Navigator.of(context).pop({
+                        'name': name.isNotEmpty ? name : 'ผู้ใช้ใหม่',
+                        'email': email,
+                      });
                     }
                   },
                   child: Text(isLogin ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'),
@@ -61,10 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
+                    setState(() {
+                      isLogin = !isLogin;
+                    });
                   },
                   child: Text(isLogin
                       ? 'ยังไม่มีบัญชี? สมัครสมาชิก'

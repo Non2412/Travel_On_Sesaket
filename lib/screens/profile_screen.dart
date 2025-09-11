@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+// ตัวอย่าง user mock สำหรับเดโม
+class MockUser {
+  final String name;
+  final String email;
+  MockUser({required this.name, required this.email});
+}
+
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  // จำลองสถานะล็อกอิน (จริงๆ ควรใช้ Provider/BLoC หรือดึงจาก API)
+  MockUser? user;
+
   final List<Map<String, dynamic>> menuItems = [
     {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '0'},
     {'icon': Icons.location_on, 'label': 'สถานที่ที่เยี่ยม', 'count': '0'},
@@ -59,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'ผู้เยี่ยมชม',
+                              user != null ? user!.name : 'ผู้เยี่ยมชม',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -67,7 +82,9 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'เข้าสู่ระบบเพื่อประสบการณ์ที่ดีขึ้น',
+                              user != null
+                                  ? user!.email
+                                  : 'เข้าสู่ระบบเพื่อประสบการณ์ที่ดีขึ้น',
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.8),
                               ),
@@ -79,71 +96,115 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               // Content
               Padding(
                 padding: EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    // Auth Buttons
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange[500],
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                    if (user == null) ...[
+                      // Auth Buttons
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            // ไปหน้า Login แล้วรับค่ากลับมา (mock)
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginScreen()),
+                            );
+                            // สมมุติล็อกอินสำเร็จ รับชื่อกับอีเมลกลับมา
+                            if (result is Map<String, String>) {
+                              setState(() {
+                                user = MockUser(
+                                  name: result['name'] ?? 'ผู้ใช้ใหม่',
+                                  email: result['email'] ?? '',
+                                );
+                              });
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange[500],
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'เข้าสู่ระบบ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    
-                    SizedBox(height: 12),
-                    
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
-                          );
-                        },
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          side: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        child: Text(
-                          'สมัครสมาชิก',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[700],
+                          child: Text(
+                            'เข้าสู่ระบบ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    
+                      SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () async {
+                            // ไปหน้า Login (โหมดสมัครสมาชิก)
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginScreen(isSignup: true)),
+                            );
+                            if (result is Map<String, String>) {
+                              setState(() {
+                                user = MockUser(
+                                  name: result['name'] ?? 'ผู้ใช้ใหม่',
+                                  email: result['email'] ?? '',
+                                );
+                              });
+                            }
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            side: BorderSide(color: Colors.grey[300]!),
+                          ),
+                          child: Text(
+                            'สมัครสมาชิก',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ] else ...[
+                      // Logout Button
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              user = null;
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            side: BorderSide(color: Colors.orange),
+                          ),
+                          child: Text(
+                            'ออกจากระบบ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.orange,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                     SizedBox(height: 32),
-                    
                     // Menu Items
                     Column(
                       children: menuItems.map((item) => Container(
@@ -207,3 +268,4 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
