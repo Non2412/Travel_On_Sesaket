@@ -8,48 +8,7 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<NotificationItem> notifications = [
-    NotificationItem(
-      id: '1',
-      title: 'อีเว้นต์ใหม่ในพื้นที่ของคุณ',
-      message: 'มีงานเทศกาลดนตรีที่สวนลุมพินี วันเสาร์นี้',
-      time: DateTime.now().subtract(const Duration(minutes: 5)),
-      type: NotificationType.event,
-      isRead: false,
-    ),
-    NotificationItem(
-      id: '2',
-      title: 'เพื่อนเช็คอินใกล้คุณ',
-      message: 'สมชาย เช็คอินที่ร้านอาหารใกล้คุณ',
-      time: DateTime.now().subtract(const Duration(hours: 1)),
-      type: NotificationType.friend,
-      isRead: false,
-    ),
-    NotificationItem(
-      id: '3',
-      title: 'สถานที่ใหม่ที่แนะนำ',
-      message: 'คาเฟ่น่ารักใกล้บ้านคุณ เปิดให้บริการแล้ว',
-      time: DateTime.now().subtract(const Duration(hours: 2)),
-      type: NotificationType.place,
-      isRead: true,
-    ),
-    NotificationItem(
-      id: '4',
-      title: 'การแข่งขันกีฬา',
-      message: 'การแข่งขันฟุตบอลชุมชน สมัครได้ถึงพรุ่งนี้',
-      time: DateTime.now().subtract(const Duration(hours: 4)),
-      type: NotificationType.event,
-      isRead: true,
-    ),
-    NotificationItem(
-      id: '5',
-      title: 'ข้อเสนอพิเศษ',
-      message: 'ส่วนลด 20% ที่ร้านอาหารโปรด',
-      time: DateTime.now().subtract(const Duration(days: 1)),
-      type: NotificationType.promotion,
-      isRead: false,
-    ),
-  ];
+  List<NotificationItem> notifications = [];
 
   @override
   Widget build(BuildContext context) {

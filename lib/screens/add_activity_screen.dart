@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../main.dart'; // Import for ActivityData
 
 class AddActivityScreen extends StatefulWidget {
   const AddActivityScreen({super.key});
@@ -288,7 +289,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? category['color'].withOpacity(0.1)
+                      ? category['color'].withValues(alpha: 0.1)
                       : Colors.grey[100],
                   border: Border.all(
                     color: isSelected
@@ -501,7 +502,30 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
         return;
       }
 
-      // TODO: Submit data to backend
+      // Create activity data
+      final activityData = {
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'type': selectedType,
+        'title': _titleController.text,
+        'description': _descriptionController.text,
+        'location': _locationController.text,
+        'category': selectedCategory,
+        'createdAt': DateTime.now(),
+      };
+
+      // Add date and time for events
+      if (selectedType == 'event') {
+        if (selectedDate != null) {
+          activityData['date'] = selectedDate!;
+        }
+        if (selectedTime != null) {
+          activityData['time'] = selectedTime!;
+        }
+      }
+
+      // Add to global state
+      ActivityData.addActivity(activityData);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('เพิ่ม${selectedType == 'event' ? 'กิจกรรม' : 'สถานที่'}สำเร็จ'),
@@ -509,7 +533,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
         ),
       );
       
-      Navigator.pop(context);
+      // Return true to indicate activity was added
+      Navigator.pop(context, true);
     }
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'add_activity_screen.dart';
+import '../main.dart'; // Import for ActivityData
 
 class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({super.key});
@@ -14,7 +16,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -44,7 +46,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
           indicatorColor: Colors.blue[600],
           tabs: const [
             Tab(text: 'ล่าสุด'),
-            Tab(text: 'อีเว้นต์'),
             Tab(text: 'สถานที่'),
           ],
         ),
@@ -53,219 +54,327 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         controller: _tabController,
         children: [
           _buildRecentActivities(),
-          _buildEventActivities(),
           _buildPlaceActivities(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // Wait for result from AddActivityScreen
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddActivityScreen(),
+            ),
+          );
+          
+          // If activity was added, refresh the screen
+          if (result == true) {
+            setState(() {
+              // This will trigger a rebuild and show new activities
+            });
+          }
+        },
+        backgroundColor: Colors.orange[500],
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
   Widget _buildRecentActivities() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return _buildActivityCard(
-          icon: Icons.event,
-          title: 'เข้าร่วมอีเว้นต์ "งานเทศกาลดนตรี"',
-          subtitle: 'คุณได้เข้าร่วมอีเว้นต์ที่สวนลุมพินี',
-          time: '${index + 1} ชั่วโมงที่แล้ว',
-          color: Colors.blue,
-        );
-      },
-    );
-  }
+    final activities = ActivityData.getActivities();
+    
+    if (activities.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.history,
+              size: 64,
+              color: Colors.grey[300],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'ไม่มีกิจกรรมล่าสุด',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'กิจกรรมของคุณจะแสดงที่นี่',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
-  Widget _buildEventActivities() {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: 8,
+      itemCount: activities.length,
       itemBuilder: (context, index) {
-        final eventTypes = [
-          {
-            'icon': Icons.music_note,
-            'title': 'เข้าร่วมคอนเสิร์ต',
-            'subtitle': 'งานดนตรีกลางแจ้ง',
-            'color': Colors.purple
-          },
-          {
-            'icon': Icons.restaurant,
-            'title': 'เข้าร่วมงานอาหาร',
-            'subtitle': 'เทศกาลอาหารท้องถิ่น',
-            'color': Colors.orange
-          },
-          {
-            'icon': Icons.sports,
-            'title': 'เข้าร่วมกิจกรรมกีฬา',
-            'subtitle': 'การแข่งขันมาราธอน',
-            'color': Colors.green
-          },
-        ];
-        
-        final event = eventTypes[index % eventTypes.length];
-        
-        return _buildActivityCard(
-          icon: event['icon'] as IconData,
-          title: event['title'] as String,
-          subtitle: event['subtitle'] as String,
-          time: '${(index + 1) * 2} ชั่วโมงที่แล้ว',
-          color: event['color'] as Color,
-        );
+        final activity = activities[index];
+        return _buildActivityCard(activity);
       },
     );
   }
 
   Widget _buildPlaceActivities() {
+    final places = ActivityData.getPlaces();
+    
+    if (places.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_on,
+              size: 64,
+              color: Colors.grey[300],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'ไม่มีกิจกรรมสถานที่',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'สถานที่ที่เพิ่มจะแสดงที่นี่',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: 6,
+      itemCount: places.length,
       itemBuilder: (context, index) {
-        final placeTypes = [
-          {
-            'icon': Icons.location_city,
-            'title': 'เช็คอินที่ห้างสรรพสินค้า',
-            'subtitle': 'สยามพารากอน',
-            'color': Colors.red
-          },
-          {
-            'icon': Icons.park,
-            'title': 'เช็คอินที่สวนสาธารณะ',
-            'subtitle': 'สวนจตุจักร',
-            'color': Colors.green
-          },
-          {
-            'icon': Icons.local_cafe,
-            'title': 'เช็คอินที่คาเฟ่',
-            'subtitle': 'คาเฟ่อมฤต',
-            'color': Colors.brown
-          },
-        ];
-        
-        final place = placeTypes[index % placeTypes.length];
-        
-        return _buildActivityCard(
-          icon: place['icon'] as IconData,
-          title: place['title'] as String,
-          subtitle: place['subtitle'] as String,
-          time: '${(index + 1) * 3} ชั่วโมงที่แล้ว',
-          color: place['color'] as Color,
-        );
+        final place = places[index];
+        return _buildActivityCard(place);
       },
     );
   }
 
-  Widget _buildActivityCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String time,
-    required Color color,
-  }) {
+  Widget _buildActivityCard(Map<String, dynamic> activity) {
+    final isEvent = activity['type'] == 'event';
+    
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Icon(
-            icon,
-            color: color,
-            size: 24,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image placeholder
+          Container(
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
               ),
             ),
-            const SizedBox(height: 8),
-            Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.access_time,
-                  size: 14,
-                  color: Colors.grey[600],
+                  isEvent ? Icons.event : Icons.location_on,
+                  size: 48,
+                  color: Colors.grey[400],
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(height: 8),
                 Text(
-                  time,
+                  'รูปภาพ${isEvent ? 'กิจกรรม' : 'สถานที่'}',
                   style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
+                    color: Colors.grey[500],
+                    fontSize: 14,
                   ),
                 ),
               ],
             ),
-          ],
-        ),
-        trailing: PopupMenuButton(
-          icon: const Icon(Icons.more_vert, color: Colors.grey),
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'share',
-              child: Row(
-                children: [
-                  Icon(Icons.share, size: 20),
-                  SizedBox(width: 8),
-                  Text('แชร์'),
+          ),
+          
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isEvent ? Colors.blue[100] : Colors.green[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        isEvent ? 'กิจกรรม' : 'สถานที่',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isEvent ? Colors.blue[800] : Colors.green[800],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      _getTimeAgo(activity['createdAt'] ?? DateTime.now()),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ],
+                ),
+                
+                const SizedBox(height: 12),
+                
+                Text(
+                  activity['title'] ?? '',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                
+                const SizedBox(height: 8),
+                
+                Text(
+                  activity['description'] ?? '',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                
+                const SizedBox(height: 12),
+                
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: 16,
+                      color: Colors.grey[600],
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        activity['location'] ?? '',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                if (isEvent && activity['date'] != null && activity['time'] != null) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time,
+                        size: 16,
+                        color: Colors.orange[600],
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        _formatEventDateTime(activity),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.orange[600],
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, size: 20, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('ลบ', style: TextStyle(color: Colors.red)),
+                
+                if (activity['category'] != null) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange[50],
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.orange[200]!),
+                    ),
+                    child: Text(
+                      activity['category'],
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.orange[700],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ],
-              ),
+              ],
             ),
-          ],
-          onSelected: (value) {
-            if (value == 'share') {
-              // Handle share
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('แชร์กิจกรรม')),
-              );
-            } else if (value == 'delete') {
-              // Handle delete
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('ลบกิจกรรมแล้ว')),
-              );
-            }
-          },
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  String _formatEventDateTime(Map<String, dynamic> activity) {
+    if (activity['date'] != null && activity['time'] != null) {
+      final date = activity['date'] as DateTime;
+      final time = activity['time'] as TimeOfDay;
+      return '${date.day}/${date.month}/${date.year} ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+    }
+    return '';
+  }
+
+  String _getTimeAgo(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inMinutes < 1) {
+      return 'เมื่อสักครู่';
+    } else if (difference.inHours < 1) {
+      return '${difference.inMinutes} นาทีที่แล้ว';
+    } else if (difference.inDays < 1) {
+      return '${difference.inHours} ชั่วโมงที่แล้ว';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} วันที่แล้ว';
+    } else {
+      return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    }
   }
 }
