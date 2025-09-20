@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
+  
   final List<Map<String, dynamic>> categories = const [
     {'icon': '🏛️', 'name': 'ประวัติศาสตร์', 'count': 15},
     {'icon': '🌿', 'name': 'ธรรมชาติ', 'count': 23},
@@ -71,6 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
     
     return Scaffold(
       backgroundColor: Colors.grey[50],
+      // เพิ่ม Drawer
+      drawer: _buildDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -93,7 +96,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.menu, color: Colors.white),
+                            // ใช้ Builder เพื่อเปิด Drawer
+                            Builder(
+                              builder: (context) => GestureDetector(
+                                onTap: () => Scaffold.of(context).openDrawer(),
+                                child: Icon(Icons.menu, color: Colors.white),
+                              ),
+                            ),
                             SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,6 +373,189 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  // เพิ่ม Drawer Widget
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          // Header
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orange[500]!, Colors.red[500]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.person,
+                    size: 35,
+                    color: Colors.orange[500],
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'โปรไฟล์',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'จัดการบัญชีและข้อมูลการท่องเที่ยว',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.8),
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          // Menu Items
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildDrawerItem(
+                  icon: Icons.person,
+                  title: 'โปรไฟล์',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Navigate to profile or handle profile action
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.favorite,
+                  title: 'รายการโปรด',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle favorites
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.star,
+                  title: 'รีวิวของฉัน',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle reviews
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.event,
+                  title: 'กิจกรรม',
+                  onTap: () {
+                    Navigator.pop(context);
+                    if (widget.onNavigateToTab != null) {
+                      widget.onNavigateToTab!(2); // Navigate to activities tab
+                    }
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.location_on,
+                  title: 'สถานที่ใกล้ฉัน',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle nearby places
+                  },
+                ),
+                Divider(),
+                _buildDrawerItem(
+                  icon: Icons.settings,
+                  title: 'ตั้งค่า',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle settings
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.help,
+                  title: 'ช่วยเหลือ',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle help
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.logout,
+                  title: 'ออกจากระบบ',
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle logout
+                    _showLogoutDialog();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: Colors.grey[600],
+        size: 24,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.grey[800],
+        ),
+      ),
+      onTap: onTap,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+    );
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('ออกจากระบบ'),
+          content: Text('คุณต้องการออกจากระบบหรือไม่?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ยกเลิก'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Handle actual logout logic here
+                print('User logged out');
+              },
+              child: Text(
+                'ออกจากระบบ',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
