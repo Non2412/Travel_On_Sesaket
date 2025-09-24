@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PointsManager _pointsManager;
+  final TextEditingController _searchController = TextEditingController();
   
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _searchController.dispose();
     _pointsManager.removeListener(_onPointsChanged);
     // Remove listener when widget is disposed
     ActivityData.removeListener(_refreshData);
@@ -162,25 +164,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                     SizedBox(height: 20),
                     
-                    // Search Bar
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.95),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: Row(
-                        children: [
-                          Icon(Icons.search, color: Colors.grey[600]),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              'ค้นหาสถานที่ท่องเที่ยว...',
-                              style: TextStyle(color: Colors.grey[600]),
+                    // Updated Search Bar - Removed camera icon and made it interactive
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to search tab (index 1)
+                        if (widget.onNavigateToTab != null) {
+                          widget.onNavigateToTab!(1);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.95),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Row(
+                          children: [
+                            Icon(Icons.search, color: Colors.grey[600]),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'ค้นหาสถานที่ท่องเที่ยว...',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
                             ),
-                          ),
-                          Icon(Icons.camera_alt, color: Colors.orange[500]),
-                        ],
+                            // Camera icon removed
+                          ],
+                        ),
                       ),
                     ),
                   ],
