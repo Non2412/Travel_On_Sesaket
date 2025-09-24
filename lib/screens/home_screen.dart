@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'points_screen.dart';
+import 'checkin_screen.dart';
+import '../points_manager.dart'; // Import PointsManager
 
 // Import the global activity data from main.dart
 import '../main.dart';
@@ -13,18 +16,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late PointsManager _pointsManager;
+  
   @override
   void initState() {
     super.initState();
+    _pointsManager = PointsManager();
+    _pointsManager.addListener(_onPointsChanged);
     // Add listener for activity updates
     ActivityData.addListener(_refreshData);
   }
 
   @override
   void dispose() {
+    _pointsManager.removeListener(_onPointsChanged);
     // Remove listener when widget is disposed
     ActivityData.removeListener(_refreshData);
     super.dispose();
+  }
+
+  void _onPointsChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   // Add method to refresh when returning from other screens
@@ -395,16 +409,71 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    size: 35,
-                    color: Colors.orange[500],
-                  ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 35,
+                        color: Colors.orange[500],
+                      ),
+                    ),
+                    Spacer(),
+                    // Points Display in Drawer Header - ใช้ข้อมูลจาก PointsManager
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PointsScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.stars,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              '${_pointsManager.currentPoints}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              'แต้ม',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.9),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 16),
                 Text(
                   'โปรไฟล์',
                   style: TextStyle(
@@ -435,6 +504,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     // Navigate to profile or handle profile action
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.event_available,
+                  title: 'เช็คอินรับแต้มฟรี',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckInScreen(),
+                      ),
+                    );
                   },
                 ),
                 _buildDrawerItem(
