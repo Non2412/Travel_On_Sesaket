@@ -1,14 +1,12 @@
-// main.dart
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'screens/search_screen.dart';
-import 'screens/profile_screen.dart';
 
 void main() {
   runApp(SiSaKetTravelApp());
 }
 
 class SiSaKetTravelApp extends StatelessWidget {
+  const SiSaKetTravelApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,34 +21,86 @@ class SiSaKetTravelApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
+// Global state for activities
+class ActivityData {
+  static final List<Map<String, dynamic>> activities = [];
+  static final List<VoidCallback> _listeners = [];
+  
+  static void addListener(VoidCallback listener) {
+    _listeners.add(listener);
+  }
+  
+  static void removeListener(VoidCallback listener) {
+    _listeners.remove(listener);
+  }
+  
+  static void _notifyListeners() {
+    for (final listener in _listeners) {
+      listener();
+    }
+  }
+  
+  static void addActivity(Map<String, dynamic> activity) {
+    activities.insert(0, activity); // Add to beginning for latest first
+    _notifyListeners(); // Notify all listeners
+  }
+  
+  static List<Map<String, dynamic>> getActivities() {
+    return List.from(activities); // Return copy to prevent external modification
+  }
+  
+  static List<Map<String, dynamic>> getEvents() {
+    return activities.where((activity) => activity['type'] == 'event').toList();
+  }
+  
+  static List<Map<String, dynamic>> getPlaces() {
+    return activities.where((activity) => activity['type'] == 'place').toList();
+  }
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  MainScreenState createState() => MainScreenState();
+}
+
+class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  
-  final List<Widget> _screens = [
-    HomeScreen(),
-    SearchScreen(),
-    ProfileScreen(),
-  ];
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      HomeScreen(onNavigateToTab: _navigateToTab),
+      SearchScreen(),
+      ActivitiesScreen(),
+      NotificationsScreen(),
+      ProfileScreen(),
+    ];
+  }
+
+  void _navigateToTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.orange[600],
         unselectedItemColor: Colors.grey[600],
-        items: [
+        elevation: 8,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
@@ -60,6 +110,16 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.search_outlined),
             activeIcon: Icon(Icons.search),
             label: 'ค้นหา',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_activity_outlined),
+            activeIcon: Icon(Icons.local_activity),
+            label: 'กิจกรรม',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_outlined),
+            activeIcon: Icon(Icons.notifications),
+            label: 'แจ้งเตือน',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
