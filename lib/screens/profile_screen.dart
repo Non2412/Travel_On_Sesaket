@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// Import your FavoritesScreen
+import 'favorites_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isSignup;
@@ -99,7 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // ส่งข้อมูลกลับไป ProfileScreen
                         Navigator.of(context).pop({
                           'name': name.isNotEmpty ? name : 'ผู้ใช้ใหม่',
                           'email': email,
@@ -160,11 +161,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String userEmail = '';
 
   final List<Map<String, dynamic>> menuItems = const [
-    {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '0'},
+    {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '3', 'route': 'favorites'},
     {'icon': Icons.location_on, 'label': 'สถานที่ที่เยี่ยม', 'count': '0'},
     {'icon': Icons.star, 'label': 'รีวิวของฉัน', 'count': '0'},
     {'icon': Icons.notifications, 'label': 'การแจ้งเตือน'},
   ];
+
+  void _handleMenuTap(String? route, String label) {
+    if (route == 'favorites') {
+      // Navigate to FavoritesScreen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FavoritesScreen()),
+      );
+    } else {
+      // Show a snackbar for other menu items
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('กำลังพัฒนา: $label'),
+          backgroundColor: Colors.orange[500],
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -363,10 +383,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.grey[100],
+                              color: item['route'] == 'favorites' 
+                                  ? Colors.red[50] 
+                                  : Colors.grey[100],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Icon(item['icon'] as IconData, color: Colors.grey[600]),
+                            child: Icon(
+                              item['icon'] as IconData, 
+                              color: item['route'] == 'favorites' 
+                                  ? Colors.red[400] 
+                                  : Colors.grey[600]
+                            ),
                           ),
                           title: Text(
                             item['label'] as String,
@@ -379,14 +406,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: Colors.grey[100],
+                                    color: item['route'] == 'favorites' 
+                                        ? Colors.red[100] 
+                                        : Colors.grey[100],
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
                                     item['count'] as String,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.grey[700],
+                                      color: item['route'] == 'favorites' 
+                                          ? Colors.red[700] 
+                                          : Colors.grey[700],
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -394,10 +426,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Icon(Icons.chevron_right, color: Colors.grey[400]),
                             ],
                           ),
-                          onTap: () {
-                            // สามารถเพิ่ม navigation ไปยังหน้าต่างๆ ได้ที่นี่
-                            print('Tapped on ${item['label']}');
-                          },
+                          onTap: () => _handleMenuTap(
+                            item['route'] as String?, 
+                            item['label'] as String
+                          ),
                         ),
                       )).toList(),
                     ),
