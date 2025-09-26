@@ -4,8 +4,15 @@ import 'screens/search_screen.dart';
 import 'screens/activities_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/profile_screen.dart';
+import 'points_manager.dart'; // เพิ่มการ import
 
-void main() {
+void main() async {
+  // เพิ่ม async และ ensureInitialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize PointsManager ก่อนเริ่มแอป
+  await PointsManager().initialize();
+  
   runApp(SiSaKetTravelApp());
 }
 
