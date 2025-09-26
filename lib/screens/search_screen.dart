@@ -53,28 +53,60 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Filters
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: filters.map((f) => Container(
-                  margin: EdgeInsets.only(right: 12),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange[50],
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    f,
-                    style: TextStyle(
-                      color: Colors.orange[700],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                )).toList(),
+            // Filters (แนวนอน + ปุ่มดูทั้งหมด)
+            Container(
+              height: 48,
+              margin: const EdgeInsets.only(left: 24, right: 0, bottom: 8),
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: filters.length + 1,
+                separatorBuilder: (_, __) => SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  if (index < filters.length) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.orange[50],
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        filters[index],
+                        style: TextStyle(
+                          color: Colors.orange[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('หมวดหมู่ทั้งหมด'),
+                            content: SizedBox(
+                              width: double.maxFinite,
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: filters.map((f) => ListTile(title: Text(f))).toList(),
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                child: Text('ปิด'),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Text('ดูทั้งหมด', style: TextStyle(color: Colors.orange)),
+                    );
+                  }
+                },
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 8),
             // Results
             Expanded(
               child: ListView.builder(
