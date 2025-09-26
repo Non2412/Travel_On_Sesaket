@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../points_manager.dart'; // Import PointsManager
+import 'package:shared_preferences/shared_preferences.dart';
+import '../points_manager.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
@@ -15,17 +16,17 @@ class _CheckInScreenState extends State<CheckInScreen> {
   final List<int> weeklyRewards = [5, 5, 10, 5, 5, 10, 15];
   final List<String> dayNames = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'อาทิตย์'];
   
-  // จำลองข้อมูลการล็อกอิน
-  List<bool> loginDays = [true, true, false, false, false, false, false];
-  int currentDayIndex = 2; // วันปัจจุบัน (พุธ = index 2)
-  bool canGetPointsToday = true;
+  List<bool> loginDays = List.filled(7, false);
+  int currentDayIndex = 0;
+  bool canGetPointsToday = false;
+  SharedPreferences? _prefs;
   
   @override
   void initState() {
     super.initState();
     _pointsManager = PointsManager();
-    // เพิ่ม listener เพื่ออัปเดต UI เมื่อแต้มเปลี่ยน
     _pointsManager.addListener(_updateUI);
+    _initializeData();
   }
 
   @override
@@ -37,7 +38,75 @@ class _CheckInScreenState extends State<CheckInScreen> {
   void _updateUI() {
     setState(() {});
   }
-  
+
+  Future<void> _initializeData() async {
+    _prefs = await SharedPreferences.getInstance();
+    await _loadWeeklyData();
+    _updateCurrentDay();
+  }
+
+  void _updateCurrentDay() {
+    final now = DateTime.now();
+    // แปลงวันในสัปดาห์ (1=Monday, 7=Sunday) เป็น index (0-6)
+    currentDayIndex = now.weekday - 1;
+    
+    final today = _getTodayKey();
+    final hasCheckedInToday = _prefs?.getBool('checkin_$today') ?? false;
+    
+    setState(() {
+      canGetPointsToday = !hasCheckedInToday;
+    });
+  }
+
+  String _getTodayKey() {
+    final now = DateTime.now();
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+  }
+
+  String _getWeekKey() {
+    final now = DateTime.now();
+    // หาวันจันทร์ของสัปดาห์นี้
+    final monday = now.subtract(Duration(days: now.weekday - 1));
+    return '${monday.year}-W${_getWeekOfYear(monday)}';
+  }
+
+  int _getWeekOfYear(DateTime date) {
+    final firstJan = DateTime(date.year, 1, 1);
+    final daysSinceFirstJan = date.difference(firstJan).inDays;
+    return ((daysSinceFirstJan + firstJan.weekday - 1) / 7).ceil();
+  }
+
+  Future<void> _loadWeeklyData() async {
+    final weekKey = _getWeekKey();
+    final savedWeekKey = _prefs?.getString('current_week') ?? '';
+    
+    // ถ้าเป็นสัปดาห์ใหม่ ให้รีเซ็ตข้อมูล
+    if (savedWeekKey != weekKey) {
+      await _resetWeeklyData(weekKey);
+    } else {
+      // โหลดข้อมูลสัปดาห์ปัจจุบัน
+      await _loadCurrentWeekData();
+    }
+  }
+
+  Future<void> _resetWeeklyData(String newWeekKey) async {
+    await _prefs?.setString('current_week', newWeekKey);
+    
+    // รีเซ็ตสถานะการเช็คอิน
+    loginDays = List.filled(7, false);
+    
+    // บันทึกสถานะ
+    for (int i = 0; i < 7; i++) {
+      await _prefs?.setBool('day_$i', false);
+    }
+  }
+
+  Future<void> _loadCurrentWeekData() async {
+    for (int i = 0; i < 7; i++) {
+      loginDays[i] = _prefs?.getBool('day_$i') ?? false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +124,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          // แสดงแต้มปัจจุบันใน AppBar
           Container(
             margin: EdgeInsets.only(right: 16),
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -86,7 +154,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
-              // Today's Login Reward - ปรับปรุงใหม่
+              // Today's Login Reward
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -107,7 +175,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 padding: EdgeInsets.all(32),
                 child: Column(
                   children: [
-                    // Points Display - ขยายใหญ่ขึ้น
                     Container(
                       width: 140,
                       height: 140,
@@ -168,7 +235,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     
                     SizedBox(height: 28),
                     
-                    // Get Points Button - ปรับปรุงสไตล์
                     if (canGetPointsToday)
                       Container(
                         width: double.infinity,
@@ -234,7 +300,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               
               SizedBox(height: 32),
               
-              // Weekly Calendar Overview - ปรับปรุงสไตล์
+              // Weekly Calendar Overview
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -280,7 +346,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     
                     SizedBox(height: 24),
                     
-                    // Days Grid - ปรับปรุงดีไซน์
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(7, (index) {
@@ -354,7 +419,6 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     
                     SizedBox(height: 20),
                     
-                    // Progress indicator
                     Container(
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -500,10 +564,15 @@ class _CheckInScreenState extends State<CheckInScreen> {
     );
   }
   
-  void _claimPoints() {
+  Future<void> _claimPoints() async {
     if (!canGetPointsToday) return;
     
     final pointsEarned = weeklyRewards[currentDayIndex];
+    final todayKey = _getTodayKey();
+    
+    // บันทึกสถานะการเช็คอิน
+    await _prefs?.setBool('checkin_$todayKey', true);
+    await _prefs?.setBool('day_$currentDayIndex', true);
     
     setState(() {
       loginDays[currentDayIndex] = true;
@@ -517,93 +586,95 @@ class _CheckInScreenState extends State<CheckInScreen> {
       source: 'daily_login'
     );
     
-    // แสดง Dialog ยืนยัน - ปรับปรุงดีไซน์
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.green[400]!, Colors.green[600]!],
+    // แสดง Dialog ยืนยัน
+    if (mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.green[400]!, Colors.green[600]!],
+                    ),
+                    borderRadius: BorderRadius.circular(50),
                   ),
-                  borderRadius: BorderRadius.circular(50),
+                  child: Icon(
+                    Icons.check_circle,
+                    size: 56,
+                    color: Colors.white,
+                  ),
                 ),
-                child: Icon(
-                  Icons.check_circle,
-                  size: 56,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 24),
-              Text(
-                'รับแต้มสำเร็จ!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
-              ),
-              SizedBox(height: 12),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.orange[50],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '+$pointsEarned แต้ม',
+                SizedBox(height: 24),
+                Text(
+                  'รับแต้มสำเร็จ!',
                   style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.orange[600],
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
                   ),
                 ),
-              ),
-              SizedBox(height: 12),
-              Text(
-                'แต้มรวม: ${_pointsManager.currentPoints} แต้ม',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                  fontWeight: FontWeight.w600,
+                SizedBox(height: 12),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.orange[50],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    '+$pointsEarned แต้ม',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.orange[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'แต้มรวม: ${_pointsManager.currentPoints} แต้ม',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.orange[500],
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'เยี่ยมเลย!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
             ],
-          ),
-          actions: [
-            Center(
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.orange[500],
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'เยี่ยมเลย!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 }
