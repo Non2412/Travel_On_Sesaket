@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';
-import 'settings_screen.dart'; // เพิ่มการ import
+import 'settings_screen.dart';
+import 'help_screen.dart'; // เพิ่มการ import HelpScreen
 import '../points_manager.dart';
-import '../theme_manager.dart'; // เพิ่มการ import
+import '../theme_manager.dart';
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,17 +19,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PointsManager _pointsManager;
-  late ThemeManager _themeManager; // เพิ่ม ThemeManager
+  late ThemeManager _themeManager;
   final TextEditingController _searchController = TextEditingController();
   
   @override
   void initState() {
     super.initState();
     _pointsManager = PointsManager();
-    _themeManager = ThemeManager(); // เริ่มต้น ThemeManager
+    _themeManager = ThemeManager();
     
     _pointsManager.addListener(_onPointsChanged);
-    _themeManager.addListener(_onThemeChanged); // เพิ่ม listener สำหรับ theme
+    _themeManager.addListener(_onThemeChanged);
     ActivityData.addListener(_refreshData);
   }
 
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _searchController.dispose();
     _pointsManager.removeListener(_onPointsChanged);
-    _themeManager.removeListener(_onThemeChanged); // ลบ listener
+    _themeManager.removeListener(_onThemeChanged);
     ActivityData.removeListener(_refreshData);
     super.dispose();
   }
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _onThemeChanged() { // เพิ่มฟังก์ชันสำหรับ theme change
+  void _onThemeChanged() {
     if (mounted) {
       setState(() {});
     }
@@ -85,20 +86,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ลบตัวแปร events ที่ไม่ได้ใช้
     final allActivities = ActivityData.getActivities();
     
     return Scaffold(
-      backgroundColor: _themeManager.backgroundColor, // ใช้สีจาก theme
+      backgroundColor: _themeManager.backgroundColor,
       drawer: _buildDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Header - ใช้ gradient จาก theme
+              // Header
               Container(
                 decoration: BoxDecoration(
-                  gradient: _themeManager.headerGradient, // ใช้ gradient จาก theme
+                  gradient: _themeManager.headerGradient,
                 ),
                 padding: EdgeInsets.all(24),
                 child: Column(
@@ -212,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final cat = categories[index];
                           return Container(
                             decoration: BoxDecoration(
-                              color: _themeManager.cardColor, // ใช้สีจาก theme
+                              color: _themeManager.cardColor,
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
@@ -234,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
+                                    color: _themeManager.textPrimaryColor,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   '${cat['count']} แห่ง',
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
+                                    color: _themeManager.textSecondaryColor,
                                   ),
                                 ),
                               ],
@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: places.map((place) => Container(
                           margin: EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            color: _themeManager.cardColor, // ใช้สีจาก theme
+                            color: _themeManager.cardColor,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
+                                              color: _themeManager.textPrimaryColor,
                                             ),
                                           ),
                                         ),
@@ -403,17 +403,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Updated Drawer with theme integration
   Widget _buildDrawer() {
     return Drawer(
-      backgroundColor: _themeManager.cardColor, // ใช้สีจาก theme
+      backgroundColor: _themeManager.cardColor,
       child: Column(
         children: [
           // Header
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: _themeManager.headerGradient, // ใช้ gradient จาก theme
+              gradient: _themeManager.headerGradient,
             ),
             padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
             child: Column(
@@ -427,7 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Icon(
                         Icons.person,
                         size: 35,
-                        color: _themeManager.primaryColor, // ใช้สีจาก theme
+                        color: _themeManager.primaryColor,
                       ),
                     ),
                     Spacer(),
@@ -559,13 +558,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)), // แก้ไขเป็น withValues
+                Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
                 _buildDrawerItem(
                   icon: Icons.settings,
                   title: 'ตั้งค่า',
                   onTap: () {
                     Navigator.pop(context);
-                    // Navigate to settings screen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -579,6 +577,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'ช่วยเหลือ',
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HelpScreen(),
+                      ),
+                    );
                   },
                 ),
                 _buildDrawerItem(
@@ -605,14 +609,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return ListTile(
       leading: Icon(
         icon,
-        color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
+        color: _themeManager.textSecondaryColor,
         size: 24,
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 16,
-          color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
+          color: _themeManager.textPrimaryColor,
         ),
       ),
       onTap: onTap,
@@ -644,7 +648,6 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // ลบ print ออกเพื่อหลีกเลี่ยง avoid_print warning
               },
               child: Text(
                 'ออกจากระบบ',
@@ -693,7 +696,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: _themeManager.cardColor, // ใช้สีจาก theme
+        color: _themeManager.cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -712,7 +715,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: _themeManager.primaryColor.withValues(alpha: 0.1), // แก้ไขเป็น withValues
+              color: _themeManager.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -730,13 +733,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
+                    color: _themeManager.textPrimaryColor,
                   ),
                 ),
                 Text(
                   event['location'] as String,
                   style: TextStyle(
-                    color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
+                    color: _themeManager.textSecondaryColor,
                     fontSize: 14,
                   ),
                 ),
@@ -778,7 +781,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
+                color: _themeManager.textPrimaryColor,
               ),
             ),
             if (showSeeAll)
@@ -787,7 +790,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'ดูทั้งหมด',
                   style: TextStyle(
-                    color: _themeManager.primaryColor, // ใช้สีจาก theme
+                    color: _themeManager.primaryColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

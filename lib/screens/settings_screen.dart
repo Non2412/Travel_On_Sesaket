@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme_manager.dart';
-import 'help_screen.dart';
 import 'privacy_policy_screen.dart';
 import 'notification_settings_screen.dart';
 
@@ -105,18 +104,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: 'เวอร์ชัน 1.0.0',
               onTap: () {
                 _showAboutDialog();
-              },
-            ),
-            Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
-            _buildSettingsTile(
-              icon: Icons.help,
-              title: 'ช่วยเหลือ',
-              subtitle: 'คำถามที่พบบ่อยและการสนับสนุน',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HelpScreen()),
-                );
               },
             ),
             Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
