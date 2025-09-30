@@ -1,9 +1,10 @@
+// Updated home_screen.dart
 import 'package:flutter/material.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';
-import '../points_manager.dart'; // Import PointsManager
-
-// Import the global activity data from main.dart
+import 'settings_screen.dart'; // เพิ่มการ import
+import '../points_manager.dart';
+import '../theme_manager.dart'; // เพิ่มการ import
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,14 +18,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PointsManager _pointsManager;
+  late ThemeManager _themeManager; // เพิ่ม ThemeManager
   final TextEditingController _searchController = TextEditingController();
   
   @override
   void initState() {
     super.initState();
     _pointsManager = PointsManager();
+    _themeManager = ThemeManager(); // เริ่มต้น ThemeManager
+    
     _pointsManager.addListener(_onPointsChanged);
-    // Add listener for activity updates
+    _themeManager.addListener(_onThemeChanged); // เพิ่ม listener สำหรับ theme
     ActivityData.addListener(_refreshData);
   }
 
@@ -32,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _searchController.dispose();
     _pointsManager.removeListener(_onPointsChanged);
-    // Remove listener when widget is disposed
+    _themeManager.removeListener(_onThemeChanged); // ลบ listener
     ActivityData.removeListener(_refreshData);
     super.dispose();
   }
@@ -43,12 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Add method to refresh when returning from other screens
+  void _onThemeChanged() { // เพิ่มฟังก์ชันสำหรับ theme change
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void _refreshData() {
     if (mounted) {
-      setState(() {
-        // This will trigger rebuild with latest data
-      });
+      setState(() {});
     }
   }
   
@@ -78,30 +85,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Get activities from global state
-    final events = ActivityData.getEvents();
+    // ลบตัวแปร events ที่ไม่ได้ใช้
     final allActivities = ActivityData.getActivities();
     
-    // Debug print to check data
-    print('Events count: ${events.length}');
-    print('All activities count: ${allActivities.length}');
-    
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      // เพิ่ม Drawer
+      backgroundColor: _themeManager.backgroundColor, // ใช้สีจาก theme
       drawer: _buildDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Header
+              // Header - ใช้ gradient จาก theme
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.orange[500]!, Colors.red[500]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                  ),
+                  gradient: _themeManager.headerGradient, // ใช้ gradient จาก theme
                 ),
                 padding: EdgeInsets.all(24),
                 child: Column(
@@ -112,7 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Row(
                           children: [
-                            // ใช้ Builder เพื่อเปิด Drawer
                             Builder(
                               builder: (context) => GestureDetector(
                                 onTap: () => Scaffold.of(context).openDrawer(),
@@ -145,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Navigate to notifications tab (index 3)
                                 if (widget.onNavigateToTab != null) {
                                   widget.onNavigateToTab!(3);
                                 }
@@ -164,10 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                     SizedBox(height: 20),
                     
-                    // Updated Search Bar - Removed camera icon and made it interactive
+                    // Search Bar
                     GestureDetector(
                       onTap: () {
-                        // Navigate to search tab (index 1)
                         if (widget.onNavigateToTab != null) {
                           widget.onNavigateToTab!(1);
                         }
@@ -188,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(color: Colors.grey[600]),
                               ),
                             ),
-                            // Camera icon removed
                           ],
                         ),
                       ),
@@ -219,11 +212,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           final cat = categories[index];
                           return Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: _themeManager.cardColor, // ใช้สีจาก theme
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withValues(alpha: 0.1),
+                                  color: _themeManager.isDarkMode 
+                                    ? Colors.black.withValues(alpha: 0.3)
+                                    : Colors.grey.withValues(alpha: 0.1),
                                   blurRadius: 4,
                                   offset: Offset(0, 2),
                                 ),
@@ -239,6 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
+                                    color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -246,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   '${cat['count']} แห่ง',
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: Colors.grey[500],
+                                    color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
                                   ),
                                 ),
                               ],
@@ -268,7 +264,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                       showSeeAll: allActivities.isNotEmpty,
                       onSeeAllTap: () {
-                        // Navigate to activities tab (index 2)
                         if (widget.onNavigateToTab != null) {
                           widget.onNavigateToTab!(2);
                         }
@@ -284,11 +279,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: places.map((place) => Container(
                           margin: EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: _themeManager.cardColor, // ใช้สีจาก theme
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withValues(alpha: 0.1),
+                                color: _themeManager.isDarkMode 
+                                  ? Colors.black.withValues(alpha: 0.3)
+                                  : Colors.grey.withValues(alpha: 0.1),
                                 blurRadius: 6,
                                 offset: Offset(0, 3),
                               ),
@@ -302,7 +299,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: double.infinity,
                                 height: 200,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[300],
+                                  color: _themeManager.isDarkMode 
+                                    ? Colors.grey[700] 
+                                    : Colors.grey[300],
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(16),
                                   ),
@@ -314,13 +313,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Icon(
                                         Icons.image,
                                         size: 48,
-                                        color: Colors.grey[400],
+                                        color: _themeManager.textSecondaryColor,
                                       ),
                                       SizedBox(height: 8),
                                       Text(
                                         'รูปภาพสถานที่',
                                         style: TextStyle(
-                                          color: Colors.grey[500],
+                                          color: _themeManager.textSecondaryColor,
                                           fontSize: 14,
                                         ),
                                       ),
@@ -344,12 +343,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
+                                              color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
                                             ),
                                           ),
                                         ),
                                         Icon(
                                           Icons.favorite_border,
-                                          color: Colors.grey[400],
+                                          color: _themeManager.textSecondaryColor,
                                         ),
                                       ],
                                     ),
@@ -364,12 +364,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Icon(Icons.star, color: Colors.amber, size: 16),
                                             SizedBox(width: 4),
                                             Text('${place['rating']}', 
-                                              style: TextStyle(fontWeight: FontWeight.w600)),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: _themeManager.textPrimaryColor,
+                                              )),
                                             SizedBox(width: 16),
-                                            Icon(Icons.location_on, color: Colors.grey[500], size: 16),
+                                            Icon(Icons.location_on, color: _themeManager.textSecondaryColor, size: 16),
                                             SizedBox(width: 4),
                                             Text(place['distance'] as String,
-                                              style: TextStyle(color: Colors.grey[600])),
+                                              style: TextStyle(color: _themeManager.textSecondaryColor)),
                                           ],
                                         ),
                                         Text(
@@ -400,20 +403,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // เพิ่ม Drawer Widget
+  // Updated Drawer with theme integration
   Widget _buildDrawer() {
     return Drawer(
+      backgroundColor: _themeManager.cardColor, // ใช้สีจาก theme
       child: Column(
         children: [
           // Header
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.orange[500]!, Colors.red[500]!],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              gradient: _themeManager.headerGradient, // ใช้ gradient จาก theme
             ),
             padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
             child: Column(
@@ -427,11 +427,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Icon(
                         Icons.person,
                         size: 35,
-                        color: Colors.orange[500],
+                        color: _themeManager.primaryColor, // ใช้สีจาก theme
                       ),
                     ),
                     Spacer(),
-                    // Points Display in Drawer Header - ใช้ข้อมูลจาก PointsManager
+                    // Points Display
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
@@ -513,7 +513,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'โปรไฟล์',
                   onTap: () {
                     Navigator.pop(context);
-                    // Navigate to profile or handle profile action
                   },
                 ),
                 _buildDrawerItem(
@@ -534,7 +533,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'รายการโปรด',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle favorites
                   },
                 ),
                 _buildDrawerItem(
@@ -542,7 +540,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'รีวิวของฉัน',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle reviews
                   },
                 ),
                 _buildDrawerItem(
@@ -551,7 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     if (widget.onNavigateToTab != null) {
-                      widget.onNavigateToTab!(2); // Navigate to activities tab
+                      widget.onNavigateToTab!(2);
                     }
                   },
                 ),
@@ -560,16 +557,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'สถานที่ใกล้ฉัน',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle nearby places
                   },
                 ),
-                Divider(),
+                Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)), // แก้ไขเป็น withValues
                 _buildDrawerItem(
                   icon: Icons.settings,
                   title: 'ตั้งค่า',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle settings
+                    // Navigate to settings screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsScreen(),
+                      ),
+                    );
                   },
                 ),
                 _buildDrawerItem(
@@ -577,7 +579,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'ช่วยเหลือ',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle help
                   },
                 ),
                 _buildDrawerItem(
@@ -585,7 +586,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'ออกจากระบบ',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle logout
                     _showLogoutDialog();
                   },
                 ),
@@ -605,14 +605,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.grey[600],
+        color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
         size: 24,
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 16,
-          color: Colors.grey[800],
+          color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
         ),
       ),
       onTap: onTap,
@@ -625,8 +625,15 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('ออกจากระบบ'),
-          content: Text('คุณต้องการออกจากระบบหรือไม่?'),
+          backgroundColor: _themeManager.cardColor,
+          title: Text(
+            'ออกจากระบบ',
+            style: TextStyle(color: _themeManager.textPrimaryColor),
+          ),
+          content: Text(
+            'คุณต้องการออกจากระบบหรือไม่?',
+            style: TextStyle(color: _themeManager.textSecondaryColor),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -637,8 +644,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // Handle actual logout logic here
-                print('User logged out');
+                // ลบ print ออกเพื่อหลีกเลี่ยง avoid_print warning
               },
               child: Text(
                 'ออกจากระบบ',
@@ -659,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             Icons.event_note,
             size: 48,
-            color: Colors.grey[400],
+            color: _themeManager.textSecondaryColor,
           ),
           SizedBox(height: 12),
           Text(
@@ -667,7 +673,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
+              color: _themeManager.textSecondaryColor,
             ),
           ),
           SizedBox(height: 4),
@@ -675,7 +681,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'เพิ่มกิจกรรมใหม่ได้ในแท็บกิจกรรม',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: _themeManager.textSecondaryColor,
             ),
           ),
         ],
@@ -687,11 +693,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: _themeManager.cardColor, // ใช้สีจาก theme
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.1),
+            color: _themeManager.isDarkMode 
+              ? Colors.black.withValues(alpha: 0.3)
+              : Colors.grey.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -704,12 +712,12 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Colors.orange[100],
+              color: _themeManager.primaryColor.withValues(alpha: 0.1), // แก้ไขเป็น withValues
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               Icons.event,
-              color: Colors.orange[600],
+              color: _themeManager.primaryColor,
             ),
           ),
           SizedBox(width: 16),
@@ -722,12 +730,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
                   ),
                 ),
                 Text(
                   event['location'] as String,
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: _themeManager.textSecondaryColor, // ใช้สีจาก theme
                     fontSize: 14,
                   ),
                 ),
@@ -735,7 +744,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     _formatEventDateTime(event),
                     style: TextStyle(
-                      color: Colors.orange[500],
+                      color: _themeManager.primaryColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                     ),
@@ -769,7 +778,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+                color: _themeManager.textPrimaryColor, // ใช้สีจาก theme
               ),
             ),
             if (showSeeAll)
@@ -778,7 +787,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'ดูทั้งหมด',
                   style: TextStyle(
-                    color: Colors.orange[500],
+                    color: _themeManager.primaryColor, // ใช้สีจาก theme
                     fontWeight: FontWeight.w500,
                   ),
                 ),

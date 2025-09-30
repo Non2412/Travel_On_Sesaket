@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme_manager.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -9,38 +10,55 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ThemeManager _themeManager = ThemeManager();
   final List<String> filters = const ['ทั้งหมด', 'ใกล้ฉัน', 'ยอดนิยม'];
   int selectedFilterIndex = 0;
   String searchQuery = '';
 
   @override
+  void initState() {
+    super.initState();
+    _themeManager.addListener(_onThemeChanged);
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
+    _themeManager.removeListener(_onThemeChanged);
     super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _themeManager.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             // Search Header
             Container(
-              color: Colors.white,
+              color: _themeManager.cardColor,
               padding: EdgeInsets.fromLTRB(24, 24, 24, 16),
               child: Column(
                 children: [
-                  // Search Field (removed camera icon)
+                  // Search Field
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: _themeManager.isDarkMode 
+                        ? Colors.grey[800] 
+                        : Colors.grey[100],
                       borderRadius: BorderRadius.circular(16),
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: _searchController,
+                      style: TextStyle(color: _themeManager.textPrimaryColor),
                       onChanged: (value) {
                         setState(() {
                           searchQuery = value;
@@ -48,9 +66,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       },
                       decoration: InputDecoration(
                         hintText: 'ค้นหา...',
-                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        hintStyle: TextStyle(color: _themeManager.textSecondaryColor),
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
+                        prefixIcon: Icon(
+                          Icons.search, 
+                          color: _themeManager.textSecondaryColor
+                        ),
                         contentPadding: EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
@@ -63,6 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: filters.asMap().entries.map((entry) {
                       int index = entry.key;
                       String filter = entry.value;
+                      bool isSelected = index == selectedFilterIndex;
                       return Container(
                         margin: EdgeInsets.only(right: 8),
                         child: ElevatedButton(
@@ -72,12 +94,14 @@ class _SearchScreenState extends State<SearchScreen> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: index == selectedFilterIndex 
-                                ? Colors.orange[500] 
-                                : Colors.grey[100],
-                            foregroundColor: index == selectedFilterIndex 
+                            backgroundColor: isSelected 
+                                ? _themeManager.primaryColor
+                                : _themeManager.isDarkMode 
+                                  ? Colors.grey[800]
+                                  : Colors.grey[100],
+                            foregroundColor: isSelected 
                                 ? Colors.white 
-                                : Colors.grey[600],
+                                : _themeManager.textSecondaryColor,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -112,7 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Icon(
             Icons.search,
             size: 64,
-            color: Colors.grey[300],
+            color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
           ),
           SizedBox(height: 16),
           Text(
@@ -120,13 +144,13 @@ class _SearchScreenState extends State<SearchScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
+              color: _themeManager.textSecondaryColor,
             ),
           ),
           SizedBox(height: 8),
           Text(
             'ค้นหาสถานที่ที่คุณสนใจ',
-            style: TextStyle(color: Colors.grey[500]),
+            style: TextStyle(color: _themeManager.textSecondaryColor),
           ),
         ],
       ),
@@ -174,7 +198,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Icon(
               Icons.search_off,
               size: 64,
-              color: Colors.grey[300],
+              color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -182,13 +206,13 @@ class _SearchScreenState extends State<SearchScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[600],
+                color: _themeManager.textSecondaryColor,
               ),
             ),
             SizedBox(height: 8),
             Text(
               'ลองค้นหาด้วยคำอื่น',
-              style: TextStyle(color: Colors.grey[500]),
+              style: TextStyle(color: _themeManager.textSecondaryColor),
             ),
           ],
         ),
@@ -203,11 +227,13 @@ class _SearchScreenState extends State<SearchScreen> {
         return Container(
           margin: EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: _themeManager.cardColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: _themeManager.isDarkMode
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.grey.withValues(alpha: 0.1),
                 blurRadius: 6,
                 offset: Offset(0, 3),
               ),
@@ -219,12 +245,12 @@ class _SearchScreenState extends State<SearchScreen> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.orange[100],
+                color: _themeManager.primaryColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 _getIconForType(result['type']),
-                color: Colors.orange[600],
+                color: _themeManager.primaryColor,
               ),
             ),
             title: Text(
@@ -232,6 +258,7 @@ class _SearchScreenState extends State<SearchScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
+                color: _themeManager.textPrimaryColor,
               ),
             ),
             subtitle: Column(
@@ -241,7 +268,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Text(
                   result['type'],
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: _themeManager.textSecondaryColor,
                     fontSize: 14,
                   ),
                 ),
@@ -252,14 +279,21 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(width: 4),
                     Text(
                       '${result['rating']}',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: _themeManager.textPrimaryColor,
+                      ),
                     ),
                     SizedBox(width: 16),
-                    Icon(Icons.location_on, color: Colors.grey[500], size: 16),
+                    Icon(
+                      Icons.location_on, 
+                      color: _themeManager.textSecondaryColor, 
+                      size: 16
+                    ),
                     SizedBox(width: 4),
                     Text(
                       result['distance'],
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(color: _themeManager.textSecondaryColor),
                     ),
                     Spacer(),
                     Text(

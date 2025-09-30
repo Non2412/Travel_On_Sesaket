@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/notification_service.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
@@ -8,11 +9,30 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<NotificationItem> notifications = [];
+  final NotificationService _notificationService = NotificationService.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationService.addListener(_onNotificationsChanged);
+  }
+
+  @override
+  void dispose() {
+    _notificationService.removeListener(_onNotificationsChanged);
+    super.dispose();
+  }
+
+  void _onNotificationsChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final unreadCount = notifications.where((n) => !n.isRead).length;
+    final notifications = _notificationService.notifications;
+    final unreadCount = _notificationService.unreadCount;
 
     return Scaffold(
       appBar: AppBar(
@@ -110,12 +130,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             color: Colors.grey[400],
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'ไม่มีการแจ้งเตือน',
             style: TextStyle(
               fontSize: 18,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
@@ -123,7 +143,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             'การแจ้งเตือนจะปรากฏที่นี่',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: Colors.grey[600],
             ),
           ),
         ],
@@ -148,18 +168,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         ),
       ),
       onDismissed: (direction) {
-        setState(() {
-          notifications.removeAt(index);
-        });
+        _notificationService.removeNotification(notification.id);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('ลบการแจ้งเตือน "${notification.title}"'),
             action: SnackBarAction(
               label: 'เลิกทำ',
               onPressed: () {
-                setState(() {
-                  notifications.insert(index, notification);
-                });
+                _notificationService.addNotification(notification);
               },
             ),
           ),
@@ -171,13 +187,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           color: notification.isRead ? Colors.white : Colors.blue[50],
           borderRadius: BorderRadius.circular(12),
           border: notification.isRead
-              ? Border.all(color: Colors.grey[200]!)
-              : Border.all(color: Colors.blue[200]!),
+              ? Border.all(color: Colors.grey[300]!)
+              : Border.all(color: Colors.blue[300]!, width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.grey.withOpacity(0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -187,7 +203,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              color: _getNotificationColor(notification.type).withOpacity(0.1),
+              color: _getNotificationColor(notification.type).withOpacity(0.15),
               borderRadius: BorderRadius.circular(25),
             ),
             child: Icon(
@@ -203,7 +219,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   notification.title,
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: notification.isRead ? FontWeight.w500 : FontWeight.bold,
+                    fontWeight: notification.isRead ? FontWeight.w600 : FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
               ),
@@ -221,13 +238,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               Text(
                 notification.message,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey[700],
+                  color: Colors.black87,
+                  height: 1.4,
                 ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 8),
               Text(
@@ -235,15 +255,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
           onTap: () {
             if (!notification.isRead) {
-              setState(() {
-                notification.isRead = true;
-              });
+              _notificationService.markAsRead(notification.id);
             }
             _showNotificationDetail(notification);
           },
@@ -300,11 +319,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _markAllAsRead() {
-    setState(() {
-      for (var notification in notifications) {
-        notification.isRead = true;
-      }
-    });
+    _notificationService.markAllAsRead();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('ทำเครื่องหมายทั้งหมดว่าอ่านแล้ว')),
     );
@@ -323,9 +338,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           ),
           TextButton(
             onPressed: () {
-              setState(() {
-                notifications.clear();
-              });
+              _notificationService.clearAll();
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('ล้างการแจ้งเตือนทั้งหมดแล้ว')),
@@ -342,6 +355,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -353,10 +367,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           children: [
             Row(
               children: [
-                Icon(
-                  _getNotificationIcon(notification.type),
-                  color: _getNotificationColor(notification.type),
-                  size: 28,
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _getNotificationColor(notification.type).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    _getNotificationIcon(notification.type),
+                    color: _getNotificationColor(notification.type),
+                    size: 28,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -365,34 +386,68 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(Icons.close, color: Colors.black87),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            Text(
-              notification.message,
-              style: const TextStyle(fontSize: 16),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                notification.message,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black87,
+                  height: 1.5,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
-            Text(
-              'เวลา: ${_formatTime(notification.time)}',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+            Row(
+              children: [
+                Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
+                const SizedBox(width: 6),
+                Text(
+                  _formatTime(notification.time),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
+              height: 48,
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('ตกลง'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _getNotificationColor(notification.type),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ],
@@ -405,44 +460,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     // Simulate API call
     await Future.delayed(const Duration(seconds: 1));
     // Add new notification for demo
-    setState(() {
-      notifications.insert(
-        0,
-        NotificationItem(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          title: 'การแจ้งเตือนใหม่',
-          message: 'ข้อความแจ้งเตือนที่อัพเดทล่าสุด',
-          time: DateTime.now(),
-          type: NotificationType.system,
-          isRead: false,
-        ),
-      );
-    });
+    _notificationService.addNotification(
+      NotificationItem(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: 'การแจ้งเตือนใหม่',
+        message: 'ข้อความแจ้งเตือนที่อัพเดทล่าสุด',
+        time: DateTime.now(),
+        type: NotificationType.system,
+        isRead: false,
+      ),
+    );
   }
-}
-
-class NotificationItem {
-  final String id;
-  final String title;
-  final String message;
-  final DateTime time;
-  final NotificationType type;
-  bool isRead;
-
-  NotificationItem({
-    required this.id,
-    required this.title,
-    required this.message,
-    required this.time,
-    required this.type,
-    this.isRead = false,
-  });
-}
-
-enum NotificationType {
-  event,
-  friend,
-  place,
-  promotion,
-  system,
 }
