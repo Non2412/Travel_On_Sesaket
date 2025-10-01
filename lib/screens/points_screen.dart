@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../points_manager.dart';
+import '../theme_manager.dart';
 
 class PointsScreen extends StatefulWidget {
   const PointsScreen({super.key});
@@ -10,17 +11,18 @@ class PointsScreen extends StatefulWidget {
 
 class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMixin {
   late PointsManager _pointsManager;
+  late ThemeManager _themeManager;
   late TabController _tabController;
   
-  // รายการรางวัล
-  final List<Map<String, dynamic>> rewards = [
+  // รายการรางวัล - ใช้ฟังก์ชันเพื่อให้สีเปลี่ยนตามธีม
+  List<Map<String, dynamic>> get rewards => [
     {
       'id': 1,
       'name': 'ส่วนลดร้านอาหาร 15%',
       'description': 'ส่วนลดร้านอาหารในจังหวัดศรีสะเกษ',
       'points': 150,
       'icon': Icons.restaurant,
-      'color': Colors.orange,
+      'color': _themeManager.isBlueTheme ? Colors.blue[600]! : Colors.orange[600]!,
       'category': 'อาหาร',
       'available': 20,
     },
@@ -30,7 +32,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
       'description': 'ส่วนลดที่พักในจังหวัดศรีสะเกษ',
       'points': 450,
       'icon': Icons.hotel,
-      'color': Colors.blue,
+      'color': _themeManager.isBlueTheme ? Colors.indigo[600]! : Colors.red[600]!,
       'category': 'ที่พัก',
       'available': 10,
     },
@@ -40,7 +42,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
       'description': 'ของที่ระลึกพิเศษจากศรีสะเกษ',
       'points': 75,
       'icon': Icons.card_giftcard,
-      'color': Colors.pink,
+      'color': _themeManager.isBlueTheme ? Colors.cyan[600]! : Colors.pink[600]!,
       'category': 'ของฝาก',
       'available': 30,
     },
@@ -51,12 +53,15 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
     super.initState();
     _pointsManager = PointsManager();
     _pointsManager.addListener(_onPointsChanged);
+    _themeManager = ThemeManager();
+    _themeManager.addListener(_onThemeChanged);
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
     _pointsManager.removeListener(_onPointsChanged);
+    _themeManager.removeListener(_onThemeChanged);
     _tabController.dispose();
     super.dispose();
   }
@@ -67,10 +72,16 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
     }
   }
 
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _themeManager.backgroundColor,
       appBar: AppBar(
         title: Text(
           'แต้มของฉัน',
@@ -79,10 +90,15 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.orange[500],
+        backgroundColor: _themeManager.primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: _themeManager.headerGradient,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -90,11 +106,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.orange[400]!, Colors.red[400]!],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              gradient: _themeManager.headerGradient,
             ),
             padding: EdgeInsets.all(32),
             child: Column(
@@ -167,12 +179,12 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
           
           // Tab Bar
           Container(
-            color: Colors.white,
+            color: _themeManager.cardColor,
             child: TabBar(
               controller: _tabController,
-              indicatorColor: Colors.orange[500],
-              labelColor: Colors.orange[500],
-              unselectedLabelColor: Colors.grey[600],
+              indicatorColor: _themeManager.primaryColor,
+              labelColor: _themeManager.primaryColor,
+              unselectedLabelColor: _themeManager.textSecondaryColor,
               labelStyle: TextStyle(fontWeight: FontWeight.bold),
               tabs: [
                 Tab(
@@ -213,14 +225,14 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
             Icon(
               Icons.history,
               size: 64,
-              color: Colors.grey[400],
+              color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
             ),
             SizedBox(height: 16),
             Text(
               'ยังไม่มีประวัติการใช้แต้ม',
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.grey[600],
+                color: _themeManager.textSecondaryColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -229,7 +241,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
               'เริ่มสะสมแต้มและใช้แต้มกันเลย!',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[500],
+                color: _themeManager.textSecondaryColor.withValues(alpha: 0.8),
               ),
             ),
           ],
@@ -247,11 +259,13 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
         return Container(
           margin: EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: _themeManager.cardColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withValues(alpha: 0.1),
+                color: _themeManager.isDarkMode 
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.grey.withValues(alpha: 0.1),
                 blurRadius: 4,
                 offset: Offset(0, 2),
               ),
@@ -280,12 +294,13 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
+                color: _themeManager.textPrimaryColor,
               ),
             ),
             subtitle: Text(
               '${item['date']} เวลา ${item['time']}',
               style: TextStyle(
-                color: Colors.grey[600],
+                color: _themeManager.textSecondaryColor,
                 fontSize: 14,
               ),
             ),
@@ -316,11 +331,13 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
         return Container(
           margin: EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: _themeManager.cardColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withValues(alpha: 0.1),
+                color: _themeManager.isDarkMode 
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.grey.withValues(alpha: 0.1),
                 blurRadius: 6,
                 offset: Offset(0, 3),
               ),
@@ -356,7 +373,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
+                              color: _themeManager.textPrimaryColor,
                             ),
                           ),
                           SizedBox(height: 4),
@@ -386,14 +403,14 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.orange[600],
+                            color: _themeManager.primaryColor,
                           ),
                         ),
                         Text(
                           'เหลือ ${reward['available']} ชิ้น',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey[500],
+                            color: _themeManager.textSecondaryColor,
                           ),
                         ),
                       ],
@@ -407,7 +424,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                   reward['description'],
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: _themeManager.textSecondaryColor,
                     height: 1.4,
                   ),
                 ),
@@ -422,8 +439,8 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: canRedeem && reward['available'] > 0
-                          ? Colors.orange[500]
-                          : Colors.grey[300],
+                          ? _themeManager.primaryColor
+                          : _themeManager.textSecondaryColor.withValues(alpha: 0.3),
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -459,6 +476,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: _themeManager.cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -476,6 +494,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: _themeManager.textPrimaryColor,
                   ),
                 ),
               ),
@@ -490,13 +509,14 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: _themeManager.textPrimaryColor,
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 reward['description'],
                 style: TextStyle(
-                  color: Colors.grey[600],
+                  color: _themeManager.textSecondaryColor,
                 ),
               ),
               SizedBox(height: 16),
@@ -504,19 +524,19 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 width: double.infinity,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.orange[50],
+                  color: _themeManager.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.stars, color: Colors.orange[600]),
+                    Icon(Icons.stars, color: _themeManager.primaryColor),
                     SizedBox(width: 8),
                     Text(
                       'ใช้ ${reward['points']} แต้ม',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.orange[600],
+                        color: _themeManager.primaryColor,
                       ),
                     ),
                     Spacer(),
@@ -524,7 +544,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                       'คงเหลือ: ${_pointsManager.currentPoints - reward['points']} แต้ม',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey[600],
+                        color: _themeManager.textSecondaryColor,
                       ),
                     ),
                   ],
@@ -538,7 +558,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
               child: Text(
                 'ยกเลิก',
                 style: TextStyle(
-                  color: Colors.grey[600],
+                  color: _themeManager.textSecondaryColor,
                   fontSize: 16,
                 ),
               ),
@@ -558,7 +578,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 _showSuccessDialog(reward);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange[500],
+                backgroundColor: _themeManager.primaryColor,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -584,6 +604,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: _themeManager.cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -611,7 +632,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                  color: _themeManager.textPrimaryColor,
                 ),
               ),
               SizedBox(height: 12),
@@ -620,7 +641,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey[700],
+                  color: _themeManager.textSecondaryColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -629,7 +650,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
                 'แต้มคงเหลือ: ${_pointsManager.currentPoints} แต้ม',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[600],
+                  color: _themeManager.textSecondaryColor,
                 ),
               ),
             ],
@@ -639,7 +660,7 @@ class _PointsScreenState extends State<PointsScreen> with TickerProviderStateMix
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.orange[500],
+                  backgroundColor: _themeManager.primaryColor,
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(

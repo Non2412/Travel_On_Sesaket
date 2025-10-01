@@ -4,30 +4,53 @@ import 'screens/search_screen.dart';
 import 'screens/activities_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/profile_screen.dart';
-import 'points_manager.dart'; // เพิ่มการ import
+import 'points_manager.dart';
+import 'theme_manager.dart';
 
 void main() async {
-  // เพิ่ม async และ ensureInitialized
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize PointsManager ก่อนเริ่มแอป
+  // Initialize both managers
   await PointsManager().initialize();
+  await ThemeManager().initialize();
   
-  runApp(SiSaKetTravelApp());
+  runApp(const SiSaKetTravelApp());
 }
 
-class SiSaKetTravelApp extends StatelessWidget {
+class SiSaKetTravelApp extends StatefulWidget {
   const SiSaKetTravelApp({super.key});
+
+  @override
+  State<SiSaKetTravelApp> createState() => _SiSaKetTravelAppState();
+}
+
+class _SiSaKetTravelAppState extends State<SiSaKetTravelApp> {
+  final ThemeManager _themeManager = ThemeManager();
+
+  @override
+  void initState() {
+    super.initState();
+    _themeManager.addListener(_onThemeChanged);
+  }
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ท่องเที่ยวศรีสะเกษ',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        fontFamily: 'Kanit',
-      ),
-      home: MainScreen(),
+      theme: _themeManager.themeData,
+      home: const MainScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -53,12 +76,12 @@ class ActivityData {
   }
   
   static void addActivity(Map<String, dynamic> activity) {
-    activities.insert(0, activity); // Add to beginning for latest first
-    _notifyListeners(); // Notify all listeners
+    activities.insert(0, activity);
+    _notifyListeners();
   }
   
   static List<Map<String, dynamic>> getActivities() {
-    return List.from(activities); // Return copy to prevent external modification
+    return List.from(activities);
   }
   
   static List<Map<String, dynamic>> getEvents() {
@@ -80,17 +103,31 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   late List<Widget> _screens;
+  final ThemeManager _themeManager = ThemeManager();
 
   @override
   void initState() {
     super.initState();
+    _themeManager.addListener(_onThemeChanged);
     _screens = [
       HomeScreen(onNavigateToTab: _navigateToTab),
-      SearchScreen(),
-      ActivitiesScreen(),
-      NotificationsScreen(),
-      ProfileScreen(),
+      const SearchScreen(),
+      const ActivitiesScreen(),
+      const NotificationsScreen(),
+      const ProfileScreen(),
     ];
+  }
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _navigateToTab(int index) {
@@ -102,13 +139,18 @@ class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _screens),
+      backgroundColor: _themeManager.backgroundColor,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.orange[600],
-        unselectedItemColor: Colors.grey[600],
+        selectedItemColor: _themeManager.primaryColor,
+        unselectedItemColor: _themeManager.textSecondaryColor,
+        backgroundColor: _themeManager.cardColor,
         elevation: 8,
         selectedFontSize: 12,
         unselectedFontSize: 12,

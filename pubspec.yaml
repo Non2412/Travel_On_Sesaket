@@ -11,8 +11,13 @@ dependencies:
     sdk: flutter
   file_picker: ^6.1.1
   cupertino_icons: ^1.0.2
+<<<<<<< HEAD
   shared_preferences: ^2.2.2
   image_picker: ^1.0.7
+=======
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.2.2 
+>>>>>>> origin/Dev
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +26,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/data/response_1759296972786.json

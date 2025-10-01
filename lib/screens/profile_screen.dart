@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// Import your FavoritesScreen
+import '../theme_manager.dart';
 import 'favorites_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late bool isLogin;
   final _formKey = GlobalKey<FormState>();
+  final ThemeManager _themeManager = ThemeManager();
   String email = '';
   String password = '';
   String name = '';
@@ -21,16 +22,30 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     isLogin = !widget.isSignup;
+    _themeManager.addListener(_onThemeChanged);
+  }
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _themeManager.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: _themeManager.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -47,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 28, 
                     fontWeight: FontWeight.bold,
-                    color: Colors.orange[600],
+                    color: _themeManager.primaryColor,
                   ),
                 ),
                 SizedBox(height: 32),
@@ -55,12 +70,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     margin: EdgeInsets.only(bottom: 16),
                     child: TextFormField(
+                      style: TextStyle(color: _themeManager.textPrimaryColor),
                       decoration: InputDecoration(
                         labelText: 'ชื่อผู้ใช้',
+                        labelStyle: TextStyle(color: _themeManager.textSecondaryColor),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        prefixIcon: Icon(Icons.person),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: _themeManager.primaryColor),
+                        ),
+                        prefixIcon: Icon(Icons.person, color: _themeManager.textSecondaryColor),
                       ),
                       onChanged: (val) => name = val,
                       validator: (val) => val!.isEmpty ? 'กรุณากรอกชื่อ' : null,
@@ -69,12 +94,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   margin: EdgeInsets.only(bottom: 16),
                   child: TextFormField(
+                    style: TextStyle(color: _themeManager.textPrimaryColor),
                     decoration: InputDecoration(
                       labelText: 'อีเมล',
+                      labelStyle: TextStyle(color: _themeManager.textSecondaryColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      prefixIcon: Icon(Icons.email),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: _themeManager.primaryColor),
+                      ),
+                      prefixIcon: Icon(Icons.email, color: _themeManager.textSecondaryColor),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (val) => email = val,
@@ -84,12 +119,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   margin: EdgeInsets.only(bottom: 24),
                   child: TextFormField(
+                    style: TextStyle(color: _themeManager.textPrimaryColor),
                     decoration: InputDecoration(
                       labelText: 'รหัสผ่าน',
+                      labelStyle: TextStyle(color: _themeManager.textSecondaryColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      prefixIcon: Icon(Icons.lock),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: _themeManager.primaryColor),
+                      ),
+                      prefixIcon: Icon(Icons.lock, color: _themeManager.textSecondaryColor),
                     ),
                     obscureText: true,
                     onChanged: (val) => password = val,
@@ -109,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange[500],
+                      backgroundColor: _themeManager.primaryColor,
                       padding: EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -136,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLogin
                         ? 'ยังไม่มีบัญชี? สมัครสมาชิก'
                         : 'มีบัญชีแล้ว? เข้าสู่ระบบ',
-                    style: TextStyle(color: Colors.orange[600]),
+                    style: TextStyle(color: _themeManager.primaryColor),
                   ),
                 ),
               ],
@@ -156,6 +201,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ThemeManager _themeManager = ThemeManager();
   bool isLoggedIn = false;
   String userName = 'ผู้เยี่ยมชม';
   String userEmail = '';
@@ -167,19 +213,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
     {'icon': Icons.notifications, 'label': 'การแจ้งเตือน'},
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    _themeManager.addListener(_onThemeChanged);
+  }
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void _handleMenuTap(String? route, String label) {
     if (route == 'favorites') {
-      // Navigate to FavoritesScreen
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FavoritesScreen()),
       );
     } else {
-      // Show a snackbar for other menu items
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('กำลังพัฒนา: $label'),
-          backgroundColor: Colors.orange[500],
+          backgroundColor: _themeManager.primaryColor,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -189,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _themeManager.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -197,11 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // Header
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.orange[500]!, Colors.red[500]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                  ),
+                  gradient: _themeManager.headerGradient,
                 ),
                 padding: EdgeInsets.all(24),
                 child: Column(
@@ -304,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange[500],
+                            backgroundColor: _themeManager.primaryColor,
                             padding: EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -347,14 +405,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            side: BorderSide(color: Colors.grey[300]!),
+                            side: BorderSide(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
                           ),
                           child: Text(
                             'สมัครสมาชิก',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey[700],
+                              color: _themeManager.textSecondaryColor,
                             ),
                           ),
                         ),
@@ -368,11 +426,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: menuItems.map((item) => Container(
                         margin: EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: _themeManager.cardColor,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withValues(alpha: 0.1),
+                              color: _themeManager.isDarkMode
+                                ? Colors.black.withValues(alpha: 0.3)
+                                : Colors.grey.withValues(alpha: 0.1),
                               blurRadius: 4,
                               offset: Offset(0, 2),
                             ),
@@ -385,19 +445,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               color: item['route'] == 'favorites' 
                                   ? Colors.red[50] 
-                                  : Colors.grey[100],
+                                  : _themeManager.primaryColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
                               item['icon'] as IconData, 
                               color: item['route'] == 'favorites' 
                                   ? Colors.red[400] 
-                                  : Colors.grey[600]
+                                  : _themeManager.primaryColor
                             ),
                           ),
                           title: Text(
                             item['label'] as String,
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: _themeManager.textPrimaryColor,
+                            ),
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -408,7 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   decoration: BoxDecoration(
                                     color: item['route'] == 'favorites' 
                                         ? Colors.red[100] 
-                                        : Colors.grey[100],
+                                        : _themeManager.primaryColor.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
@@ -417,13 +480,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       fontSize: 12,
                                       color: item['route'] == 'favorites' 
                                           ? Colors.red[700] 
-                                          : Colors.grey[700],
+                                          : _themeManager.primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               SizedBox(width: 8),
-                              Icon(Icons.chevron_right, color: Colors.grey[400]),
+                              Icon(Icons.chevron_right, color: _themeManager.textSecondaryColor),
                             ],
                           ),
                           onTap: () => _handleMenuTap(
@@ -441,11 +504,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: _themeManager.cardColor,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withValues(alpha: 0.1),
+                              color: _themeManager.isDarkMode
+                                ? Colors.black.withValues(alpha: 0.3)
+                                : Colors.grey.withValues(alpha: 0.1),
                               blurRadius: 4,
                               offset: Offset(0, 2),
                             ),
@@ -459,23 +524,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey[800],
+                                color: _themeManager.textPrimaryColor,
                               ),
                             ),
                             SizedBox(height: 12),
                             Row(
                               children: [
-                                Icon(Icons.person, color: Colors.grey[600]),
+                                Icon(Icons.person, color: _themeManager.textSecondaryColor),
                                 SizedBox(width: 8),
-                                Text('ชื่อ: $userName'),
+                                Text(
+                                  'ชื่อ: $userName',
+                                  style: TextStyle(color: _themeManager.textPrimaryColor),
+                                ),
                               ],
                             ),
                             SizedBox(height: 8),
                             Row(
                               children: [
-                                Icon(Icons.email, color: Colors.grey[600]),
+                                Icon(Icons.email, color: _themeManager.textSecondaryColor),
                                 SizedBox(width: 8),
-                                Text('อีเมล: $userEmail'),
+                                Text(
+                                  'อีเมล: $userEmail',
+                                  style: TextStyle(color: _themeManager.textPrimaryColor),
+                                ),
                               ],
                             ),
                           ],

@@ -1,5 +1,5 @@
-// screens/favorites_screen.dart
 import 'package:flutter/material.dart';
+import '../theme_manager.dart';
 
 class FavoritesScreen extends StatefulWidget {
   @override
@@ -7,6 +7,8 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  final ThemeManager _themeManager = ThemeManager();
+  
   // Sample favorite places data
   List<Map<String, dynamic>> favoritePlaces = [
     {
@@ -42,6 +44,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   final List<String> filterOptions = ['ทั้งหมด', 'ประวัติศาสตร์', 'ธรรมชาติ', 'วัด', 'อาหาร'];
   String selectedFilter = 'ทั้งหมด';
 
+  @override
+  void initState() {
+    super.initState();
+    _themeManager.addListener(_onThemeChanged);
+  }
+
+  @override
+  void dispose() {
+    _themeManager.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void toggleFavorite(int placeId) {
     setState(() {
       favoritePlaces = favoritePlaces.map((place) {
@@ -68,24 +88,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     final filteredPlaces = getFilteredPlaces();
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _themeManager.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.grey[800]),
+          icon: Icon(Icons.arrow_back, color: _themeManager.textPrimaryColor),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'รายการโปรด',
           style: TextStyle(
-            color: Colors.grey[800],
+            color: _themeManager.textPrimaryColor,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.search, color: Colors.grey[600]),
+            icon: Icon(Icons.search, color: _themeManager.textSecondaryColor),
             onPressed: () {
               // Add search functionality here
             },
@@ -112,16 +132,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           selectedFilter = filter;
                         });
                       },
-                      backgroundColor: Colors.grey[100],
-                      selectedColor: Colors.orange[100],
+                      backgroundColor: _themeManager.isDarkMode ? Colors.grey[700] : Colors.grey[100],
+                      selectedColor: _themeManager.primaryColor.withValues(alpha: 0.2),
                       labelStyle: TextStyle(
-                        color: isSelected ? Colors.orange[700] : Colors.grey[600],
+                        color: isSelected ? _themeManager.primaryColor : _themeManager.textSecondaryColor,
                         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(
-                          color: isSelected ? Colors.orange[300]! : Colors.transparent,
+                          color: isSelected ? _themeManager.primaryColor : Colors.transparent,
                         ),
                       ),
                     ),
@@ -157,7 +177,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           Icon(
             Icons.favorite_border,
             size: 80,
-            color: Colors.grey[300],
+            color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
           ),
           SizedBox(height: 16),
           Text(
@@ -165,14 +185,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
+              color: _themeManager.textSecondaryColor,
             ),
           ),
           SizedBox(height: 8),
           Text(
             'เริ่มเพิ่มสถานที่ที่คุณชอบลงในรายการโปรด',
             style: TextStyle(
-              color: Colors.grey[500],
+              color: _themeManager.textSecondaryColor.withValues(alpha: 0.8),
             ),
             textAlign: TextAlign.center,
           ),
@@ -182,7 +202,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange[500],
+              backgroundColor: _themeManager.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -205,11 +225,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: _themeManager.cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: _themeManager.isDarkMode 
+              ? Colors.black.withValues(alpha: 0.3)
+              : Colors.grey.withValues(alpha: 0.1),
             blurRadius: 6,
             offset: Offset(0, 3),
           ),
@@ -223,7 +245,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             width: double.infinity,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: _themeManager.isDarkMode ? Colors.grey[700] : Colors.grey[300],
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(16),
               ),
@@ -237,13 +259,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       Icon(
                         Icons.image,
                         size: 48,
-                        color: Colors.grey[400],
+                        color: _themeManager.textSecondaryColor,
                       ),
                       SizedBox(height: 8),
                       Text(
                         'รูปภาพสถานที่',
                         style: TextStyle(
-                          color: Colors.grey[500],
+                          color: _themeManager.textSecondaryColor,
                           fontSize: 14,
                         ),
                       ),
@@ -257,7 +279,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.orange[500],
+                      color: _themeManager.primaryColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -280,12 +302,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: _themeManager.cardColor.withValues(alpha: 0.9),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Icon(
                         place['isFavorite'] ? Icons.favorite : Icons.favorite_border,
-                        color: place['isFavorite'] ? Colors.red[400] : Colors.grey[600],
+                        color: place['isFavorite'] ? Colors.red[400] : _themeManager.textSecondaryColor,
                         size: 20,
                       ),
                     ),
@@ -306,6 +328,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: _themeManager.textPrimaryColor,
                   ),
                 ),
                 
@@ -319,12 +342,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         Icon(Icons.star, color: Colors.amber, size: 16),
                         SizedBox(width: 4),
                         Text('${place['rating']}', 
-                          style: TextStyle(fontWeight: FontWeight.w600)),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: _themeManager.textPrimaryColor,
+                          )),
                         SizedBox(width: 16),
-                        Icon(Icons.location_on, color: Colors.grey[500], size: 16),
+                        Icon(Icons.location_on, color: _themeManager.textSecondaryColor, size: 16),
                         SizedBox(width: 4),
                         Text(place['distance'],
-                          style: TextStyle(color: Colors.grey[600])),
+                          style: TextStyle(color: _themeManager.textSecondaryColor)),
                       ],
                     ),
                     Text(
@@ -351,8 +377,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         icon: Icon(Icons.directions, size: 16),
                         label: Text('นำทาง'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.orange[600],
-                          side: BorderSide(color: Colors.orange[300]!),
+                          foregroundColor: _themeManager.primaryColor,
+                          side: BorderSide(color: _themeManager.primaryColor.withValues(alpha: 0.7)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -368,7 +394,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         icon: Icon(Icons.info, size: 16),
                         label: Text('รายละเอียด'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange[500],
+                          backgroundColor: _themeManager.primaryColor,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
