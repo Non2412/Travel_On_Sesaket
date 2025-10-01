@@ -9,8 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  file_picker: ^6.1.1
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.2.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
+import 'my_reviews_screen.dart';
 import 'package:flutter/material.dart';
+import 'thread_list_screen.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';
 import '../points_manager.dart'; // Import PointsManager
@@ -542,7 +544,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'รีวิวของฉัน',
                   onTap: () {
                     Navigator.pop(context);
-                    // Handle reviews
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyReviewsScreen()),
+                    );
                   },
                 ),
                 _buildDrawerItem(
@@ -561,6 +566,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     // Handle nearby places
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.forum,
+                  title: 'กระทู้',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ThreadListScreen(),
+                      ),
+                    );
                   },
                 ),
                 Divider(),
