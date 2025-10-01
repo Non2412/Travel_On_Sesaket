@@ -9,10 +9,10 @@ import 'points_manager.dart'; // เพิ่มการ import
 void main() async {
   // เพิ่ม async และ ensureInitialized
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize PointsManager ก่อนเริ่มแอป
   await PointsManager().initialize();
-  
+
   runApp(SiSaKetTravelApp());
 }
 
@@ -23,12 +23,104 @@ class SiSaKetTravelApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ท่องเที่ยวศรีสะเกษ',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        fontFamily: 'Kanit',
-      ),
-      home: MainScreen(),
+      theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Kanit'),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // หลัง 2.5 วินาที เปลี่ยนไปหน้าหลัก
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => MainScreen()),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/sisaket_night.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withOpacity(0.3),
+                Colors.black.withOpacity(0.6),
+              ],
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(flex: 2),
+              // ข้อความหลัก
+              Text(
+                'เที่ยวศรีสะเกษ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 52,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 15,
+                      color: Colors.black87,
+                      offset: Offset(3, 3),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              // ข้อความรอง
+              Text(
+                'สัมผัสเสน่ห์แห่งอีสาน',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 18,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 8,
+                      color: Colors.black54,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Spacer(flex: 3),
+              // Loading indicator
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                strokeWidth: 3,
+              ),
+              SizedBox(height: 80),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -37,34 +129,36 @@ class SiSaKetTravelApp extends StatelessWidget {
 class ActivityData {
   static final List<Map<String, dynamic>> activities = [];
   static final List<VoidCallback> _listeners = [];
-  
+
   static void addListener(VoidCallback listener) {
     _listeners.add(listener);
   }
-  
+
   static void removeListener(VoidCallback listener) {
     _listeners.remove(listener);
   }
-  
+
   static void _notifyListeners() {
     for (final listener in _listeners) {
       listener();
     }
   }
-  
+
   static void addActivity(Map<String, dynamic> activity) {
     activities.insert(0, activity); // Add to beginning for latest first
     _notifyListeners(); // Notify all listeners
   }
-  
+
   static List<Map<String, dynamic>> getActivities() {
-    return List.from(activities); // Return copy to prevent external modification
+    return List.from(
+      activities,
+    ); // Return copy to prevent external modification
   }
-  
+
   static List<Map<String, dynamic>> getEvents() {
     return activities.where((activity) => activity['type'] == 'event').toList();
   }
-  
+
   static List<Map<String, dynamic>> getPlaces() {
     return activities.where((activity) => activity['type'] == 'place').toList();
   }
