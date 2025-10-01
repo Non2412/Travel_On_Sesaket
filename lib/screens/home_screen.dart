@@ -1,9 +1,13 @@
-// Updated home_screen.dart
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';
 import 'settings_screen.dart';
-import 'help_screen.dart'; // เพิ่มการ import HelpScreen
+import 'help_screen.dart';
+import 'places_screen.dart';
+import 'place_detail_screen.dart';
 import '../points_manager.dart';
 import '../theme_manager.dart';
 import '../main.dart';
@@ -22,6 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
   late ThemeManager _themeManager;
   final TextEditingController _searchController = TextEditingController();
   
+  List<dynamic> allPlaces = [];
+  List<Map<String, dynamic>> categories = [];
+  List<dynamic> recommendedPlaces = [];
+  bool loading = true;
+  
   @override
   void initState() {
     super.initState();
@@ -31,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _pointsManager.addListener(_onPointsChanged);
     _themeManager.addListener(_onThemeChanged);
     ActivityData.addListener(_refreshData);
+    
+    loadPlacesData();
   }
 
   @override
@@ -43,50 +54,75 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onPointsChanged() {
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   void _onThemeChanged() {
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
 
   void _refreshData() {
-    if (mounted) {
-      setState(() {});
-    }
+    if (mounted) setState(() {});
   }
   
-  final List<Map<String, dynamic>> categories = const [
-    {'icon': '🏛️', 'name': 'ประวัติศาสตร์', 'count': 15},
-    {'icon': '🌿', 'name': 'ธรรมชาติ', 'count': 23},
-    {'icon': '🏛️', 'name': 'วัด', 'count': 18},
-    {'icon': '🍜', 'name': 'อาหาร', 'count': 45},
-    {'icon': '🛍️', 'name': 'ช้อปปิ้ง', 'count': 12},
-    {'icon': '🎭', 'name': 'วัฒนธรรม', 'count': 8},
-  ];
+  Future<void> loadPlacesData() async {
+    try {
+      final String response = await rootBundle.loadString(
+        'assets/data/response_1759296972786.json'
+      );
+      final data = json.decode(response);
+      
+      setState(() {
+        allPlaces = data['data'] ?? [];
+        categories = _countCategories(allPlaces);
+        recommendedPlaces = _getRandomPlaces(allPlaces, 2);
+        loading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading places: $e');
+      setState(() => loading = false);
+    }
+  }
 
-  final List<Map<String, dynamic>> places = const [
-    {
-      'name': 'ปราสาทเขาพนมรุ้ง',
-      'rating': 4.8,
-      'distance': '2.5 km',
-      'price': 'ฟรี'
-    },
-    {
-      'name': 'อุทยานแห่งชาติเขาพระวิหาร',
-      'rating': 4.6,
-      'distance': '15 km', 
-      'price': '฿40'
-    },
-  ];
+  List<Map<String, dynamic>> _countCategories(List<dynamic> placesData) {
+    Map<String, Map<String, dynamic>> categoryMap = {};
+    
+    for (var place in placesData) {
+      String catName = place['category']['name'];
+      if (!categoryMap.containsKey(catName)) {
+        categoryMap[catName] = {
+          'id': place['category']['categoryId'],
+          'name': catName,
+          'count': 0
+        };
+      }
+      categoryMap[catName]!['count'] = (categoryMap[catName]!['count'] ?? 0) + 1;
+    }
+    
+    return categoryMap.values.toList();
+  }
+
+  List<dynamic> _getRandomPlaces(List<dynamic> places, int count) {
+    if (places.isEmpty) return [];
+    final random = Random();
+    final shuffled = List.from(places)..shuffle(random);
+    return shuffled.take(count).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final allActivities = ActivityData.getActivities();
+    
+    if (loading) {
+      return Scaffold(
+        backgroundColor: _themeManager.backgroundColor,
+        body: Center(
+          child: CircularProgressIndicator(
+            color: _themeManager.primaryColor,
+          ),
+        ),
+      );
+    }
     
     return Scaffold(
       backgroundColor: _themeManager.backgroundColor,
@@ -206,46 +242,66 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisCount: 3,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
+                          childAspectRatio: 0.9,
                         ),
-                        itemCount: categories.length,
+                        itemCount: categories.length > 6 ? 6 : categories.length,
                         itemBuilder: (context, index) {
                           final cat = categories[index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: _themeManager.cardColor,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _themeManager.isDarkMode 
-                                    ? Colors.black.withValues(alpha: 0.3)
-                                    : Colors.grey.withValues(alpha: 0.1),
-                                  blurRadius: 4,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(cat['icon'] as String, style: TextStyle(fontSize: 32)),
-                                SizedBox(height: 8),
-                                Text(
-                                  cat['name'] as String,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: _themeManager.textPrimaryColor,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  '${cat['count']} แห่ง',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: _themeManager.textSecondaryColor,
+                          final icons = ['🏛️', '🌳', '🍜', '🛍️', '🏨', '🎭'];
+                          
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PlacesScreen(
+                                    initialCategory: cat['name'],
                                   ),
                                 ),
-                              ],
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: _themeManager.cardColor,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: _themeManager.isDarkMode 
+                                      ? Colors.black.withValues(alpha: 0.3)
+                                      : Colors.grey.withValues(alpha: 0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    icons[index % icons.length],
+                                    style: TextStyle(fontSize: 32),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    cat['name'],
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: _themeManager.textPrimaryColor,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '${cat['count']} แห่ง',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: _themeManager.textSecondaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -276,128 +332,168 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildSection(
                       'สถานที่แนะนำ',
                       Column(
-                        children: places.map((place) => Container(
-                          margin: EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: _themeManager.cardColor,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: _themeManager.isDarkMode 
-                                  ? Colors.black.withValues(alpha: 0.3)
-                                  : Colors.grey.withValues(alpha: 0.1),
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Image Placeholder
-                              Container(
-                                width: double.infinity,
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  color: _themeManager.isDarkMode 
-                                    ? Colors.grey[700] 
-                                    : Colors.grey[300],
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(16),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.image,
-                                        size: 48,
-                                        color: _themeManager.textSecondaryColor,
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        'รูปภาพสถานที่',
-                                        style: TextStyle(
-                                          color: _themeManager.textSecondaryColor,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              
-                              // Content
-                              Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            place['name'] as String,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: _themeManager.textPrimaryColor,
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.favorite_border,
-                                          color: _themeManager.textSecondaryColor,
-                                        ),
-                                      ],
-                                    ),
-                                    
-                                    SizedBox(height: 12),
-                                    
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star, color: Colors.amber, size: 16),
-                                            SizedBox(width: 4),
-                                            Text('${place['rating']}', 
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: _themeManager.textPrimaryColor,
-                                              )),
-                                            SizedBox(width: 16),
-                                            Icon(Icons.location_on, color: _themeManager.textSecondaryColor, size: 16),
-                                            SizedBox(width: 4),
-                                            Text(place['distance'] as String,
-                                              style: TextStyle(color: _themeManager.textSecondaryColor)),
-                                          ],
-                                        ),
-                                        Text(
-                                          place['price'] as String,
-                                          style: TextStyle(
-                                            color: Colors.green[600],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )).toList(),
+                        children: recommendedPlaces.map((place) => _buildPlaceCard(place)).toList(),
                       ),
+                      showSeeAll: true,
+                      onSeeAllTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PlacesScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPlaceCard(dynamic place) {
+    final thumbnailUrl = place['thumbnailUrl'] != null && 
+                         (place['thumbnailUrl'] as List).isNotEmpty
+        ? place['thumbnailUrl'][0]
+        : null;
+    
+    final location = place['location'];
+    final districtName = location?['district']?['name'] ?? '';
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaceDetailScreen(place: place),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: _themeManager.cardColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: _themeManager.isDarkMode 
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              child: Container(
+                width: double.infinity,
+                height: 200,
+                color: _themeManager.isDarkMode 
+                  ? Colors.grey[800] 
+                  : Colors.grey[200],
+                child: thumbnailUrl != null
+                  ? Image.network(
+                      thumbnailUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.image,
+                            size: 48,
+                            color: _themeManager.textSecondaryColor,
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 48,
+                        color: _themeManager.textSecondaryColor,
+                      ),
+                    ),
+              ),
+            ),
+            
+            // Content
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          place['name'] ?? '',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: _themeManager.textPrimaryColor,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.favorite_border,
+                        color: _themeManager.textSecondaryColor,
+                      ),
+                    ],
+                  ),
+                  
+                  SizedBox(height: 12),
+                  
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        size: 16,
+                        color: _themeManager.textSecondaryColor,
+                      ),
+                      SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          '$districtName • ${place['category']['name'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: _themeManager.textSecondaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                  SizedBox(height: 8),
+                  
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.remove_red_eye,
+                        size: 16,
+                        color: _themeManager.textSecondaryColor,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        '${place['viewer'] ?? 0} ครั้ง',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: _themeManager.textSecondaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -769,7 +865,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return '';
   }
   
-  Widget _buildSection(String title, Widget content, {bool showSeeAll = true, VoidCallback? onSeeAllTap}) {
+  Widget _buildSection(String title, Widget content, {bool showSeeAll = false, VoidCallback? onSeeAllTap}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
