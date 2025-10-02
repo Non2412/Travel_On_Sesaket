@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import '../main.dart'; // Import for ActivityData
 
 class AddActivityScreen extends StatefulWidget {
@@ -13,11 +15,13 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
   
   String selectedCategory = '';
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   String selectedType = 'event'; // event or place
+  List<XFile> selectedImages = [];
   
   final List<Map<String, dynamic>> categories = [
     {'name': 'ประวัติศาสตร์', 'icon': Icons.account_balance, 'color': Colors.brown},
@@ -445,45 +449,186 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
           ),
         ),
         const SizedBox(height: 12),
-        GestureDetector(
-          onTap: _selectImages,
-          child: Container(
+        
+        // Selected images display
+        if (selectedImages.isNotEmpty) ...[
+          SizedBox(
             height: 120,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              border: Border.all(color: Colors.grey[300]!),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add_photo_alternate,
-                  size: 48,
-                  color: Colors.grey,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'เพิ่มรูปภาพ',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: selectedImages.length + 1,
+              itemBuilder: (context, index) {
+                if (index == selectedImages.length) {
+                  return _buildAddImageButton();
+                }
+                return _buildImagePreview(index);
+              },
             ),
           ),
-        ),
+        ] else ...[
+          _buildAddImageButton(),
+        ],
       ],
     );
   }
 
-  void _selectImages() {
-    // TODO: Implement image picker
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('เปิดตัวเลือกรูปภาพ')),
+  Widget _buildAddImageButton() {
+    return GestureDetector(
+      onTap: _selectImages,
+      child: Container(
+        height: 120,
+        width: selectedImages.isEmpty ? double.infinity : 120,
+        margin: const EdgeInsets.only(right: 8),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          border: Border.all(color: Colors.grey[300]!),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.add_photo_alternate,
+              size: 48,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'เพิ่มรูปภาพ',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget _buildImagePreview(int index) {
+    return Container(
+      height: 120,
+      width: 120,
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.file(
+              File(selectedImages[index].path),
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            top: 4,
+            right: 4,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedImages.removeAt(index);
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _selectImages() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera),
+              title: const Text('ถ่ายรูป'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('เลือกจากแกลเลอรี่'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('เลือกหลายรูป'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickMultipleImages();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: source,
+        maxWidth: 1920,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
+      
+      if (image != null) {
+        setState(() {
+          selectedImages.add(image);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('เกิดข้อผิดพลาด: $e')),
+      );
+    }
+  }
+
+  Future<void> _pickMultipleImages() async {
+    try {
+      final List<XFile> images = await _picker.pickMultiImage(
+        maxWidth: 1920,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
+      
+      if (images.isNotEmpty) {
+        setState(() {
+          selectedImages.addAll(images);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('เกิดข้อผิดพลาด: $e')),
+      );
+    }
   }
 
   void _submitActivity() {
@@ -511,6 +656,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
         'location': _locationController.text,
         'category': selectedCategory,
         'createdAt': DateTime.now(),
+        'images': selectedImages.map((img) => img.path).toList(),
       };
 
       // Add date and time for events
