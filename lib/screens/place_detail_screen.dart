@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher_string.dart';
 import '../theme_manager.dart';
+import '../favorites_manager.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final dynamic place;
@@ -74,24 +75,57 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
     );
   }
   late ThemeManager _themeManager;
+  late FavoritesManager _favoritesManager;
   int currentImageIndex = 0;
-  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _themeManager = ThemeManager();
+    _favoritesManager = FavoritesManager();
     _themeManager.addListener(_onThemeChanged);
+    _favoritesManager.addListener(_onFavoritesChanged);
   }
 
   @override
   void dispose() {
     _themeManager.removeListener(_onThemeChanged);
+    _favoritesManager.removeListener(_onFavoritesChanged);
     super.dispose();
   }
 
   void _onThemeChanged() {
     if (mounted) setState(() {});
+  }
+
+  void _onFavoritesChanged() {
+    if (mounted) setState(() {});
+  }
+
+  bool get isFavorite {
+    final placeId = widget.place['placeId']?.toString() ?? '';
+    return _favoritesManager.isFavorite(placeId);
+  }
+
+  void toggleFavorite() {
+    final placeId = widget.place['placeId']?.toString() ?? '';
+    _favoritesManager.toggleFavorite(placeId);
+    
+    // แสดง snackbar แจ้งเตือน
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isFavorite 
+            ? 'เพิ่มลงรายการโปรดแล้ว' 
+            : 'ลบออกจากรายการโปรดแล้ว'
+        ),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: isFavorite 
+          ? Colors.green[600] 
+          : _themeManager.textSecondaryColor,
+      ),
+    );
   }
 
   List<String> get images {
@@ -195,11 +229,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                     isFavorite ? Icons.favorite : Icons.favorite_border,
                     color: isFavorite ? Colors.red : Colors.white,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      isFavorite = !isFavorite;
-                    });
-                  },
+                  onPressed: toggleFavorite,
                 ),
               ),
               Container(

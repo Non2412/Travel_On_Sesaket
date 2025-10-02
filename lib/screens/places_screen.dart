@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme_manager.dart';
+import '../favorites_manager.dart';
 import 'place_detail_screen.dart';
 
 class PlacesScreen extends StatefulWidget {
@@ -161,7 +162,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
   }
 }
 
-class PlaceCard extends StatelessWidget {
+class PlaceCard extends StatefulWidget {
   final dynamic place;
   final ThemeManager themeManager;
   
@@ -172,14 +173,40 @@ class PlaceCard extends StatelessWidget {
   });
 
   @override
+  State<PlaceCard> createState() => _PlaceCardState();
+}
+
+class _PlaceCardState extends State<PlaceCard> {
+  late FavoritesManager _favoritesManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _favoritesManager = FavoritesManager();
+    _favoritesManager.addListener(_onFavoritesChanged);
+  }
+
+  @override
+  void dispose() {
+    _favoritesManager.removeListener(_onFavoritesChanged);
+    super.dispose();
+  }
+
+  void _onFavoritesChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = place['thumbnailUrl'] != null && 
-                         (place['thumbnailUrl'] as List).isNotEmpty
-        ? place['thumbnailUrl'][0]
+    final placeId = widget.place['placeId']?.toString() ?? '';
+    final isFavorite = _favoritesManager.isFavorite(placeId);
+    final thumbnailUrl = widget.place['thumbnailUrl'] != null && 
+                         (widget.place['thumbnailUrl'] as List).isNotEmpty
+        ? widget.place['thumbnailUrl'][0]
         : null;
     
-    final hasSHA = place['sha'] != null;
-    final location = place['location'];
+    final hasSHA = widget.place['sha'] != null;
+    final location = widget.place['location'];
     final districtName = location?['district']?['name'] ?? '';
 
     return GestureDetector(
@@ -187,18 +214,18 @@ class PlaceCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlaceDetailScreen(place: place),
+            builder: (context) => PlaceDetailScreen(place: widget.place),
           ),
         );
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
-          color: themeManager.cardColor,
+          color: widget.themeManager.cardColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: themeManager.isDarkMode 
+              color: widget.themeManager.isDarkMode 
                 ? Colors.black.withValues(alpha: 0.3)
                 : Colors.grey.withValues(alpha: 0.1),
               blurRadius: 6,
@@ -218,7 +245,7 @@ class PlaceCard extends StatelessWidget {
               child: Container(
                 width: 100,
                 height: 100,
-                color: themeManager.isDarkMode 
+                color: widget.themeManager.isDarkMode 
                   ? Colors.grey[800] 
                   : Colors.grey[200],
                 child: thumbnailUrl != null
@@ -230,7 +257,7 @@ class PlaceCard extends StatelessWidget {
                           child: Icon(
                             Icons.image,
                             size: 40,
-                            color: themeManager.textSecondaryColor,
+                            color: widget.themeManager.textSecondaryColor,
                           ),
                         );
                       },
@@ -243,7 +270,7 @@ class PlaceCard extends StatelessWidget {
                                 loadingProgress.expectedTotalBytes!
                               : null,
                             strokeWidth: 2,
-                            color: themeManager.primaryColor,
+                            color: widget.themeManager.primaryColor,
                           ),
                         );
                       },
@@ -268,35 +295,64 @@ class PlaceCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            place['name'] ?? '',
+                            widget.place['name'] ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
-                              color: themeManager.textPrimaryColor,
+                              color: widget.themeManager.textPrimaryColor,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        if (hasSHA)
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green[100],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              'SHA',
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: Colors.green[700],
-                                fontWeight: FontWeight.w600,
+                        Row(
+                          children: [
+                            if (hasSHA)
+                              Container(
+                                margin: EdgeInsets.only(right: 4),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.green[100],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  'SHA',
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Colors.green[700],
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            GestureDetector(
+                              onTap: () {
+                                _favoritesManager.toggleFavorite(placeId);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      _favoritesManager.isFavorite(placeId)
+                                        ? 'เพิ่มลงรายการโปรดแล้ว'
+                                        : 'ลบออกจากรายการโปรดแล้ว'
+                                    ),
+                                    duration: Duration(seconds: 2),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: _favoritesManager.isFavorite(placeId)
+                                      ? Colors.green[600]
+                                      : widget.themeManager.textSecondaryColor,
+                                  ),
+                                );
+                              },
+                              child: Icon(
+                                isFavorite ? Icons.favorite : Icons.favorite_border,
+                                color: isFavorite ? Colors.red : widget.themeManager.textSecondaryColor,
+                                size: 20,
                               ),
                             ),
-                          ),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(height: 6),
@@ -305,15 +361,15 @@ class PlaceCard extends StatelessWidget {
                         Icon(
                           Icons.location_on,
                           size: 14,
-                          color: themeManager.textSecondaryColor,
+                          color: widget.themeManager.textSecondaryColor,
                         ),
                         SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            '$districtName • ${place['category']['name'] ?? ''}',
+                            '$districtName • ${widget.place['category']['name'] ?? ''}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: themeManager.textSecondaryColor,
+                              color: widget.themeManager.textSecondaryColor,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -327,29 +383,29 @@ class PlaceCard extends StatelessWidget {
                         Icon(
                           Icons.remove_red_eye,
                           size: 12,
-                          color: themeManager.textSecondaryColor,
+                          color: widget.themeManager.textSecondaryColor,
                         ),
                         SizedBox(width: 4),
                         Text(
-                          '${place['viewer'] ?? 0} ครั้ง',
+                          '${widget.place['viewer'] ?? 0} ครั้ง',
                           style: TextStyle(
                             fontSize: 11,
-                            color: themeManager.textSecondaryColor,
+                            color: widget.themeManager.textSecondaryColor,
                           ),
                         ),
-                        if (place['updatedAt'] != null) ...[
+                        if (widget.place['updatedAt'] != null) ...[
                           SizedBox(width: 12),
                           Icon(
                             Icons.update,
                             size: 12,
-                            color: themeManager.textSecondaryColor,
+                            color: widget.themeManager.textSecondaryColor,
                           ),
                           SizedBox(width: 4),
                           Text(
-                            _formatDate(place['updatedAt']),
+                            _formatDate(widget.place['updatedAt']),
                             style: TextStyle(
                               fontSize: 11,
-                              color: themeManager.textSecondaryColor,
+                              color: widget.themeManager.textSecondaryColor,
                             ),
                           ),
                         ],

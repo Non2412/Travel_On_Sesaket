@@ -59,19 +59,19 @@ class _HelpScreenState extends State<HelpScreen> {
             _buildContactTile(
               icon: Icons.email,
               title: 'อีเมล',
-              subtitle: 'support@sisaket-travel.com',
+              subtitle: 'stu6612732104@sskru.ac.th',
             ),
             Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
             _buildContactTile(
               icon: Icons.phone,
               title: 'โทรศัพท์',
-              subtitle: '045-123-456',
+              subtitle: '062-715-6667',
             ),
             Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
             _buildContactTile(
               icon: Icons.location_on,
               title: 'ที่อยู่',
-              subtitle: 'ศาลากลางจังหวัดศรีสะเกษ',
+              subtitle: 'สาขาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยราชภัฏศรีสะเกษ',
             ),
           ]),
 

@@ -22,6 +22,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
+  # Assets
+  assets:
+    - assets/images/
 
   assets:
     - assets/data/response_1759296972786.json
