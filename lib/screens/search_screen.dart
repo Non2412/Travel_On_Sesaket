@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../theme_manager.dart';
 
@@ -15,10 +17,28 @@ class _SearchScreenState extends State<SearchScreen> {
   int selectedFilterIndex = 0;
   String searchQuery = '';
 
+  List<dynamic> allPlaces = [];
+  bool loading = true;
+
   @override
   void initState() {
     super.initState();
     _themeManager.addListener(_onThemeChanged);
+    loadPlacesData();
+  }
+
+  Future<void> loadPlacesData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/data/response_1759296972786.json');
+      final data = json.decode(response);
+      setState(() {
+        allPlaces = data['data'] ?? [];
+        loading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading places: $e');
+      setState(() => loading = false);
+    }
   }
 
   @override
@@ -158,37 +178,15 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildSearchResults() {
-    // Sample search results - replace with actual search logic
-    List<Map<String, dynamic>> sampleResults = [
-      {
-        'name': 'ปราสาทเขาพนมรุ้ง',
-        'type': 'ประวัติศาสตร์',
-        'rating': 4.8,
-        'distance': '2.5 km',
-        'price': 'ฟรี'
-      },
-      {
-        'name': 'วัดมหาพุทธาราม',
-        'type': 'วัด',
-        'rating': 4.5,
-        'distance': '1.2 km',
-        'price': 'ฟรี'
-      },
-      {
-        'name': 'ตลาดเก่าศรีสะเกษ',
-        'type': 'ช้อปปิ้ง',
-        'rating': 4.3,
-        'distance': '0.8 km',
-        'price': 'ฟรี'
-      },
-    ];
-
+    if (loading) {
+      return Center(child: CircularProgressIndicator());
+    }
     // Filter results based on search query
-    List<Map<String, dynamic>> filteredResults = sampleResults
-        .where((result) => 
-            result['name'].toString().toLowerCase().contains(searchQuery.toLowerCase()) ||
-            result['type'].toString().toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
+    List<dynamic> filteredResults = allPlaces.where((place) {
+      final name = place['name']?.toString().toLowerCase() ?? '';
+      final type = place['category']?['name']?.toString().toLowerCase() ?? '';
+      return name.contains(searchQuery.toLowerCase()) || type.contains(searchQuery.toLowerCase());
+    }).toList();
 
     if (filteredResults.isEmpty) {
       return Center(
@@ -198,7 +196,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Icon(
               Icons.search_off,
               size: 64,
-              color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
+              color: _themeManager.textSecondaryColor.withOpacity(0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -223,7 +221,7 @@ class _SearchScreenState extends State<SearchScreen> {
       padding: EdgeInsets.all(16),
       itemCount: filteredResults.length,
       itemBuilder: (context, index) {
-        final result = filteredResults[index];
+        final place = filteredResults[index];
         return Container(
           margin: EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
@@ -232,8 +230,8 @@ class _SearchScreenState extends State<SearchScreen> {
             boxShadow: [
               BoxShadow(
                 color: _themeManager.isDarkMode
-                  ? Colors.black.withValues(alpha: 0.3)
-                  : Colors.grey.withValues(alpha: 0.1),
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.grey.withOpacity(0.1),
                 blurRadius: 6,
                 offset: Offset(0, 3),
               ),
@@ -245,16 +243,16 @@ class _SearchScreenState extends State<SearchScreen> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: _themeManager.primaryColor.withValues(alpha: 0.1),
+                color: _themeManager.primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
-                _getIconForType(result['type']),
+                Icons.place,
                 color: _themeManager.primaryColor,
               ),
             ),
             title: Text(
-              result['name'],
+              place['name'] ?? '',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -266,50 +264,44 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 SizedBox(height: 4),
                 Text(
-                  result['type'],
+                  place['category']?['name'] ?? '',
                   style: TextStyle(
                     color: _themeManager.textSecondaryColor,
                     fontSize: 14,
                   ),
                 ),
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      '${result['rating']}',
+                if (place['detail'] != null && place['detail'].toString().isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0, bottom: 2.0),
+                    child: Text(
+                      place['detail'],
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: _themeManager.textPrimaryColor,
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                        height: 1.4,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(width: 16),
-                    Icon(
-                      Icons.location_on, 
-                      color: _themeManager.textSecondaryColor, 
-                      size: 16
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      result['distance'],
-                      style: TextStyle(color: _themeManager.textSecondaryColor),
-                    ),
-                    Spacer(),
-                    Text(
-                      result['price'],
+                  )
+                else if (place['introduction'] != null && place['introduction'].toString().isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6.0, bottom: 2.0),
+                    child: Text(
+                      place['introduction'],
                       style: TextStyle(
-                        color: Colors.green[600],
-                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                        height: 1.4,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
+                  ),
               ],
             ),
             onTap: () {
-              // Handle tap on search result
-              print('Tapped on ${result['name']}');
+              // TODO: นำไปหน้ารายละเอียดสถานที่จริง
             },
           ),
         );

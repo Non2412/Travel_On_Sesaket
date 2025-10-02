@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 import 'my_reviews_screen.dart';
 import 'package:flutter/material.dart';
 import 'thread_list_screen.dart';
-=======
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
->>>>>>> origin/Dev
 import 'points_screen.dart';
 import 'checkin_screen.dart';
 import 'settings_screen.dart';
@@ -641,13 +638,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'รีวิวของฉัน',
                   onTap: () {
                     Navigator.pop(context);
-<<<<<<< HEAD
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MyReviewsScreen()),
                     );
-=======
->>>>>>> origin/Dev
                   },
                 ),
                 _buildDrawerItem(
@@ -667,7 +661,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                   },
                 ),
-<<<<<<< HEAD
                 _buildDrawerItem(
                   icon: Icons.forum,
                   title: 'กระทู้',
@@ -682,9 +675,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 Divider(),
-=======
                 Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
->>>>>>> origin/Dev
                 _buildDrawerItem(
                   icon: Icons.settings,
                   title: 'ตั้งค่า',

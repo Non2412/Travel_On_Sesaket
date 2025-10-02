@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
+import 'package:url_launcher/url_launcher_string.dart';
 import '../theme_manager.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
@@ -12,6 +14,65 @@ class PlaceDetailScreen extends StatefulWidget {
 }
 
 class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
+  // เก็บรายการรีวิว (mock local)
+  List<Map<String, dynamic>> _reviews = [];
+
+  void _showReviewDialog() {
+    int rating = 5;
+    TextEditingController reviewController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('เขียนรีวิว'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (index) => IconButton(
+                  icon: Icon(
+                    index < rating ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                  ),
+                  onPressed: () {
+                    rating = index + 1;
+                    (context as Element).markNeedsBuild();
+                  },
+                )),
+              ),
+              TextField(
+                controller: reviewController,
+                decoration: InputDecoration(hintText: 'เขียนรีวิวของคุณ...'),
+                maxLines: 3,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('ยกเลิก'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (reviewController.text.trim().isNotEmpty) {
+                  setState(() {
+                    _reviews.insert(0, {
+                      'rating': rating,
+                      'text': reviewController.text.trim(),
+                      'date': DateTime.now(),
+                    });
+                  });
+                  Navigator.pop(context);
+                }
+              },
+              child: Text('ส่งรีวิว'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   late ThemeManager _themeManager;
   int currentImageIndex = 0;
   bool isFavorite = false;
@@ -76,16 +137,16 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
           if (launched) break;
         }
       } catch (e) {
-        print('Error launching URL: $urlString, Error: $e');
+        debugPrint('Error launching URL: $urlString, Error: $e');
       }
     }
 
     if (!launched && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('ไม่สามารถเปิดแผนที่ได้ กรุณาติดตั้ง Google Maps'),
+          content: const Text('ไม่สามารถเปิดแผนที่ได้ กรุณาติดตั้ง Google Maps'),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           action: SnackBarAction(
             label: 'ตกลง',
             textColor: Colors.white,
@@ -112,19 +173,19 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
             expandedHeight: 300,
             pinned: true,
             leading: Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             actions: [
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
@@ -142,13 +203,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.share, color: Colors.white),
+                  icon: const Icon(Icons.share, color: Colors.white),
                   onPressed: () {
                     // Share functionality
                   },
@@ -213,7 +274,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                         children: List.generate(
                           images.length,
                           (index) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 4),
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
                             width: 8,
                             height: 8,
                             decoration: BoxDecoration(
@@ -238,7 +299,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
               children: [
                 // Title and Category
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -256,7 +317,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                           ),
                           if (hasSHA)
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 6,
                               ),
@@ -276,11 +337,11 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                         ],
                       ),
                       
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       
                       // Category
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 6,
                         ),
@@ -298,7 +359,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                         ),
                       ),
                       
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       
                       // Stats Row
                       Row(
@@ -308,7 +369,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                             size: 18,
                             color: _themeManager.textSecondaryColor,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             '${widget.place['viewer'] ?? 0} ครั้ง',
                             style: TextStyle(
@@ -316,13 +377,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                               color: _themeManager.textSecondaryColor,
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Icon(
                             Icons.update,
                             size: 18,
                             color: _themeManager.textSecondaryColor,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             _formatDate(widget.place['updatedAt'] ?? ''),
                             style: TextStyle(
@@ -336,38 +397,64 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                   ),
                 ),
                 
-                Divider(height: 1),
+                const Divider(height: 1),
                 
-                // Location
+                // Location & Description
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'ที่อยู่',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: _themeManager.textPrimaryColor,
-                        ),
-                      ),
-                      SizedBox(height: 12),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.location_on,
                             color: _themeManager.primaryColor,
                             size: 20,
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
-                            child: Text(
-                              '$districtName, $provinceName',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: _themeManager.textPrimaryColor,
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '$districtName, $provinceName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: _themeManager.textPrimaryColor,
+                                  ),
+                                ),
+                                if ((widget.place['detail'] != null && widget.place['detail'].toString().isNotEmpty) ||
+                                    (widget.place['introduction'] != null && widget.place['introduction'].toString().isNotEmpty))
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'รายละเอียด',
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                              color: _themeManager.primaryColor,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            widget.place['detail']?.toString().isNotEmpty == true
+                                                ? widget.place['detail']
+                                                : widget.place['introduction'] ?? '',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey[800],
+                                              height: 1.6,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                              ],
                             ),
                           ),
                         ],
@@ -375,39 +462,83 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                     ],
                   ),
                 ),
+                const Divider(height: 1),
                 
-                Divider(height: 1),
-                
-                // Description (if available)
-                if (widget.place['detail'] != null && 
-                    widget.place['detail'].toString().isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'รายละเอียด',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: _themeManager.textPrimaryColor,
-                          ),
+                const SizedBox(height: 16),
+
+                // ปุ่มเขียนรีวิว
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.rate_review),
+                      label: Text('เขียนรีวิว'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        SizedBox(height: 12),
-                        Text(
-                          widget.place['detail'],
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: _themeManager.textPrimaryColor,
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: _showReviewDialog,
                     ),
                   ),
-                
-                SizedBox(height: 80), // Space for bottom button
+                ),
+
+                const SizedBox(height: 24),
+
+                // แสดงรายการรีวิว
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    'รีวิว (${_reviews.length})',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _themeManager.textPrimaryColor),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                if (_reviews.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: Text('ยังไม่มีรีวิวสำหรับสถานที่นี้', style: TextStyle(color: Colors.grey)),
+                  )
+                else
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _reviews.length,
+                    itemBuilder: (context, index) {
+                      final review = _reviews[index];
+                      return Card(
+                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Row(
+                                    children: List.generate(5, (i) => Icon(
+                                      i < (review['rating'] ?? 0) ? Icons.star : Icons.star_border,
+                                      color: Colors.amber,
+                                      size: 20,
+                                    )),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(_formatDate((review['date'] as DateTime).toIso8601String()), style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                ],
+                              ),
+                              SizedBox(height: 6),
+                              Text(review['text'] ?? '', style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                const SizedBox(height: 80), // Space for bottom button
               ],
             ),
           ),
@@ -416,26 +547,26 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       
       // Bottom Button
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: _themeManager.cardColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
         ),
         child: SafeArea(
           child: ElevatedButton.icon(
             onPressed: _openGoogleMaps,
-            icon: Icon(Icons.directions),
-            label: Text('นำทาง'),
+            icon: const Icon(Icons.directions),
+            label: const Text('นำทาง'),
             style: ElevatedButton.styleFrom(
               backgroundColor: _themeManager.primaryColor,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -470,4 +601,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       return '';
     }
   }
+  
+  // ไม่ต้องมีฟังก์ชัน canLaunchUrl ซ้ำ เพราะใช้ของ url_launcher โดยตรง
 }
