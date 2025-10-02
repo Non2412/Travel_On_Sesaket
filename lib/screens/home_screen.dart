@@ -638,13 +638,6 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.zero,
               children: [
                 _buildDrawerItem(
-                  icon: Icons.person,
-                  title: 'โปรไฟล์',
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                _buildDrawerItem(
                   icon: Icons.event_available,
                   title: 'เช็คอินรับแต้มฟรี',
                   onTap: () {
@@ -689,13 +682,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (widget.onNavigateToTab != null) {
                       widget.onNavigateToTab!(2);
                     }
-                  },
-                ),
-                _buildDrawerItem(
-                  icon: Icons.location_on,
-                  title: 'สถานที่ใกล้ฉัน',
-                  onTap: () {
-                    Navigator.pop(context);
                   },
                 ),
                 _buildDrawerItem(
