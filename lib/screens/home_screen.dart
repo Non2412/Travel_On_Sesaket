@@ -8,8 +8,10 @@ import 'settings_screen.dart';
 import 'help_screen.dart';
 import 'places_screen.dart';
 import 'place_detail_screen.dart';
+import 'favorites_screen.dart';
 import '../points_manager.dart';
 import '../theme_manager.dart';
+import '../favorites_manager.dart';
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late PointsManager _pointsManager;
   late ThemeManager _themeManager;
+  late FavoritesManager _favoritesManager;
   final TextEditingController _searchController = TextEditingController();
   
   List<dynamic> allPlaces = [];
@@ -36,9 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pointsManager = PointsManager();
     _themeManager = ThemeManager();
+    _favoritesManager = FavoritesManager();
     
     _pointsManager.addListener(_onPointsChanged);
     _themeManager.addListener(_onThemeChanged);
+    _favoritesManager.addListener(_onFavoritesChanged);
     ActivityData.addListener(_refreshData);
     
     loadPlacesData();
@@ -49,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchController.dispose();
     _pointsManager.removeListener(_onPointsChanged);
     _themeManager.removeListener(_onThemeChanged);
+    _favoritesManager.removeListener(_onFavoritesChanged);
     ActivityData.removeListener(_refreshData);
     super.dispose();
   }
@@ -58,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onThemeChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _onFavoritesChanged() {
     if (mounted) setState(() {});
   }
 
@@ -355,6 +365,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPlaceCard(dynamic place) {
+    final placeId = place['placeId']?.toString() ?? '';
+    final isFavorite = _favoritesManager.isFavorite(placeId);
     final thumbnailUrl = place['thumbnailUrl'] != null && 
                          (place['thumbnailUrl'] as List).isNotEmpty
         ? place['thumbnailUrl'][0]
@@ -442,9 +454,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      Icon(
-                        Icons.favorite_border,
-                        color: _themeManager.textSecondaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          _favoritesManager.toggleFavorite(placeId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                _favoritesManager.isFavorite(placeId)
+                                  ? 'เพิ่มลงรายการโปรดแล้ว'
+                                  : 'ลบออกจากรายการโปรดแล้ว'
+                              ),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: _favoritesManager.isFavorite(placeId)
+                                ? Colors.green[600]
+                                : _themeManager.textSecondaryColor,
+                            ),
+                          );
+                        },
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : _themeManager.textSecondaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -628,6 +659,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'รายการโปรด',
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FavoritesScreen(),
+                      ),
+                    );
                   },
                 ),
                 _buildDrawerItem(
