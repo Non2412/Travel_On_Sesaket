@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'thread_list_screen.dart';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';

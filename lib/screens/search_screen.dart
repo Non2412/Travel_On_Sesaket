@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,11 +20,16 @@ class _SearchScreenState extends State<SearchScreen> {
   List<dynamic> allPlaces = [];
   bool loading = true;
 
+  List<String> categories = [];
+  List<String> searchHistory = [];
+  String? selectedCategory;
+
   @override
   void initState() {
     super.initState();
     _themeManager.addListener(_onThemeChanged);
     loadPlacesData();
+    loadSearchHistory();
   }
 
   Future<void> loadPlacesData() async {
@@ -34,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
       final data = json.decode(response);
       setState(() {
         allPlaces = data['data'] ?? [];
+        categories = _extractCategories(allPlaces);
         loading = false;
       });
     } catch (e) {
@@ -52,24 +57,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void _onThemeChanged() {
     if (mounted) {
       setState(() {});
-    }
-  }
-
-  Future<void> loadPlaces() async {
-    try {
-      final String response = await rootBundle.loadString(
-        'assets/data/response_1759296972786.json'
-      );
-      final data = json.decode(response);
-      
-      setState(() {
-        allPlaces = data['data'] ?? [];
-        categories = _extractCategories(allPlaces);
-        loading = false;
-      });
-    } catch (e) {
-      debugPrint('Error loading places: $e');
-      setState(() => loading = false);
     }
   }
 
@@ -100,13 +87,9 @@ class _SearchScreenState extends State<SearchScreen> {
     try {
       final prefs = await SharedPreferences.getInstance();
       
-      // Remove if already exists
       searchHistory.remove(query);
-      
-      // Add to beginning
       searchHistory.insert(0, query);
       
-      // Keep only last 10
       if (searchHistory.length > 10) {
         searchHistory = searchHistory.sublist(0, 10);
       }
@@ -149,7 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
             // Search Header
             Container(
               color: _themeManager.cardColor,
-              padding: EdgeInsets.fromLTRB(24, 24, 24, 16),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -161,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         : Colors.grey[100],
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: _searchController,
                       style: TextStyle(color: _themeManager.textPrimaryColor),
@@ -198,14 +181,14 @@ class _SearchScreenState extends State<SearchScreen> {
                               },
                             )
                           : null,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
                   ),
                   
                   // Search History
                   if (searchHistory.isNotEmpty) ...[
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -234,14 +217,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text('ยกเลิก'),
+                                    child: const Text('ยกเลิก'),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       clearSearchHistory();
                                       Navigator.pop(context);
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'ล้าง',
                                       style: TextStyle(color: Colors.red),
                                     ),
@@ -260,18 +243,18 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: searchHistory.take(5).map((query) {
                           return Container(
-                            margin: EdgeInsets.only(right: 8),
+                            margin: const EdgeInsets.only(right: 8),
                             child: InkWell(
                               onTap: () => performSearch(query),
                               borderRadius: BorderRadius.circular(20),
                               child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: 12,
                                   vertical: 6,
                                 ),
@@ -289,7 +272,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       size: 14,
                                       color: _themeManager.textSecondaryColor,
                                     ),
-                                    SizedBox(width: 6),
+                                    const SizedBox(width: 6),
                                     Text(
                                       query,
                                       style: TextStyle(
@@ -307,7 +290,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ],
                   
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   
                   // Categories Label
                   Text(
@@ -319,7 +302,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   
                   // Categories Chips
                   SingleChildScrollView(
@@ -328,7 +311,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       children: categories.map((category) {
                         bool isSelected = selectedCategory == category;
                         return Container(
-                          margin: EdgeInsets.only(right: 8),
+                          margin: const EdgeInsets.only(right: 8),
                           child: FilterChip(
                             label: Text(category),
                             selected: isSelected,
@@ -387,11 +370,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _buildEmptyState() {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(24),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Search Icon
           Center(
             child: Column(
               children: [
@@ -400,7 +382,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   size: 64,
                   color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   'เริ่มค้นหา',
                   style: TextStyle(
@@ -409,12 +391,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: _themeManager.textSecondaryColor,
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   'ค้นหาสถานที่ที่คุณสนใจ',
                   style: TextStyle(color: _themeManager.textSecondaryColor),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'พบ ${allPlaces.length} สถานที่ในระบบ',
                   style: TextStyle(
@@ -432,13 +414,28 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _buildSearchResults() {
     if (loading) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
-    // Filter results based on search query
+
+    // กรองตามคำค้นหาและหมวดหมู่
     List<dynamic> filteredResults = allPlaces.where((place) {
       final name = place['name']?.toString().toLowerCase() ?? '';
-      final type = place['category']?['name']?.toString().toLowerCase() ?? '';
-      return name.contains(searchQuery.toLowerCase()) || type.contains(searchQuery.toLowerCase());
+      final categoryName = place['category']?['name']?.toString().toLowerCase() ?? '';
+      final detail = place['detail']?.toString().toLowerCase() ?? '';
+      final introduction = place['introduction']?.toString().toLowerCase() ?? '';
+      
+      // ตรวจสอบคำค้นหา
+      bool matchesSearch = searchQuery.isEmpty ||
+          name.contains(searchQuery.toLowerCase()) ||
+          categoryName.contains(searchQuery.toLowerCase()) ||
+          detail.contains(searchQuery.toLowerCase()) ||
+          introduction.contains(searchQuery.toLowerCase());
+      
+      // ตรวจสอบหมวดหมู่
+      bool matchesCategory = selectedCategory == null ||
+          categoryName == selectedCategory!.toLowerCase();
+      
+      return matchesSearch && matchesCategory;
     }).toList();
 
     if (filteredResults.isEmpty) {
@@ -449,9 +446,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Icon(
               Icons.search_off,
               size: 64,
-              color: _themeManager.textSecondaryColor.withOpacity(0.5),
+              color: _themeManager.textSecondaryColor.withValues(alpha: 0.5),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'ไม่พบผลลัพธ์',
               style: TextStyle(
@@ -460,7 +457,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 color: _themeManager.textSecondaryColor,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'ลองค้นหาด้วยคำอื่น',
               style: TextStyle(color: _themeManager.textSecondaryColor),
@@ -471,32 +468,32 @@ class _SearchScreenState extends State<SearchScreen> {
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       itemCount: filteredResults.length,
       itemBuilder: (context, index) {
         final place = filteredResults[index];
         return Container(
-          margin: EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             color: _themeManager.cardColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
                 color: _themeManager.isDarkMode
-                  ? Colors.black.withOpacity(0.3)
-                  : Colors.grey.withOpacity(0.1),
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : Colors.grey.withValues(alpha: 0.1),
                 blurRadius: 6,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.all(16),
+            contentPadding: const EdgeInsets.all(16),
             leading: Container(
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: _themeManager.primaryColor.withOpacity(0.1),
+                color: _themeManager.primaryColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -515,7 +512,7 @@ class _SearchScreenState extends State<SearchScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   place['category']?['name'] ?? '',
                   style: TextStyle(
@@ -529,7 +526,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Text(
                       place['detail'],
                       style: TextStyle(
-                        color: Colors.grey[800],
+                        color: _themeManager.isDarkMode 
+                          ? Colors.grey[400] 
+                          : Colors.grey[800],
                         fontSize: 14,
                         height: 1.4,
                       ),
@@ -543,7 +542,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Text(
                       place['introduction'],
                       style: TextStyle(
-                        color: Colors.grey[800],
+                        color: _themeManager.isDarkMode 
+                          ? Colors.grey[400] 
+                          : Colors.grey[800],
                         fontSize: 14,
                         height: 1.4,
                       ),
@@ -554,30 +555,17 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
             onTap: () {
-              // TODO: นำไปหน้ารายละเอียดสถานที่จริง
+              // นำทางไปหน้ารายละเอียดสถานที่
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlaceDetailScreen(place: place),
+                ),
+              );
             },
           ),
         );
       },
     );
-  }
-
-  IconData _getIconForType(String type) {
-    switch (type) {
-      case 'ประวัติศาสตร์':
-        return Icons.account_balance;
-      case 'วัด':
-        return Icons.temple_buddhist;
-      case 'ช้อปปิ้ง':
-        return Icons.shopping_bag;
-      case 'ธรรมชาติ':
-        return Icons.nature;
-      case 'อาหาร':
-        return Icons.restaurant;
-      case 'วัฒนธรรม':
-        return Icons.theater_comedy;
-      default:
-        return Icons.place;
-    }
   }
 }
