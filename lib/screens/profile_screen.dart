@@ -209,7 +209,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final List<Map<String, dynamic>> menuItems = const [
     {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '3', 'route': 'favorites'},
-    {'icon': Icons.star, 'label': 'รีวิวของฉัน', 'count': '0'},
     {'icon': Icons.privacy_tip, 'label': 'นโยบายความเป็นส่วนตัว', 'route': 'privacy'},
   ];
 
