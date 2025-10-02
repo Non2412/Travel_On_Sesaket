@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme_manager.dart';
 import '../favorites_manager.dart';
 import 'place_detail_screen.dart';
@@ -84,6 +85,61 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   void toggleFavorite(String placeId) {
     _favoritesManager.toggleFavorite(placeId);
+  }
+
+  // ฟังก์ชันเปิด Google Maps
+  Future<void> _openGoogleMaps(dynamic place) async {
+    final placeName = place['name'] ?? '';
+    final location = place['location'];
+    final districtName = location?['district']?['name'] ?? '';
+    final provinceName = location?['province']?['name'] ?? '';
+    
+    // สร้าง search query สำหรับ Google Maps
+    final searchQuery = Uri.encodeComponent('$placeName $districtName $provinceName');
+    
+    // ลอง URL หลายรูปแบบเพื่อความแม่นยำ
+    final List<String> mapUrls = [
+      // ถ้ามี latitude, longitude ใช้พิกัดตรง
+      if (location?['latitude'] != null && location?['longitude'] != null)
+        'geo:${location['latitude']},${location['longitude']}?q=${location['latitude']},${location['longitude']}($searchQuery)',
+      // Google Maps search URL
+      'https://www.google.com/maps/search/?api=1&query=$searchQuery',
+      // Intent URL สำหรับเปิด Google Maps app
+      'geo:0,0?q=$searchQuery',
+    ];
+
+    bool launched = false;
+    
+    // ลองเปิดแต่ละ URL จนกว่าจะสำเร็จ
+    for (final urlString in mapUrls) {
+      try {
+        final uri = Uri.parse(urlString);
+        if (await canLaunchUrl(uri)) {
+          launched = await launchUrl(
+            uri,
+            mode: LaunchMode.externalApplication,
+          );
+          if (launched) break;
+        }
+      } catch (e) {
+        print('Error launching URL: $urlString, Error: $e');
+      }
+    }
+
+    if (!launched && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('ไม่สามารถเปิดแผนที่ได้ กรุณาติดตั้ง Google Maps'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+          action: SnackBarAction(
+            label: 'ตกลง',
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+        ),
+      );
+    }
   }
 
   List<dynamic> getFilteredPlaces() {
@@ -505,9 +561,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        // Add navigation functionality
-                      },
+                      onPressed: () => _openGoogleMaps(place),
                       icon: Icon(Icons.directions, size: 18, color: Colors.white),
                       label: Text(
                         'นำทาง',
