@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../theme_manager.dart';
 import 'favorites_screen.dart';
+import 'privacy_policy_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isSignup;
-  const LoginScreen({Key? key, this.isSignup = false}) : super(key: key);
+  const LoginScreen({super.key, this.isSignup = false});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -208,9 +209,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final List<Map<String, dynamic>> menuItems = const [
     {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '3', 'route': 'favorites'},
-    {'icon': Icons.location_on, 'label': 'สถานที่ที่เยี่ยม', 'count': '0'},
     {'icon': Icons.star, 'label': 'รีวิวของฉัน', 'count': '0'},
-    {'icon': Icons.notifications, 'label': 'การแจ้งเตือน'},
+    {'icon': Icons.privacy_tip, 'label': 'นโยบายความเป็นส่วนตัว', 'route': 'privacy'},
   ];
 
   @override
@@ -236,6 +236,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FavoritesScreen()),
+      );
+    } else if (route == 'privacy') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

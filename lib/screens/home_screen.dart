@@ -684,13 +684,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                 ),
-                _buildDrawerItem(
-                  icon: Icons.location_on,
-                  title: 'สถานที่ใกล้ฉัน',
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
                 Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
                 _buildDrawerItem(
                   icon: Icons.settings,
