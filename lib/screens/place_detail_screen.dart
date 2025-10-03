@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../theme_manager.dart';
 import '../favorites_manager.dart';
+import '../review_manager.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final dynamic place;
@@ -15,82 +16,112 @@ class PlaceDetailScreen extends StatefulWidget {
 }
 
 class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
-  // เก็บรายการรีวิว (mock local)
-  List<Map<String, dynamic>> _reviews = [];
+  late ThemeManager _themeManager;
+  late FavoritesManager _favoritesManager;
+  late ReviewManager _reviewManager;
+  int currentImageIndex = 0;
 
   void _showReviewDialog() {
-    int rating = 5;
-    TextEditingController reviewController = TextEditingController();
+    double rating = 5.0;
+    final reviewController = TextEditingController();
+    
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('เขียนรีวิว'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) => IconButton(
-                  icon: Icon(
-                    index < rating ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            title: const Text('เขียนรีวิว'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setDialogState(() {
+                          rating = (index + 1).toDouble();
+                        });
+                      },
+                      child: Icon(
+                        index < rating ? Icons.star : Icons.star_border,
+                        color: Colors.amber,
+                        size: 30,
+                      ),
+                    );
+                  }),
+                ),
+                const SizedBox(height: 8),
+                Text('คะแนน: ${rating.toStringAsFixed(0)}/5'),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: reviewController,
+                  decoration: const InputDecoration(
+                    hintText: 'แบ่งปันประสบการณ์ของคุณ...',
+                    border: OutlineInputBorder(),
                   ),
-                  onPressed: () {
-                    rating = index + 1;
-                    (context as Element).markNeedsBuild();
-                  },
-                )),
+                  maxLines: 4,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('ยกเลิก'),
               ),
-              TextField(
-                controller: reviewController,
-                decoration: InputDecoration(hintText: 'เขียนรีวิวของคุณ...'),
-                maxLines: 3,
+              ElevatedButton(
+                onPressed: () async {
+                  if (reviewController.text.trim().isNotEmpty) {
+                    final placeName = widget.place['name'] ?? 'ไม่ระบุชื่อ';
+                    final placeId = int.tryParse(widget.place['placeId']?.toString() ?? '0') ?? 0;
+                    
+                    await _reviewManager.addReview(
+                      attractionId: placeId,
+                      attractionName: placeName,
+                      rating: rating,
+                      comment: reviewController.text.trim(),
+                    );
+                    
+                    if (mounted) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('เพิ่มรีวิวสำเร็จ!'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _themeManager.primaryColor,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('ส่งรีวิว'),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('ยกเลิก'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (reviewController.text.trim().isNotEmpty) {
-                  setState(() {
-                    _reviews.insert(0, {
-                      'rating': rating,
-                      'text': reviewController.text.trim(),
-                      'date': DateTime.now(),
-                    });
-                  });
-                  Navigator.pop(context);
-                }
-              },
-              child: Text('ส่งรีวิว'),
-            ),
-          ],
         );
       },
     );
   }
-  late ThemeManager _themeManager;
-  late FavoritesManager _favoritesManager;
-  int currentImageIndex = 0;
-
   @override
   void initState() {
     super.initState();
     _themeManager = ThemeManager();
     _favoritesManager = FavoritesManager();
+    _reviewManager = ReviewManager();
     _themeManager.addListener(_onThemeChanged);
     _favoritesManager.addListener(_onFavoritesChanged);
+    _reviewManager.addListener(_onReviewsChanged);
+    _reviewManager.initialize();
   }
 
   @override
   void dispose() {
     _themeManager.removeListener(_onThemeChanged);
     _favoritesManager.removeListener(_onFavoritesChanged);
+    _reviewManager.removeListener(_onReviewsChanged);
     super.dispose();
   }
 
@@ -99,6 +130,10 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
   }
 
   void _onFavoritesChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _onReviewsChanged() {
     if (mounted) setState(() {});
   }
 
@@ -523,51 +558,61 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    'รีวิว (${_reviews.length})',
+                    'รีวิว (${_reviewManager.getReviewsForAttraction(int.tryParse(widget.place['placeId']?.toString() ?? '0') ?? 0).length})',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _themeManager.textPrimaryColor),
                   ),
                 ),
                 const SizedBox(height: 8),
-                if (_reviews.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    child: Text('ยังไม่มีรีวิวสำหรับสถานที่นี้', style: TextStyle(color: Colors.grey)),
-                  )
-                else
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _reviews.length,
-                    itemBuilder: (context, index) {
-                      final review = _reviews[index];
-                      return Card(
-                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Row(
-                                    children: List.generate(5, (i) => Icon(
-                                      i < (review['rating'] ?? 0) ? Icons.star : Icons.star_border,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    )),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(_formatDate((review['date'] as DateTime).toIso8601String()), style: TextStyle(fontSize: 12, color: Colors.grey)),
-                                ],
-                              ),
-                              SizedBox(height: 6),
-                              Text(review['text'] ?? '', style: TextStyle(fontSize: 16)),
-                            ],
-                          ),
-                        ),
+                Builder(
+                  builder: (context) {
+                    // ดึงรีวิวสำหรับสถานที่นี้เท่านั้น
+                    final placeReviews = _reviewManager.getReviewsForAttraction(int.tryParse(widget.place['placeId']?.toString() ?? '0') ?? 0);
+                    
+                    if (placeReviews.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        child: Text('ยังไม่มีรีวิวสำหรับสถานที่นี้', style: TextStyle(color: Colors.grey)),
                       );
-                    },
-                  ),
+                    }
+                    
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: placeReviews.length,
+                      itemBuilder: (context, index) {
+                        final review = placeReviews[index];
+                        return Card(
+                          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: List.generate(5, (i) => Icon(
+                                        i < review.rating ? Icons.star : Icons.star_border,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      )),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(review.userFullName, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                                    SizedBox(width: 8),
+                                    Text(_formatDate(review.createdAt.toIso8601String()), style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                  ],
+                                ),
+                                SizedBox(height: 6),
+                                Text(review.comment, style: TextStyle(fontSize: 16)),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(height: 80), // Space for bottom button
               ],
             ),

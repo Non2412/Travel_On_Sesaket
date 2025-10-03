@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/activities_screen.dart';
+import 'screens/my_reviews_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/profile_screen.dart';
 import 'points_manager.dart';
 import 'theme_manager.dart';
+import 'review_manager.dart';
+import 'favorites_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize PointsManager ก่อนเริ่มแอป
+  // Initialize all managers before starting the app
   await PointsManager().initialize();
+  await ReviewManager().initialize();
 
   runApp(SiSaKetTravelApp());
 }
@@ -46,16 +51,36 @@ class _SiSaKetTravelAppState extends State<SiSaKetTravelApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ท่องเที่ยวศรีสะเกษ',
-      theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Kanit'),
-      home: SplashScreen(),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeManager>.value(value: _themeManager),
+        ChangeNotifierProvider<PointsManager>.value(value: PointsManager()),
+        ChangeNotifierProvider<ReviewManager>.value(value: ReviewManager()),
+        ChangeNotifierProvider<FavoritesManager>.value(
+          value: FavoritesManager(),
+        ),
+      ],
+      child: Consumer<ThemeManager>(
+        builder: (context, themeManager, child) {
+          return MaterialApp(
+            title: 'ท่องเที่ยวศรีสะเกษ',
+            theme: ThemeData(
+              primarySwatch: Colors.orange,
+              fontFamily: 'Kanit',
+              useMaterial3: true,
+            ),
+            home: SplashScreen(),
+            debugShowCheckedModeBanner: false,
+          );
+        },
+      ),
     );
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -64,14 +89,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // หลัง 2.5 วินาที เปลี่ยนไปหน้าหลัก
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    try {
+      // Wait for initialization to complete
+      await Future.delayed(const Duration(milliseconds: 2500));
+
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => MainScreen()),
+          MaterialPageRoute(builder: (_) => const MainScreen()),
         );
       }
-    });
+    } catch (e) {
+      debugPrint('Error during app initialization: $e');
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+        );
+      }
+    }
   }
 
   @override
@@ -92,8 +130,8 @@ class _SplashScreenState extends State<SplashScreen> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.6),
+                Colors.black.withValues(alpha: 0.3),
+                Colors.black.withValues(alpha: 0.6),
               ],
             ),
           ),
@@ -199,16 +237,15 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   late List<Widget> _screens;
-  final ThemeManager _themeManager = ThemeManager();
 
   @override
   void initState() {
     super.initState();
-    _themeManager.addListener(_onThemeChanged);
     _screens = [
       HomeScreen(onNavigateToTab: _navigateToTab),
       const SearchScreen(),
       const ActivitiesScreen(),
+      MyReviewsScreen(),
       const NotificationsScreen(),
       const ProfileScreen(),
     ];
@@ -222,50 +259,56 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: _themeManager.backgroundColor,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: _themeManager.primaryColor,
-        unselectedItemColor: _themeManager.textSecondaryColor,
-        backgroundColor: _themeManager.cardColor,
-        elevation: 8,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'หน้าหลัก',
+    return Consumer<ThemeManager>(
+      builder: (context, themeManager, child) {
+        return Scaffold(
+          backgroundColor: themeManager.backgroundColor,
+          body: IndexedStack(index: _currentIndex, children: _screens),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) => setState(() => _currentIndex = index),
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: themeManager.primaryColor,
+            unselectedItemColor: themeManager.textSecondaryColor,
+            backgroundColor: themeManager.cardColor,
+            elevation: 8,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: 'หน้าหลัก',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search_outlined),
+                activeIcon: Icon(Icons.search),
+                label: 'ค้นหา',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_activity_outlined),
+                activeIcon: Icon(Icons.local_activity),
+                label: 'กิจกรรม',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.rate_review_outlined),
+                activeIcon: Icon(Icons.rate_review),
+                label: 'รีวิว',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_outlined),
+                activeIcon: Icon(Icons.notifications),
+                label: 'แจ้งเตือน',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                activeIcon: Icon(Icons.person),
+                label: 'โปรไฟล์',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            activeIcon: Icon(Icons.search),
-            label: 'ค้นหา',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity_outlined),
-            activeIcon: Icon(Icons.local_activity),
-            label: 'กิจกรรม',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            activeIcon: Icon(Icons.notifications),
-            label: 'แจ้งเตือน',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'โปรไฟล์',
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

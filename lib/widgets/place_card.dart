@@ -1,21 +1,14 @@
 // widgets/place_card.dart
 import 'package:flutter/material.dart';
+import '../models/api_models.dart';
 
 class PlaceCard extends StatefulWidget {
-  final String name;
-  final double rating;
-  final String distance;
-  final String price;
-  final String? imageUrl;
+  final TouristAttraction attraction;
   final VoidCallback? onTap;
 
   const PlaceCard({
     Key? key,
-    required this.name,
-    required this.rating,
-    required this.distance,
-    required this.price,
-    this.imageUrl,
+    required this.attraction,
     this.onTap,
   }) : super(key: key);
 
@@ -64,13 +57,13 @@ class _PlaceCardState extends State<PlaceCard> {
           top: Radius.circular(16),
         ),
       ),
-      child: widget.imageUrl != null
+      child: widget.attraction.imageUrl != null
           ? ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(16),
               ),
               child: Image.network(
-                widget.imageUrl!,
+                widget.attraction.imageUrl!,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return _buildPlaceholderImage();
@@ -115,7 +108,7 @@ class _PlaceCardState extends State<PlaceCard> {
             children: [
               Expanded(
                 child: Text(
-                  widget.name,
+                  widget.attraction.name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -135,6 +128,16 @@ class _PlaceCardState extends State<PlaceCard> {
               ),
             ],
           ),
+          const SizedBox(height: 8),
+          Text(
+            widget.attraction.description,
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,24 +147,39 @@ class _PlaceCardState extends State<PlaceCard> {
                   const Icon(Icons.star, color: Colors.amber, size: 16),
                   const SizedBox(width: 4),
                   Text(
-                    '${widget.rating}',
+                    '${widget.attraction.averageRating.toStringAsFixed(1)}',
                     style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '(${widget.attraction.reviewCount})',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
                   ),
                   const SizedBox(width: 16),
                   Icon(Icons.location_on, color: Colors.grey[500], size: 16),
                   const SizedBox(width: 4),
-                  Text(
-                    widget.distance,
-                    style: TextStyle(color: Colors.grey[600]),
+                  Expanded(
+                    child: Text(
+                      widget.attraction.district,
+                      style: TextStyle(color: Colors.grey[600]),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
-              Text(
-                widget.price,
-                style: TextStyle(
-                  color: Colors.green[600],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  widget.attraction.category,
+                  style: TextStyle(
+                    color: Colors.blue[700],
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ],

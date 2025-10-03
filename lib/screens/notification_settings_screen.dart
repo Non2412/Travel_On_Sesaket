@@ -423,7 +423,12 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
         trailing: Switch(
           value: value,
           onChanged: enabled ? onChanged : null,
-          activeThumbColor: _themeManager.primaryColor,
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return _themeManager.primaryColor;
+            }
+            return null;
+          }),
           activeTrackColor: _themeManager.primaryColor.withOpacity(0.3),
         ),
       ),

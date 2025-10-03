@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../theme_manager.dart';
-import '../favorites_manager.dart';
+import '../services/api_service.dart';
+import '../models/api_models.dart';
+import '../widgets/place_card.dart';
 import 'place_detail_screen.dart';
 
 class PlacesScreen extends StatefulWidget {
@@ -16,9 +16,14 @@ class PlacesScreen extends StatefulWidget {
 
 class _PlacesScreenState extends State<PlacesScreen> {
   late ThemeManager _themeManager;
-  List<dynamic> places = [];
+  List<TouristAttraction> attractions = [];
+  List<String> categories = [];
+  List<String> districts = [];
   String? selectedCategory;
+  String? selectedDistrict;
   bool loading = true;
+  String? error;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -26,12 +31,13 @@ class _PlacesScreenState extends State<PlacesScreen> {
     _themeManager = ThemeManager();
     _themeManager.addListener(_onThemeChanged);
     selectedCategory = widget.initialCategory;
-    loadPlaces();
+    _loadInitialData();
   }
 
   @override
   void dispose() {
     _themeManager.removeListener(_onThemeChanged);
+    searchController.dispose();
     super.dispose();
   }
 
@@ -39,28 +45,108 @@ class _PlacesScreenState extends State<PlacesScreen> {
     if (mounted) setState(() {});
   }
 
-  Future<void> loadPlaces() async {
+  Future<void> _loadInitialData() async {
+    setState(() {
+      loading = true;
+      error = null;
+    });
+
     try {
-      final String response = await rootBundle.loadString(
-        'assets/data/response_1759296972786.json'
-      );
-      final data = json.decode(response);
+      // Load categories and districts
+      final categoriesData = await ApiService.getAttractionCategories();
+      final districtsData = await ApiService.getDistricts();
       
+      if (categoriesData != null) {
+        categories = categoriesData.map((cat) => cat['name'].toString()).toList();
+      }
+      
+      if (districtsData != null) {
+        districts = districtsData.map((dist) => dist['name'].toString()).toList();
+      }
+
+      // Load attractions
+      await _loadAttractions();
+    } catch (e) {
       setState(() {
-        places = data['data'] ?? [];
+        error = 'เกิดข้อผิดพลาดในการโหลดข้อมูล: $e';
         loading = false;
       });
-    } catch (e) {
-      debugPrint('Error loading places: $e');
-      setState(() => loading = false);
     }
   }
 
-  List<dynamic> get filteredPlaces {
-    if (selectedCategory == null) return places;
-    return places.where((place) => 
-      place['category']['name'] == selectedCategory
-    ).toList();
+  Future<void> _loadAttractions() async {
+    try {
+      final attractionsData = await ApiService.getTouristAttractions();
+      
+      if (attractionsData != null) {
+        setState(() {
+          attractions = attractionsData
+              .map((data) => TouristAttraction.fromJson(data))
+              .toList();
+          loading = false;
+        });
+      } else {
+        setState(() {
+          error = 'ไม่สามารถโหลดข้อมูลสถานที่ท่องเที่ยวได้';
+          loading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = 'เกิดข้อผิดพลาด: $e';
+        loading = false;
+      });
+    }
+  }
+
+  Future<void> _searchAttractions() async {
+    setState(() {
+      loading = true;
+      error = null;
+    });
+
+    try {
+      final attractionsData = await ApiService.searchAttractions(
+        query: searchController.text.isNotEmpty ? searchController.text : null,
+        category: selectedCategory,
+        district: selectedDistrict,
+      );
+      
+      if (attractionsData != null) {
+        setState(() {
+          attractions = attractionsData
+              .map((data) => TouristAttraction.fromJson(data))
+              .toList();
+          loading = false;
+        });
+      } else {
+        setState(() {
+          attractions = [];
+          loading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = 'เกิดข้อผิดพลาดในการค้นหา: $e';
+        loading = false;
+      });
+    }
+  }
+
+  List<TouristAttraction> get filteredAttractions {
+    var result = attractions;
+    
+    if (selectedCategory != null && selectedCategory!.isNotEmpty) {
+      result = result.where((attraction) => 
+        attraction.category == selectedCategory).toList();
+    }
+    
+    if (selectedDistrict != null && selectedDistrict!.isNotEmpty) {
+      result = result.where((attraction) => 
+        attraction.district == selectedDistrict).toList();
+    }
+    
+    return result;
   }
 
   @override
@@ -68,9 +154,44 @@ class _PlacesScreenState extends State<PlacesScreen> {
     if (loading) {
       return Scaffold(
         backgroundColor: _themeManager.backgroundColor,
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (error != null) {
+      return Scaffold(
+        backgroundColor: _themeManager.backgroundColor,
+        appBar: AppBar(
+          title: const Text('สถานที่ท่องเที่ยว'),
+          backgroundColor: _themeManager.primaryColor,
+          foregroundColor: Colors.white,
+        ),
         body: Center(
-          child: CircularProgressIndicator(
-            color: _themeManager.primaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: Colors.red[300],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                error!,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _loadInitialData,
+                child: const Text('ลองใหม่'),
+              ),
+            ],
           ),
         ),
       );
@@ -78,370 +199,218 @@ class _PlacesScreenState extends State<PlacesScreen> {
 
     return Scaffold(
       backgroundColor: _themeManager.backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          // Header
-          SliverAppBar(
-            expandedHeight: 120,
-            pinned: true,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                selectedCategory ?? 'สถานที่ท่องเที่ยว',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: _themeManager.headerGradient,
-                ),
-              ),
-            ),
-            backgroundColor: _themeManager.primaryColor,
+      appBar: AppBar(
+        title: Text(
+          selectedCategory ?? 'สถานที่ท่องเที่ยว',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-          
-          // Header Info
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    selectedCategory == null 
-                      ? 'สถานที่ทั้งหมด (${places.length})'
-                      : '$selectedCategory (${filteredPlaces.length})',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: _themeManager.textPrimaryColor,
-                    ),
-                  ),
-                  if (selectedCategory != null)
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedCategory = null;
-                        });
-                      },
-                      child: Text('ล้างตัวกรอง'),
-                    ),
-                ],
-              ),
-            ),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: _themeManager.headerGradient,
           ),
-          
-          // Places List
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final place = filteredPlaces[index];
-                  return PlaceCard(
-                    place: place,
-                    themeManager: _themeManager,
-                  );
-                },
-                childCount: filteredPlaces.length,
-              ),
-            ),
-          ),
-          
-          SliverToBoxAdapter(
-            child: SizedBox(height: 16),
+        ),
+        backgroundColor: _themeManager.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          _buildSearchSection(),
+          _buildFilterSection(),
+          Expanded(
+            child: _buildPlacesList(),
           ),
         ],
       ),
     );
   }
-}
 
-class PlaceCard extends StatefulWidget {
-  final dynamic place;
-  final ThemeManager themeManager;
-  
-  const PlaceCard({
-    required this.place,
-    required this.themeManager,
-    super.key,
-  });
-
-  @override
-  State<PlaceCard> createState() => _PlaceCardState();
-}
-
-class _PlaceCardState extends State<PlaceCard> {
-  late FavoritesManager _favoritesManager;
-
-  @override
-  void initState() {
-    super.initState();
-    _favoritesManager = FavoritesManager();
-    _favoritesManager.addListener(_onFavoritesChanged);
-  }
-
-  @override
-  void dispose() {
-    _favoritesManager.removeListener(_onFavoritesChanged);
-    super.dispose();
-  }
-
-  void _onFavoritesChanged() {
-    if (mounted) setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final placeId = widget.place['placeId']?.toString() ?? '';
-    final isFavorite = _favoritesManager.isFavorite(placeId);
-    final thumbnailUrl = widget.place['thumbnailUrl'] != null && 
-                         (widget.place['thumbnailUrl'] as List).isNotEmpty
-        ? widget.place['thumbnailUrl'][0]
-        : null;
-    
-    final hasSHA = widget.place['sha'] != null;
-    final location = widget.place['location'];
-    final districtName = location?['district']?['name'] ?? '';
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PlaceDetailScreen(place: widget.place),
+  Widget _buildSearchSection() {
+    return Container(
+      color: _themeManager.primaryColor.withValues(alpha: 0.1),
+      padding: const EdgeInsets.all(16),
+      child: TextField(
+        controller: searchController,
+        onSubmitted: (_) => _searchAttractions(),
+        decoration: InputDecoration(
+          hintText: 'ค้นหาสถานที่ท่องเที่ยว...',
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    searchController.clear();
+                    _loadAttractions();
+                  },
+                )
+              : null,
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
           ),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12),
-        decoration: BoxDecoration(
-          color: widget.themeManager.cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: widget.themeManager.isDarkMode 
-                ? Colors.black.withValues(alpha: 0.3)
-                : Colors.grey.withValues(alpha: 0.1),
-              blurRadius: 6,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
-              ),
-              child: Container(
-                width: 100,
-                height: 100,
-                color: widget.themeManager.isDarkMode 
-                  ? Colors.grey[800] 
-                  : Colors.grey[200],
-                child: thumbnailUrl != null
-                  ? Image.network(
-                      thumbnailUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(
-                            Icons.image,
-                            size: 40,
-                            color: widget.themeManager.textSecondaryColor,
-                          ),
-                        );
-                      },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded / 
-                                loadingProgress.expectedTotalBytes!
-                              : null,
-                            strokeWidth: 2,
-                            color: widget.themeManager.primaryColor,
-                          ),
-                        );
-                      },
-                    )
-                  : Center(
-                      child: Text(
-                        '📍',
-                        style: TextStyle(fontSize: 32),
-                      ),
-                    ),
-              ),
-            ),
-            
-            // Content
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            widget.place['name'] ?? '',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: widget.themeManager.textPrimaryColor,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            if (hasSHA)
-                              Container(
-                                margin: EdgeInsets.only(right: 4),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.green[100],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  'SHA',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    color: Colors.green[700],
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            GestureDetector(
-                              onTap: () {
-                                _favoritesManager.toggleFavorite(placeId);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      _favoritesManager.isFavorite(placeId)
-                                        ? 'เพิ่มลงรายการโปรดแล้ว'
-                                        : 'ลบออกจากรายการโปรดแล้ว'
-                                    ),
-                                    duration: Duration(seconds: 2),
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: _favoritesManager.isFavorite(placeId)
-                                      ? Colors.green[600]
-                                      : widget.themeManager.textSecondaryColor,
-                                  ),
-                                );
-                              },
-                              child: Icon(
-                                isFavorite ? Icons.favorite : Icons.favorite_border,
-                                color: isFavorite ? Colors.red : widget.themeManager.textSecondaryColor,
-                                size: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: widget.themeManager.textSecondaryColor,
-                        ),
-                        SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            '$districtName • ${widget.place['category']['name'] ?? ''}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: widget.themeManager.textSecondaryColor,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.remove_red_eye,
-                          size: 12,
-                          color: widget.themeManager.textSecondaryColor,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          '${widget.place['viewer'] ?? 0} ครั้ง',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: widget.themeManager.textSecondaryColor,
-                          ),
-                        ),
-                        if (widget.place['updatedAt'] != null) ...[
-                          SizedBox(width: 12),
-                          Icon(
-                            Icons.update,
-                            size: 12,
-                            color: widget.themeManager.textSecondaryColor,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            _formatDate(widget.place['updatedAt']),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: widget.themeManager.textSecondaryColor,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
   }
 
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      final now = DateTime.now();
-      final difference = now.difference(date);
-      
-      if (difference.inDays == 0) {
-        return 'วันนี้';
-      } else if (difference.inDays == 1) {
-        return 'เมื่อวาน';
-      } else if (difference.inDays < 30) {
-        return '${difference.inDays} วันที่แล้ว';
-      } else if (difference.inDays < 365) {
-        final months = (difference.inDays / 30).floor();
-        return '$months เดือนที่แล้ว';
-      } else {
-        final years = (difference.inDays / 365).floor();
-        return '$years ปีที่แล้ว';
-      }
-    } catch (e) {
-      return '';
+  Widget _buildFilterSection() {
+    return Container(
+      color: _themeManager.primaryColor.withValues(alpha: 0.05),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildCategoryFilter(),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildDistrictFilter(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryFilter() {
+    return DropdownButtonFormField<String>(
+      value: selectedCategory,
+      hint: const Text('หมวดหมู่'),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      items: [
+        const DropdownMenuItem(
+          value: null,
+          child: Text('ทั้งหมด'),
+        ),
+        ...categories.map((category) => DropdownMenuItem(
+          value: category,
+          child: Text(category),
+        )),
+      ],
+      onChanged: (value) {
+        setState(() {
+          selectedCategory = value;
+        });
+        _searchAttractions();
+      },
+    );
+  }
+
+  Widget _buildDistrictFilter() {
+    return DropdownButtonFormField<String>(
+      value: selectedDistrict,
+      hint: const Text('อำเภอ'),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      items: [
+        const DropdownMenuItem(
+          value: null,
+          child: Text('ทั้งหมด'),
+        ),
+        ...districts.map((district) => DropdownMenuItem(
+          value: district,
+          child: Text(district),
+        )),
+      ],
+      onChanged: (value) {
+        setState(() {
+          selectedDistrict = value;
+        });
+        _searchAttractions();
+      },
+    );
+  }
+
+  Widget _buildPlacesList() {
+    final displayedAttractions = filteredAttractions;
+    
+    if (displayedAttractions.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_off,
+              size: 64,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'ไม่พบสถานที่ท่องเที่ยว',
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'ลองเปลี่ยนเงื่อนไขการค้นหา',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      );
     }
+
+    return RefreshIndicator(
+      onRefresh: _loadAttractions,
+      child: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: displayedAttractions.length,
+        itemBuilder: (context, index) {
+          final attraction = displayedAttractions[index];
+          return PlaceCard(
+            attraction: attraction,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlaceDetailScreen(
+                    place: {
+                      'id': attraction.id,
+                      'name': attraction.name,
+                      'description': attraction.description,
+                      'category': {'name': attraction.category},
+                      'district': attraction.district,
+                      'address': attraction.address,
+                      'image_url': attraction.imageUrl,
+                      'average_rating': attraction.averageRating,
+                      'review_count': attraction.reviewCount,
+                      'latitude': attraction.latitude,
+                      'longitude': attraction.longitude,
+                      'opening_hours': attraction.openingHours,
+                      'contact_info': attraction.contactInfo,
+                      'website': attraction.website,
+                    },
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }
