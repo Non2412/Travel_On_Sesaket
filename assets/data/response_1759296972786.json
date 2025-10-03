@@ -1,0 +1,3788 @@
+{
+  "data": [
+    {
+      "placeId": "33418",
+      "status": "approved",
+      "name": "ศูนย์แสดงพันธุ์สัตว์น้ำเทศบาลเมืองศรีสะเกษ",
+  "introduction": "สวนเฉลิมพระเกียรติพระบาทสมเด็จพระเจ้าอยู่หัว 80 พรรษา (เกาะห้วยน้ำคำ ถนนเลี่ยงเมือง ตำบล หนองครก อำเภอเมืองศรีสะเกษ ศรีสะเกษ 33000)",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": {
+        "name": "ศูนย์แสดงพันธุ์สัตว์น้ำเทศบาลเมืองศรีสะเกษ",
+        "detail": "ศูนย์แสดงพันธุ์สัตว์น้ำเทศบาลเมืองศรีสะเกษ",
+        "detailThumbnail": "https://dmc.tatdataapi.io/assets/356902b0-bf86-4cdc-8f4c-c7ee6c47414b.jpeg",
+        "detailPicture": [
+          "https://dmc.tatdataapi.io/assets/d078e3d4-1666-4989-bb75-096b21395707.jpeg",
+          "https://dmc.tatdataapi.io/assets/b5be199e-1526-4891-a208-7a9acf83ab38.jpeg",
+          "https://dmc.tatdataapi.io/assets/cca89b25-bfaf-456e-8d04-d8261ac34647.jpeg",
+          "https://dmc.tatdataapi.io/assets/7865ab09-420d-46da-80bb-1bd1e9a2116a.jpeg",
+          "https://dmc.tatdataapi.io/assets/9440909a-47d9-4a03-ac10-9b69bdc70deb.jpeg"
+        ],
+        "thumbnailUrl": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png",
+        "type": {
+          "typeId": 3,
+          "name": "นันทนาการ และสถานที่ท่องเที่ยว"
+        },
+        "category": {
+          "categoryId": 1,
+          "name": "SHA",
+          "icon": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png"
+        }
+      },
+      "latitude": "15.09078",
+      "longitude": "104.32669",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/19ffc627-a133-4ff3-8456-cf629d619dc7.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T11:01:52.433Z",
+      "updatedAt": "2024-07-15T05:30:13.613Z",
+      "migrateId": "P03018517",
+      "viewer": 14,
+      "slug": "ศูนย์แสดงพันธุ์สัตว์น้ำเทศบาลเมืองศรีสะเกษ"
+    },
+    {
+      "placeId": "33283",
+      "status": "approved",
+      "name": "เส้นทางเที่ยวชมสวนชิมผลไม้ศรีสะเกษ",
+    "introduction": "เที่ยวชมสวนผลไม้ศรีสะเกษ ชิมทุเรียนภูเขาไฟและผลไม้สดจากต้น พร้อมสัมผัสวิถีเกษตรท้องถิ่นในบรรยากาศธรรมชาติ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.72585",
+      "longitude": "104.61400",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330409,
+          "name": "ตระกาจ"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-09-10T11:05:47.065Z",
+      "updatedAt": "2024-07-15T05:29:38.223Z",
+      "migrateId": "P03018199",
+      "viewer": 6,
+      "slug": "เส้นทางเที่ยวชมสวนชิมผลไม้ศรีสะเกษ"
+    },
+    {
+      "placeId": "28158",
+      "status": "approved",
+      "name": "จุดผ่านแดนช่องสะงำ",
+    "introduction": "จุดผ่านแดนถาวรช่องสะงำ เป็นประตูการค้าและท่องเที่ยวสำคัญเชื่อมไทย-กัมพูชาที่อำเภอภูสิงห์ จังหวัดศรีสะเกษ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.95530",
+      "longitude": "104.40480",
+      "location": {
+        "address": "ถนนภูสิงห์-ช่องสะงำ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3320,
+          "name": "พยุห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 332001,
+          "name": "พยุห์"
+        },
+        "postcode": "33230"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T07:07:45.014Z",
+      "updatedAt": "2024-07-15T05:29:11.398Z",
+      "migrateId": "P03015175",
+      "viewer": 6,
+      "slug": "จุดผ่านแดนช่องสะงำ"
+    },
+    {
+      "placeId": "1654",
+      "status": "approved",
+      "name": "วัดศรีบึงบูรพ์",
+    "introduction": "วัดศรีบึงบูรพ์เป็นวัดสำคัญในอำเภอบึงบูรพ์ จังหวัดศรีสะเกษ โดดเด่นด้วยสถาปัตยกรรมไทยและเป็นศูนย์รวมจิตใจของชาวบ้าน",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.34138",
+      "longitude": "104.05542",
+      "location": {
+        "address": "หมู่ที่ 4 บ้านโนนสาวสวย ถนนศรีสะเกษ-บึงบูรพ์",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3311,
+          "name": "บึงบูรพ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331102,
+          "name": "บึงบูรพ์"
+        },
+        "postcode": "33220"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/72ae1483-7e5a-4a5d-8a02-87aaee46452a.jpeg"
+      ],
+      "tags": [
+        "วัดศรีบึงบูรพ์"
+      ],
+      "distance": null,
+      "createdAt": "2024-05-28T08:17:18.887Z",
+      "updatedAt": "2024-07-15T05:27:41.819Z",
+      "migrateId": "P03015173",
+      "viewer": 11,
+      "slug": "วัดศรีบึงบูรพ์"
+    },
+    {
+      "placeId": "33344",
+      "status": "approved",
+      "name": "หาดสุขสำราญ",
+    "introduction": "หาดสุขสำราญเป็นแหล่งท่องเที่ยวพักผ่อนริมลำน้ำมูลในจังหวัดศรีสะเกษ บรรยากาศร่มรื่น เหมาะสำหรับเล่นน้ำและปิกนิก",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.41683",
+      "longitude": "104.05986",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331707,
+          "name": "ไพรพัฒนา"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/d6ced0e7-2720-40af-b920-8e20388b5aa0.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2024-03-21T06:47:53.029Z",
+      "updatedAt": "2024-07-15T05:25:19.070Z",
+      "migrateId": "P03025898",
+      "viewer": 10,
+      "slug": "หาดสุขสำราญ"
+    },
+    {
+      "placeId": "33349",
+      "status": "approved",
+      "name": "หอศรีลำดวนเฉลิมพระเกียรติ หรือหอลำดวน",
+    "introduction": "หอคอยศรีลำดวนเฉลิมพระเกียรติเป็นจุดชมวิวแลนด์มาร์กของศรีสะเกษ สูงเด่นกลางเมือง มองเห็นวิวรอบเมืองได้แบบ 360 องศา",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.09356",
+      "longitude": "104.32962",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/9d3ac3c6-0f1b-4da9-bdeb-2738eb8cdd33.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2024-03-21T06:28:06.059Z",
+      "updatedAt": "2024-07-15T05:25:18.445Z",
+      "migrateId": "P03025747",
+      "viewer": 9,
+      "slug": "หอศรีลำดวนเฉลิมพระเกียรติ-หรือหอลำดวน"
+    },
+    {
+      "placeId": "9512",
+      "status": "approved",
+      "name": "ศูนย์แสดงพันธุ์สัตว์น้ำศรีสะเกษ",
+    "introduction": "ศูนย์แสดงพันธุ์สัตว์น้ำเทศบาลเมืองศรีสะเกษ เป็นแหล่งเรียนรู้และท่องเที่ยวเชิงอนุรักษ์ รวบรวมพันธุ์ปลาน้ำจืดหลากหลายชนิดไว้ให้ชมในบรรยากาศใกล้ชิดธรรมชาติ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.09069",
+      "longitude": "104.32600",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/fe58c482-c365-4c81-86eb-266d7eaa745f.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2024-03-09T06:45:23.867Z",
+      "updatedAt": "2024-07-15T05:25:07.936Z",
+      "migrateId": "P03018200",
+      "viewer": 8,
+      "slug": "ศูนย์แสดงพันธุ์สัตว์น้ำศรีสะเกษ"
+    },
+    {
+      "placeId": "33412",
+      "status": "approved",
+      "name": "วัดหนองตะเคียน",
+    "introduction": "วัดหนองตะเคียนเป็นวัดเก่าแก่ในจังหวัดศรีสะเกษ มีบรรยากาศเงียบสงบ เหมาะแก่การปฏิบัติธรรมและพักผ่อนจิตใจ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.98601",
+      "longitude": "104.41766",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330119,
+          "name": "หนองไฮ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/5a48e970-32e1-45cb-bd6f-836d53a24bbf.jpeg"
+      ],
+      "tags": [
+        "วัดหนองตะเคียน"
+      ],
+      "distance": null,
+      "createdAt": "2024-03-09T06:36:32.049Z",
+      "updatedAt": "2024-07-15T05:25:07.261Z",
+      "migrateId": "P03015164",
+      "viewer": 10,
+      "slug": "วัดหนองตะเคียน"
+    },
+    {
+      "placeId": "33501",
+      "status": "approved",
+      "name": "วัดพระธาตุสุพรรณหงส์",
+      "introduction": "วัดพระธาตุสุพรรณหงส์ จังหวัดศรีสะเกษ เป็นวัดที่มีเจดีย์สวยงาม รูปทรงคล้ายเรือสุพรรณหงส์ ตั้งอยู่กลางน้ำ เป็นเอกลักษณ์โดดเด่นและเป็นสถานที่ศักดิ์สิทธิ์คู่บ้านคู่เมือง",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": {
+        "name": "วัดพระธาตุสุพรรณหงส์",
+        "detail": "อุโบสถกลางน้ำ ทรงเรือสุพรรณหงส์",
+        "detailThumbnail": "https://dmc.tatdataapi.io/assets/f1646e00-1285-452c-8eb6-a97fda8c38e0.jpg",
+        "detailPicture": [
+          "https://dmc.tatdataapi.io/assets/4818de94-a34d-4705-9d6d-e163dea17188.jpg",
+          "https://dmc.tatdataapi.io/assets/49ddae22-c5c8-4ad5-849f-bf0743535fb9.jpg",
+          "https://dmc.tatdataapi.io/assets/68bb5c2c-84c8-4c83-b59b-23e0cf5a1dba.jpg"
+        ],
+        "thumbnailUrl": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png",
+        "type": {
+          "typeId": 3,
+          "name": "นันทนาการ และสถานที่ท่องเที่ยว"
+        },
+        "category": {
+          "categoryId": 1,
+          "name": "SHA",
+          "icon": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png"
+        }
+      },
+      "latitude": "15.19397",
+      "longitude": "104.29596",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330122,
+          "name": "น้ำคำ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/a37bd7b9-b96d-426d-ad13-07e3499c9222.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2024-03-09T06:21:22.263Z",
+      "updatedAt": "2024-07-15T05:25:06.688Z",
+      "migrateId": "P03018404",
+      "viewer": 10,
+      "slug": "วัดพระธาตุสุพรรณหงส์"
+    },
+    {
+      "placeId": "33471",
+      "status": "approved",
+      "name": "วัดบ้านด่าน",
+    "introduction": "วัดบ้านด่าน จังหวัดศรีสะเกษ เป็นที่ประดิษฐานวิหารหลวงพ่อทอง พระพุทธรูปศักดิ์สิทธิ์คู่บ้านคู่เมืองที่ประชาชนเคารพศรัทธา",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.32705",
+      "longitude": "104.32940",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3309,
+          "name": "ราษีไศล"
+        },
+        "subDistrict": {
+          "subDistrictId": 330915,
+          "name": "สร้างปี่"
+        },
+        "postcode": "33160"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/16725664-e530-470f-942d-fdd7968480cb.jpeg"
+      ],
+      "tags": [
+        "วัดบ้านด่าน"
+      ],
+      "distance": null,
+      "createdAt": "2024-03-09T03:26:04.034Z",
+      "updatedAt": "2024-07-15T05:25:05.971Z",
+      "migrateId": "P03025753",
+      "viewer": 14,
+      "slug": "วัดบ้านด่าน"
+    },
+    {
+      "placeId": "33551",
+      "status": "approved",
+      "name": "พิพิธภัณฑ์หุ่นขี้ผึ้งหลวงปู่สรวง วัดบ้านขะยูง",
+      "introduction": "ตั้งอยู่ตำบลห้วยตามอญ จัดสร้างขึ้นเพื่อให้ผู้คนที่มีจิตศรัทธาต่อองค์หลวงปู่สรวงได้มากราบไหว้หุ่นขี้ผึ้งหลวงปู่สรวงที่อยู่ในอิริยาบทต่าง ๆ และลายมือหลวงปู่ที่ปรากฏอยู่บนฝาไม้ในศาลา พร้อมทั้งบนพระหัตถ์องค์หลวงพ่อพุทธประทานพร",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.56766",
+      "longitude": "104.06331",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331702,
+          "name": "ห้วยตามอญ"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/ed872397-cc21-48d8-9308-d0194d376691.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2024-03-09T03:01:53.004Z",
+      "updatedAt": "2024-07-15T05:25:04.708Z",
+      "migrateId": "P03025748",
+      "viewer": 20,
+      "slug": "พิพิธภัณฑ์หุ่นขี้ผึ้งหลวงปู่สรวง-วัดบ้านขะยูง"
+    },
+    {
+      "placeId": "14134",
+      "status": "approved",
+      "name": "จุดชมวิวผาพญากูปรี",
+    "introduction": "จุดชมวิวผาพญากูปรี เป็นจุดชมธรรมชาติและพระอาทิตย์ตกที่สวยงาม ตั้งอยู่ริมหน้าผาในจังหวัดศรีสะเกษ เหมาะสำหรับพักผ่อนและถ่ายภาพวิวทิวทัศน์",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.39244",
+      "longitude": "104.05780",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331707,
+          "name": "ไพรพัฒนา"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/d8e5ce98-1596-457b-94da-bc60c0b14753.jpeg"
+      ],
+      "tags": [
+        "จุดชมวิวผาพญากูปรี"
+      ],
+      "distance": null,
+      "createdAt": "2024-03-09T02:37:24.047Z",
+      "updatedAt": "2024-07-15T05:25:03.996Z",
+      "migrateId": "P03025750",
+      "viewer": 11,
+      "slug": "จุดชมวิวผาพญากูปรี"
+    },
+    {
+      "placeId": "1721",
+      "status": "approved",
+      "name": "วัดสำโรงเกียรติ",
+    "introduction": "วัดสำโรงเกียรติ จังหวัดศรีสะเกษ เป็นวัดที่มีประวัติยาวนาน มีพระอุโบสถสวยงามและเป็นศูนย์รวมจิตใจของชุมชนท้องถิ่น",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.53116",
+      "longitude": "104.49020",
+      "location": {
+        "address": "58 หมู่ที่ 8 บ้านสำโรงเกียรติ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330802,
+          "name": "บักดอง"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-12-19T08:48:39.033Z",
+      "updatedAt": "2024-07-15T05:21:07.027Z",
+      "migrateId": "P03015178",
+      "viewer": 4,
+      "slug": "วัดสำโรงเกียรติ"
+    },
+    {
+      "placeId": "23795",
+      "status": "approved",
+      "name": "อุทยานแห่งชาติเขาพระวิหาร",
+      "introduction": "ครอบคลุมพื้นที่ 2 จังหวัดคือ อำเภอกันทรลักษ์ จังหวัดศรีสะเกษ และกิ่งอำเภอน้ำขุ่น กับอำเภอน้ำยืน มีหน้าผาทอดยาวติดต่อกับปราสาทเขาพระวิหาร และมีผามออีแดงเป็นแหล่งท่องเที่ยวสำคัญ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": {
+        "name": "อุทยานแห่งชาติเขาพระวิหาร",
+        "detail": "ประวัติความเป็นมา \nอุทยานแห่งชาติเขาพระวิหาร ได้รับการประกาศให้เป็นอุทยานแห่งชาติตามพระราชบัญญัติอุทยาน \nแห่งชาติ พ.ศ. 2504 โดยประกาศในราชกิจจานุเบกษาเล่ม 115 ตอนที่ 14 ก ลงวันที่20 มีนาคม 2541 เป็นอุทยานแห่งชาติลำดับที่ 19 ของภาคตะวันออกเฉียงเหนือ และเป็นอุทยานแห่งชาติลำดับที่ 83 ของประเทศไทย มีพื้",
+        "detailThumbnail": "https://dmc.tatdataapi.io/assets/b5b175fd-ada4-415e-bca6-2643cd609b1c.jpg",
+        "detailPicture": [
+          "https://dmc.tatdataapi.io/assets/ca1f7013-3b1b-48f9-9944-702e6e98a2cb.jpg",
+          "https://dmc.tatdataapi.io/assets/dff96dde-6024-4e33-9473-2dd09c38ff00.jpg",
+          "https://dmc.tatdataapi.io/assets/afcd21a6-af6e-4664-a957-85d73bd985a9.jpg",
+          "https://dmc.tatdataapi.io/assets/95abebb8-09d0-4e03-bbdc-353a4086c1a7.jpg",
+          "https://dmc.tatdataapi.io/assets/6e2ec89e-50ad-4595-b670-1bd2eae262d2.jpg"
+        ],
+        "thumbnailUrl": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png",
+        "type": {
+          "typeId": 3,
+          "name": "นันทนาการ และสถานที่ท่องเที่ยว"
+        },
+        "category": {
+          "categoryId": 1,
+          "name": "SHA",
+          "icon": "https://dmc.tatdataapi.io/assets/451a381e-f3c7-4ca8-9265-97ff1bcaa21a.png"
+        }
+      },
+      "latitude": "14.40240",
+      "longitude": "104.68650",
+      "location": {
+        "address": "บ้านภูมิซรอล",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330419,
+          "name": "เสาธงชัย"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/9bb5d303-7dd3-4b08-bd4f-15434c5e8b56.jpg"
+      ],
+      "tags": [
+        "ผามออีแดง",
+        "อุทยานแห่งชาติเขาพระวิหาร"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:48:38.024Z",
+      "updatedAt": "2024-07-15T05:07:40.665Z",
+      "migrateId": "P03000915",
+      "viewer": 13,
+      "slug": "อุทยานแห่งชาติเขาพระวิหาร"
+    },
+    {
+      "placeId": "33460",
+      "status": "approved",
+      "name": "วัดป่าศรีมงคลรัตนาราม",
+    "introduction": "วัดป่าศรีมงคลรัตนาราม เป็นวัดป่าที่สงบและร่มรื่นในจังหวัดศรีสะเกษ เหมาะสำหรับการปฏิบัติธรรมและพักผ่อนใจท่ามกลางธรรมชาติ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.96719",
+      "longitude": "104.10620",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3310,
+          "name": "อุทุมพรพิสัย"
+        },
+        "subDistrict": {
+          "subDistrictId": 331025,
+          "name": "โคกจาน"
+        },
+        "postcode": "33120"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/72de88ea-c4cf-4ed4-a18a-b8194a0431ab.jpeg"
+      ],
+      "tags": [
+        "วัดป่าศรีมงคลรัตนาราม"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:47:46.313Z",
+      "updatedAt": "2024-07-15T05:07:39.892Z",
+      "migrateId": "P03025751",
+      "viewer": 12,
+      "slug": "วัดป่าศรีมงคลรัตนาราม"
+    },
+    {
+      "placeId": "13262",
+      "status": "approved",
+      "name": "พระธาตุเรืองรอง",
+    "introduction": "พระธาตุเรืองรองเป็นเจดีย์สำคัญในจังหวัดศรีสะเกษ ที่ประดิษฐานพระบรมสารีริกธาตุ และเป็นสถานที่เคารพสักการะของชาวพุทธในท้องถิ่น",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.16572",
+      "longitude": "104.29897",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330116,
+          "name": "หญ้าปล้อง"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/778ee3bb-daaf-4105-a7ea-2382bf869b88.jpeg"
+      ],
+      "tags": [
+        "พระธาตุเรืองรอง"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:47:38.967Z",
+      "updatedAt": "2024-07-15T05:07:39.233Z",
+      "migrateId": "P03003537",
+      "viewer": 9,
+      "slug": "พระธาตุเรืองรอง"
+    },
+    {
+      "placeId": "1875",
+      "status": "approved",
+      "name": "วัดสระกำแพงใหญ่",
+      "introduction": "วัดสระกำแพงใหญ่ ตั้งอยู่ถนนประดิษฐ์ประชาราษฎร์ ตำบลสระกำแพงใหญ่ สิ่งที่น่าสนใจภายในวัด คือ ปราสาทสระกำแพงใหญ่ หรือปราสาทศรีพฤทเธศวร",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.10174",
+      "longitude": "104.12848",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3310,
+          "name": "อุทุมพรพิสัย"
+        },
+        "subDistrict": {
+          "subDistrictId": 331022,
+          "name": "สระกำแพงใหญ่"
+        },
+        "postcode": "33120"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/87946257-1dd3-4644-a7b3-c211ecc90dbd.jpeg"
+      ],
+      "tags": [
+        "วัดสระกำแพงใหญ่"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:47:33.793Z",
+      "updatedAt": "2024-07-15T05:07:38.527Z",
+      "migrateId": "P03025752",
+      "viewer": 23,
+      "slug": "วัดสระกำแพงใหญ่"
+    },
+    {
+      "placeId": "10610",
+      "status": "approved",
+      "name": "ปราสาทสระกำแพงน้อย",
+    "introduction": "ปราสาทสระกำแพงน้อยเป็นโบราณสถานศิลปะขอมโบราณในจังหวัดศรีสะเกษ มีสถาปัตยกรรมงดงามและเป็นแหล่งท่องเที่ยวทางประวัติศาสตร์ที่สำคัญ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.14638",
+      "longitude": "104.24723",
+      "location": {
+        "address": "บ้านกลาง ถนนศรีสะเกษ-อุทุมพรพิสัย",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3310,
+          "name": "อุทุมพรพิสัย"
+        },
+        "subDistrict": {
+          "subDistrictId": 331008,
+          "name": "ขะยูง"
+        },
+        "postcode": "33120"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/a963c434-6e81-45ce-85dd-1d42665cb7d5.jpeg"
+      ],
+      "tags": [
+        "ปราสาทสระกำแพงน้อย"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:47:29.056Z",
+      "updatedAt": "2024-07-15T05:07:37.704Z",
+      "migrateId": "P03015132",
+      "viewer": 10,
+      "slug": "ปราสาทสระกำแพงน้อย"
+    },
+    {
+      "placeId": "12091",
+      "status": "approved",
+      "name": "ปราสาทปรางค์กู่",
+      "introduction": "ปราสาทปรางค์กู่ ตั้งอยู่บ้านกู่ ตำบลกู่ ในภาษากูยเรียกว่า “เถียด เซาะโก” ลักษณะคล้ายปราสาทศีขรภูมิ จังหวัดสุรินทร์ ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.85262",
+      "longitude": "103.98434",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3307,
+          "name": "ปรางค์กู่"
+        },
+        "subDistrict": {
+          "subDistrictId": 330702,
+          "name": "กู่"
+        },
+        "postcode": "33170"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/1df047d9-ea0b-41f6-a001-d62946b44504.jpeg"
+      ],
+      "tags": [
+        "ปราสาทปรางค์กู่"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T10:46:53.533Z",
+      "updatedAt": "2024-07-15T05:07:36.511Z",
+      "migrateId": "P03001245",
+      "viewer": 18,
+      "slug": "ปราสาทปรางค์กู่"
+    },
+    {
+      "placeId": "33445",
+      "status": "approved",
+      "name": "วัดไพรพัฒนา",
+    "introduction": "วัดไพรพัฒนาเป็นวัดในจังหวัดศรีสะเกษ มีบรรยากาศสงบ ร่มรื่น เหมาะแก่การทำบุญและปฏิบัติธรรม",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.46655",
+      "longitude": "104.07164",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331707,
+          "name": "ไพรพัฒนา"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/385693d0-09ed-4bd5-8884-a3de61a3b5a7.jpeg"
+      ],
+      "tags": [
+        "วัดไพรพัฒนา"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-10T09:44:29.042Z",
+      "updatedAt": "2024-07-15T05:07:20.922Z",
+      "migrateId": "P03025749",
+      "viewer": 11,
+      "slug": "วัดไพรพัฒนา"
+    },
+    {
+      "placeId": "3262",
+      "status": "approved",
+      "name": "วัดลำภู",
+    "introduction": "วัดบ้านลำภู จังหวัดศรีสะเกษ เป็นวัดชุมชนที่มีประวัติศาสตร์ยาวนานและเป็นศูนย์รวมจิตใจของชาวบ้านในพื้นที่",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.76265",
+      "longitude": "104.16643",
+      "location": {
+        "address": "หมู่ 4 บ้านลำภู",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330503,
+          "name": "ใจดี"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-02-19T04:40:21.073Z",
+      "updatedAt": "2024-07-15T05:05:23.586Z",
+      "migrateId": "P03015168",
+      "viewer": 4,
+      "slug": "วัดลำภู"
+    },
+    {
+      "placeId": "1472",
+      "status": "approved",
+      "name": "วัดโสภณวิหาร",
+    "introduction": "วัดโสภณวิหาร จังหวัดศรีสะเกษ เป็นวัดเก่าแก่ที่มีสถาปัตยกรรมงดงามและเป็นสถานที่ปฏิบัติธรรมสำคัญของชุมชนท้องถิ่น",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.71960",
+      "longitude": "104.08234",
+      "location": {
+        "address": "หมู่ 1 บ้านกันทรารมย์ ถนนขุขันธ์-ศรีสะเกษ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330501,
+          "name": "กันทรารมย์"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/6a97c86b-c16b-4e6f-b461-536512e181a9.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T07:02:58.367Z",
+      "updatedAt": "2024-07-15T04:52:47.623Z",
+      "migrateId": "P03015169",
+      "viewer": 9,
+      "slug": "วัดโสภณวิหาร"
+    },
+    {
+      "placeId": "3568",
+      "status": "approved",
+      "name": "วัดเขียนบูรพาราม",
+    "introduction": "วัดเขียนบูรพาราม จังหวัดศรีสะเกษ เป็นวัดโบราณที่มีความสำคัญทางประวัติศาสตร์และเป็นศูนย์รวมศรัทธาของชุมชนในพื้นที่",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.71333",
+      "longitude": "104.19833",
+      "location": {
+        "address": "บ้านพราน ถนนขุขันธ์-ศรีสะเกษ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330509,
+          "name": "ห้วยเหนือ"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/05967412-a30c-4750-978e-5237b0c44981.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T07:00:20.098Z",
+      "updatedAt": "2024-07-15T04:52:47.062Z",
+      "migrateId": "P03015165",
+      "viewer": 11,
+      "slug": "วัดเขียนบูรพาราม"
+    },
+    {
+      "placeId": "31396",
+      "status": "approved",
+      "name": "ปราสาทบ้านสมอ",
+      "introduction": "ตั้งอยู่หมู่ที่ 2 บ้านทามจาน ตำบลสมอ ห่างจากตัวจังหวัดไปตามทางหลวงหมายเลข 220 และ 2167 ประมาณ 52 กิโลเมตร ก่อนถึงตัวอำเภอประมาณ 8 กิโลเมตร เป็นปราสาทขอมโบราณขนาดเล็ก ภายในขององค์ปรางค์มีรูปประติมากรรมจำหลัก สันนิษฐานว่าสร้างขึ้นในราวพุทธศตวรรษที่ 18",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.81755",
+      "longitude": "104.11024",
+      "location": {
+        "address": "หมู่ 2 บ้านทามจาน",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3307,
+          "name": "ปรางค์กู่"
+        },
+        "subDistrict": {
+          "subDistrictId": 330705,
+          "name": "สมอ"
+        },
+        "postcode": "33170"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/0aa643fb-fb90-4849-aa5c-ca7b4a9b2b07.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T06:25:09.297Z",
+      "updatedAt": "2024-07-15T04:52:45.982Z",
+      "migrateId": "P03014008",
+      "viewer": 11,
+      "slug": "ปราสาทบ้านสมอ"
+    },
+    {
+      "placeId": "16430",
+      "status": "approved",
+      "name": "น้ำตกภูละออ",
+    "introduction": "น้ำตกภูละออเป็นน้ำตกธรรมชาติที่สวยงามในจังหวัดศรีสะเกษ เหมาะสำหรับเที่ยวพักผ่อนและสัมผัสความสดชื่นของธรรมชาติ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.45378",
+      "longitude": "104.65408",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330408,
+          "name": "รุง"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/d7f898c3-4870-40a4-a10a-b418bb6cd161.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T04:05:39.213Z",
+      "updatedAt": "2024-07-15T04:52:45.134Z",
+      "migrateId": "P03003927",
+      "viewer": 4,
+      "slug": "น้ำตกภูละออ"
+    },
+    {
+      "placeId": "31876",
+      "status": "approved",
+      "name": "บ้านขุนอำไพพาณิชย์",
+    "introduction": "บ้านขุนอำไพพานิชย์เป็นสถานที่ประวัติศาสตร์และพิพิธภัณฑ์ในจังหวัดศรีสะเกษ ที่รวบรวมเรื่องราวและของสะสมเกี่ยวกับวัฒนธรรมท้องถิ่นและชีวิตของขุนอำไพพานิชย์",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.11443",
+      "longitude": "104.33245",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/b896e068-05d6-4094-a7f4-21047ce7074c.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T03:41:35.503Z",
+      "updatedAt": "2024-07-15T04:52:44.402Z",
+      "migrateId": "P03003542",
+      "viewer": 4,
+      "slug": "บ้านขุนอำไพพาณิชย์"
+    },
+    {
+      "placeId": "27354",
+      "status": "approved",
+      "name": "ปราสาทโดนตวล",
+      "introduction": "ตั้งอยู่ที่บ้านภูมิซรอล ตำบลบึงมะลู ห่างจากหมู่บ้าน 8 กิโลเมตร ห่างจากตัวอำเภอ 38 กิโลเมตร ตามเส้นทาง อำเภอกันทรลักษ์-ผามออีแดง",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.41350",
+      "longitude": "104.74285",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330419,
+          "name": "เสาธงชัย"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/48cfa298-741f-41bd-aa8f-e1d2abed454a.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T03:57:08.017Z",
+      "updatedAt": "2024-07-15T04:52:43.770Z",
+      "migrateId": "P03003884",
+      "viewer": 4,
+      "slug": "ปราสาทโดนตวล"
+    },
+    {
+      "placeId": "7686",
+      "status": "approved",
+      "name": "ปราสาทตาเล็ง",
+      "introduction": "ตั้งอยู่ที่หมู่ 6 บ้านปราสาท ตำบลกันทรารมย์ การเดินทาง จากจังหวัดศรีสะเกษ ตามทางหลวงสาย 220 จนถึงอำเภอขุขันธ์เลี้ยวขวาผ่านสถานีตำรวจไป 3 กิโลเมตร ถึงสามแยกเลี้ยวซ้าย 300 เมตร",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.72934",
+      "longitude": "104.02169",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330518,
+          "name": "ปราสาท"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/15558c11-a855-43d9-a7e5-7a4d9dc51da2.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T03:17:30.497Z",
+      "updatedAt": "2024-07-15T04:52:42.155Z",
+      "migrateId": "P03002192",
+      "viewer": 6,
+      "slug": "ปราสาทตาเล็ง"
+    },
+    {
+      "placeId": "10609",
+      "status": "approved",
+      "name": "ปราสาทสระกำแพงใหญ่",
+    "introduction": "ปราสาทสระกำแพงใหญ่เป็นโบราณสถานขอมโบราณที่สำคัญในจังหวัดศรีสะเกษ มีสถาปัตยกรรมงดงามและสะท้อนความรุ่งเรืองทางวัฒนธรรมในอดีต",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.10168",
+      "longitude": "104.12780",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3310,
+          "name": "อุทุมพรพิสัย"
+        },
+        "subDistrict": {
+          "subDistrictId": 331022,
+          "name": "สระกำแพงใหญ่"
+        },
+        "postcode": "33120"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/2ad69340-1a53-4c6e-ac32-6554717f0c35.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-06-12T08:08:50.153Z",
+      "updatedAt": "2024-07-15T04:50:55.118Z",
+      "migrateId": "P03018125",
+      "viewer": 4,
+      "slug": "ปราสาทสระกำแพงใหญ่"
+    },
+    {
+      "placeId": "6553",
+      "status": "approved",
+      "name": "ศาลหลักเมือง",
+    "introduction": "ศาลหลักเมืองศรีสะเกษเป็นสถานที่สำคัญทางจิตใจของชาวเมือง เพื่อเคารพและสักการะหลักเมืองที่เป็นสัญลักษณ์แห่งความมั่นคงและศิริมงคล",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.11902",
+      "longitude": "104.32323",
+      "location": {
+        "address": "ถนนเทพา-หลักเมือง",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/111d71d2-8bfe-4987-838a-ae58e19361f9.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T06:56:19.067Z",
+      "updatedAt": "2024-07-15T04:48:36.498Z",
+      "migrateId": "P03015161",
+      "viewer": 4,
+      "slug": "ศาลหลักเมือง"
+    },
+    {
+      "placeId": "7505",
+      "status": "approved",
+      "name": "ปราสาทตำหนักไทร (ปราสาททามจาน)",
+      "introduction": "ตั้งอยู่ที่บ้านตำหนักไทร ตำบลบักดอง ริมทางหลวงหมายเลข 2127 (ขุนหาญ-บ้านสำโรงเกียรติ) ห่างจากอำเภอขุนหาญ 20 กิโลเมตร ห่างจากตัวจังหวัด 81 กิโลเมตร",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.54073",
+      "longitude": "104.48568",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330802,
+          "name": "บักดอง"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-12-19T08:46:08.193Z",
+      "updatedAt": "2023-12-19T08:46:08.193Z",
+      "migrateId": "P03006057",
+      "viewer": 4,
+      "slug": "ปราสาทตำหนักไทร-(ปราสาททามจาน)"
+    },
+    {
+      "placeId": "9011",
+      "status": "approved",
+      "name": "สวนสมเด็จพระศรีนครินทร์",
+    "introduction": "สวนสมเด็จพระศรีนครินทร์ จังหวัดศรีสะเกษ เป็นสวนสาธารณะขนาดใหญ่ ร่มรื่น เหมาะสำหรับพักผ่อน เดินเล่น และกิจกรรมกลางแจ้งของชุมชน",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.10222",
+      "longitude": "104.30509",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/c624d3a3-56b6-46c7-a0e1-b43db769cecc.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T10:48:42.033Z",
+      "updatedAt": "2023-10-10T10:48:42.033Z",
+      "migrateId": "P01002456",
+      "viewer": 4,
+      "slug": "สวนสมเด็จพระศรีนครินทร์"
+    },
+    {
+      "placeId": "25738",
+      "status": "approved",
+      "name": "น้ำตกห้วยจันทร์ (น้ำตกกันทรอม)",
+      "introduction": "อยู่ห่างจากอำเภอขุนหาญ 24 กิโลเมตร ห่างจากตัวจังหวัด 85 กิโลเมตร ริมทางหลวงหมายเลข 2236",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.53131",
+      "longitude": "104.35895",
+      "location": {
+        "address": "หมู่ 5 บ้านน้ำตกห้วยจันทร์ ถนนกันทรอม-บ้านสำโรงเกียรติ์",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330812,
+          "name": "ห้วยจันทร์"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/071985dd-f455-41c7-a39d-d66cd8bd8a44.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T10:47:00.003Z",
+      "updatedAt": "2023-10-10T10:47:00.003Z",
+      "migrateId": "P03014010",
+      "viewer": 7,
+      "slug": "น้ำตกห้วยจันทร์-(น้ำตกกันทรอม)"
+    },
+    {
+      "placeId": "31249",
+      "status": "approved",
+      "name": "สวนเงาะ-ทุเรียน บ้านซำตารมย์",
+      "introduction": "สิบกว่าปีก่อน เกษตรกรในพื้นที่ชายแดนได้ทดลองนำผลไม้ชึ้นชื่อของภาคตะวันออก เช่น เงาะ ทุเรียน มังคุด ฯลฯ มาปลูกในพื้นที่",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.72941",
+      "longitude": "104.60342",
+      "location": {
+        "address": "หมู่ที่ 7 บ้านซำตารมย์ ถนนโชคชัย-เดชอุดม",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330409,
+          "name": "ตระกาจ"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T10:38:51.583Z",
+      "updatedAt": "2023-10-10T10:38:51.583Z",
+      "migrateId": "P03015159",
+      "viewer": 4,
+      "slug": "สวนเงาะ-ทุเรียน-บ้านซำตารมย์"
+    },
+    {
+      "placeId": "10368",
+      "status": "approved",
+      "name": "แสงวิวัฒน์",
+      "introduction": "ก๋วยเตี๋ยวเนื้อ เปิด 9.00-15.00 น.",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11452",
+      "longitude": "104.32827",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T10:18:38.013Z",
+      "updatedAt": "2023-10-10T10:18:38.013Z",
+      "migrateId": "P08000363",
+      "viewer": 2,
+      "slug": "แสงวิวัฒน์"
+    },
+    {
+      "placeId": "3260",
+      "status": "approved",
+      "name": "วัดมหาพุทธาราม (วัดพระโต)",
+    "introduction": "วัดมหาพุทธาราม (วัดพระโต) จังหวัดศรีสะเกษ เป็นวัดสำคัญที่มีพระพุทธรูปใหญ่และเก่าแก่ เป็นศูนย์รวมจิตใจของชาวพุทธในพื้นที่",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.11773",
+      "longitude": "104.32870",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/c69f273e-c964-4453-bfb6-de0d02d8941f.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T09:44:59.053Z",
+      "updatedAt": "2023-10-10T09:44:59.053Z",
+      "migrateId": "P03003435",
+      "viewer": 7,
+      "slug": "วัดมหาพุทธาราม-(วัดพระโต)"
+    },
+    {
+      "placeId": "31552",
+      "status": "approved",
+      "name": "บ้านนาจะเรีย (ทับทิมสยาม 06)",
+    "introduction": "บ้านนาจะเรีย (ทับทิมสยาม 06) ศรีสะเกษ เป็นร้านอาหารที่มีชื่อเสียงในเมนูอาหารอีสานและอาหารพื้นบ้าน รสชาติแซ่บเข้มข้น และบริการเป็นกันเอง",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "14.60128",
+      "longitude": "104.25123",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330506,
+          "name": "ปรือใหญ่"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-10T04:44:15.006Z",
+      "updatedAt": "2023-10-10T04:44:15.006Z",
+      "migrateId": "P06002067",
+      "viewer": 1,
+      "slug": "บ้านนาจะเรีย-(ทับทิมสยาม-06)"
+    },
+    {
+      "placeId": "15099",
+      "status": "approved",
+      "name": "ศูนย์แสดงและจำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์",
+    "introduction": "ศูนย์แสดงและจำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์ (OTOP) เป็นสถานที่รวบรวมและจำหน่ายสินค้าพื้นเมืองคุณภาพจากแต่ละตำบลในจังหวัดศรีสะเกษ ส่งเสริมชุมชนและวัฒนธรรมท้องถิ่น",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "15.11849",
+      "longitude": "104.28396",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330127,
+          "name": "หนองไผ่"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-04T12:37:24.367Z",
+      "updatedAt": "2023-10-04T12:37:24.367Z",
+      "migrateId": "P06001219",
+      "viewer": 1,
+      "slug": "ศูนย์แสดงและจำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์"
+    },
+    {
+      "placeId": "15105",
+      "status": "approved",
+      "name": "ศูนย์จำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์",
+    "introduction": "ศูนย์จำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์ (OTOP) เป็นสถานที่รวบรวมและจำหน่ายสินค้าพื้นบ้านคุณภาพจากชุมชนท้องถิ่นในจังหวัดศรีสะเกษ เพื่อส่งเสริมเศรษฐกิจชุมชนและวัฒนธรรมท้องถิ่น",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "15.11116",
+      "longitude": "104.14065",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3310,
+          "name": "อุทุมพรพิสัย"
+        },
+        "subDistrict": {
+          "subDistrictId": 331001,
+          "name": "กำแพง"
+        },
+        "postcode": "33120"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-03T14:54:54.413Z",
+      "updatedAt": "2023-10-03T14:54:54.413Z",
+      "migrateId": "P06001017",
+      "viewer": 1,
+      "slug": "ศูนย์จำหน่ายสินค้าหนึ่งตำบลหนึ่งผลิตภัณฑ์"
+    },
+    {
+      "placeId": "21417",
+      "status": "approved",
+      "name": "ร้านกิจเตียง",
+    "introduction": "ร้านกิจเตียง ศรีสะเกษ เป็นร้านอาหารท้องถิ่นที่มีชื่อเสียงเรื่องเมนูอาหารอีสานรสจัดจ้านและบริการอบอุ่น เหมาะสำหรับมื้ออาหารกับครอบครัวและเพื่อนฝูง",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "15.11582",
+      "longitude": "104.32906",
+      "location": {
+        "address": "ถนนราชการรถไฟ 3",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-10-03T14:02:31.073Z",
+      "updatedAt": "2023-10-03T14:02:31.073Z",
+      "migrateId": "P06000747",
+      "viewer": 1,
+      "slug": "ร้านกิจเตียง"
+    },
+    {
+      "placeId": "2735",
+      "status": "approved",
+      "name": "วัดล้านขวด (วัดป่ามหาเจดีย์แก้ว)",
+      "introduction": "ที่ได้ชื่อว่า “วัดล้านขวด” เพราะสถานที่ต่าง ๆ ภายในวัดถูกประดับประดาด้วยขวดแก้วหลากสีหลายแบบรวมกัน กว่า 1.5 ล้านใบ",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.61835",
+      "longitude": "104.41923",
+      "location": {
+        "address": "ถนนสุขาภิบาล",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330801,
+          "name": "สิ"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/c68d5554-40ee-4304-97b6-614ed0a362f4.jpeg"
+      ],
+      "tags": [
+        "วัดล้านขวด"
+      ],
+      "distance": null,
+      "createdAt": "2023-10-02T06:48:17.377Z",
+      "updatedAt": "2023-10-02T06:48:17.377Z",
+      "migrateId": "P03013361",
+      "viewer": 8,
+      "slug": "วัดล้านขวด-(วัดป่ามหาเจดีย์แก้ว)"
+    },
+    {
+      "placeId": "11883",
+      "status": "approved",
+      "name": "ประเสริฐสมัย",
+      "introduction": "ผ้าไหม เสื้อผ้าไหมสำเร็จรูป สินค้าพื้นเมือง",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "15.11343",
+      "longitude": "104.32987",
+      "location": {
+        "address": "967-969 ถนนขุขันธ์",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2023-09-28T15:59:11.643Z",
+      "updatedAt": "2023-09-28T15:59:11.643Z",
+      "migrateId": "P06000155",
+      "viewer": 1,
+      "slug": "ประเสริฐสมัย"
+    },
+    {
+      "placeId": "26790",
+      "status": "approved",
+      "name": "โรงแรมแกลเลอรี ดีไซน์",
+      "introduction": "โรงแรมแกลเลอรี ดีไซน์ ศรีสะเกษ เป็นที่พักอันยอดเยี่ยมสำหรับผู้ไปเยือนศรีสะเกษ ไม่ว่าจะเพื่อพักผ่อนท่องเที่ยวหรือติดต่อธุรกิจ ที่พักอยู่ห่างจากใจกลางเมืองเพียง 0.5 กิโลเมตร และโดยปกติแล้ว สามารถเดินทางไปสนามบินได้ภายในเวลาประมาณ 45 นาที เนื่องจากที่พักตั้งอยู่ในทำเลที่เดินทางสะดวก ผู้เข้าพักจึงไปยังสถานที่ท่องเที่ยวยอดนิยมต่างๆ ของเมืองได้โดยง่าย",
+      "category": {
+        "categoryId": 2,
+        "name": "ที่พัก"
+      },
+      "sha": {
+        "name": "โรงแรมแกลเลอรี่ ดีไซน์",
+        "detail": "แกลเลอรี่ ที่นี่..ดี....ทุกวัน",
+        "detailThumbnail": "https://dmc.tatdataapi.io/assets/df5cea58-80f4-4870-8432-c80e8b5855c6.jpg",
+        "detailPicture": [
+          "https://dmc.tatdataapi.io/assets/2587b4ee-ad4c-406c-a292-6dfa8335685b.jpg",
+          "https://dmc.tatdataapi.io/assets/b4b825e1-ef64-4a1b-9779-3f55a4650380.jpg",
+          "https://dmc.tatdataapi.io/assets/7647dd5d-6b75-4851-892e-320299c9c232.jpg",
+          "https://dmc.tatdataapi.io/assets/c15b39c3-3bc9-425e-a471-1c99ef3821e9.jpg",
+          "https://dmc.tatdataapi.io/assets/ea63f6ee-62b6-42d8-a6db-2a0b38c44a8d.jpg"
+        ],
+        "thumbnailUrl": "https://dmc.tatdataapi.io/assets/995f0bc3-c3b9-474b-aad8-17971ed1145c.jpeg",
+        "type": {
+          "typeId": 2,
+          "name": "โรงแรมและที่พัก สถานที่จัดการประชุม"
+        },
+        "category": {
+          "categoryId": 3,
+          "name": "SHA Extra+",
+          "icon": "https://dmc.tatdataapi.io/assets/995f0bc3-c3b9-474b-aad8-17971ed1145c.jpeg"
+        }
+      },
+      "latitude": "15.11424",
+      "longitude": "104.33224",
+      "location": {
+        "address": "1199 ถนนอุบล",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/230c7442-7cd1-4744-9811-15957d7bbeec.jpg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2021-07-31T06:00:00.000Z",
+      "updatedAt": "2021-07-31T06:00:00.000Z",
+      "migrateId": "P02012344",
+      "viewer": 523,
+      "slug": "โรงแรมแกลเลอรี-ดีไซน์"
+    },
+    {
+      "placeId": "6193",
+      "status": "approved",
+      "name": "โรงแรมบ้านต้นไม้",
+    "introduction": "โรงแรมบ้านต้นไม้ ศรีสะเกษ เป็นที่พักบรรยากาศอบอุ่นเป็นกันเอง ตั้งอยู่ใจกลางเมือง เหมาะสำหรับนักท่องเที่ยวที่ต้องการพักผ่อนใกล้แหล่งท่องเที่ยวและสิ่งอำนวยความสะดวก",
+      "category": {
+        "categoryId": 2,
+        "name": "ที่พัก"
+      },
+      "sha": null,
+      "latitude": "15.09411",
+      "longitude": "104.33340",
+      "location": {
+        "address": "43/25 หมู่ 6 ถนนเลี่ยงเมือง",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/f9384baa-eca2-4fbb-9a5d-e040890956b3.jpg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-08-31T09:14:34.000Z",
+      "updatedAt": "2020-08-31T09:14:34.000Z",
+      "migrateId": "P02012343",
+      "viewer": 1,
+      "slug": "โรงแรมบ้านต้นไม้"
+    },
+    {
+      "placeId": "21512",
+      "status": "approved",
+      "name": "ร้านกิจเตียง",
+      "introduction": "ร้านกิจเตียง เป็นร้านอาหารพื้นบ้านขึ้นชื่อของศรีสะเกษ มีเมนูอาหารอีสานรสจัดจ้าน ราคาย่อมเยา บรรยากาศเรียบง่าย",
+      "category": {
+        "categoryId": 6,
+        "name": "ร้านค้า"
+      },
+      "sha": null,
+      "latitude": "15.11590",
+      "longitude": "104.32911",
+      "location": {
+        "address": "642/11-3 ถนนราชการรถไฟ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/0d15989f-6705-451f-8ff9-eee710ba3217.jpg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-08-31T09:14:34.000Z",
+      "updatedAt": "2020-08-31T09:14:34.000Z",
+      "migrateId": "P06002121",
+      "viewer": 1,
+      "slug": "ร้านกิจเตียง"
+    },
+    {
+      "placeId": "24857",
+      "status": "approved",
+      "name": "ร้านอาหารเช้าเจียวกี่",
+    "introduction": "ร้านเจียวกี่ ศรีสะเกษ เป็นร้านอาหารเช้าเก่าแก่ขึ้นชื่อของเมือง ที่เสิร์ฟเมนูพื้นบ้านรสชาติดั้งเดิม เช่น ข้าวต้ม โจ๊ก และติ่มซำร้อนๆ",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11825",
+      "longitude": "104.32743",
+      "location": {
+        "address": "489-492 วงเวียนแม่ศรี ถนนกลางเมือง",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/78ee06ad-4934-4e51-b316-f54ea2668bb0.jpg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-08-31T09:14:34.000Z",
+      "updatedAt": "2020-08-31T09:14:34.000Z",
+      "migrateId": "P08013776",
+      "viewer": 2,
+      "slug": "ร้านอาหารเช้าเจียวกี่"
+    },
+    {
+      "placeId": "16419",
+      "status": "approved",
+      "name": "น้ำตกสำโรงเกียรติ (น้ำตกปีศาจ)",
+      "introduction": "ตั้งอยู่ที่บ้านสำโรงเกียรติ มีต้นกำเนิดจากภูเขากันทุง ในเทือกเขาบรรทัด เป็นน้ำตกขนาดกลาง ตกจากหน้าผาสูง 8 เมตร มีน้ำมากในช่วงเดือนกันยายน-กุมภาพันธ์ เหนือน้ำตกเป็นธารน้ำไหลไปตามลานหิน จะมีความสวยงามในฤดูฝน การเดินทาง",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "14.61722",
+      "longitude": "104.42444",
+      "location": {
+        "address": "หมู่ 5 บ้านสำโรงเกียรติ ถนนขุนหาญ-น้ำตกสำโรงเกียรติ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330801,
+          "name": "สิ"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/91782e17-c38c-44ae-95a3-b10a3345e09e.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-07-17T06:29:42.457Z",
+      "updatedAt": "2020-07-17T06:29:42.457Z",
+      "migrateId": "P03014009",
+      "viewer": 6,
+      "slug": "น้ำตกสำโรงเกียรติ-(น้ำตกปีศาจ)"
+    },
+    {
+      "placeId": "25465",
+      "status": "approved",
+      "name": "ปราสาทบ้านปราสาท (ปราสาทห้วยทับทัน)",
+      "introduction": "ตั้งอยู่ที่วัดปราสาทพนาราม บ้านปราสาท จากตัวเมืองศรีสะเกษเดินทางไปตามทางหลวงสาย 226 ประมาณ 39 กิโลเมตร ถึงอำเภอห้วยทับทัน",
+      "category": {
+        "categoryId": 3,
+        "name": "สถานที่ท่องเที่ยว"
+      },
+      "sha": null,
+      "latitude": "15.11008",
+      "longitude": "104.02771",
+      "location": {
+        "address": "256 หมู่ 12 ถนนปราสาท",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3312,
+          "name": "ห้วยทับทัน"
+        },
+        "subDistrict": {
+          "subDistrictId": 331206,
+          "name": "ปราสาท"
+        },
+        "postcode": "33210"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/4cdd8ed0-d4c0-46d0-b0c8-a6f991a14482.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2020-06-18T02:28:12.383Z",
+      "updatedAt": "2020-06-18T02:28:12.383Z",
+      "migrateId": "P03001688",
+      "viewer": 10,
+      "slug": "ปราสาทบ้านปราสาท-(ปราสาทห้วยทับทัน)"
+    },
+    {
+      "placeId": "17224",
+      "status": "approved",
+      "name": "หมูแดงโภชนา",
+    "introduction": "หมูแดงโภชนา ศรีสะเกษ เป็นร้านอาหารชื่อดังที่ขึ้นชื่อเรื่องหมูแดง หมูกรอบ และข้าวหน้าเป็ดย่าง รสชาติอร่อยแบบต้นตำรับ",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.64655",
+      "longitude": "104.64622",
+      "location": {
+        "address": "91 หมู่ 5 ถนนศิลป์ประดิษฐ์",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330406,
+          "name": "น้ำอ้อม"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:08:17.323Z",
+      "updatedAt": "2019-11-26T09:08:17.323Z",
+      "migrateId": "P08001259",
+      "viewer": 2,
+      "slug": "หมูแดงโภชนา"
+    },
+    {
+      "placeId": "7979",
+      "status": "approved",
+      "name": "สุพรรณโภชนา",
+    "introduction": "สุพรรณโภชนา เป็นร้านอาหารยอดนิยมในศรีสะเกษ ที่มีเมนูอาหารไทยและอาหารตามสั่งหลากหลาย รสชาติถูกปาก ราคาเป็นมิตร",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.94798",
+      "longitude": "104.39430",
+      "location": {
+        "address": "333 หมู่ 1 ถนนศรีสะเกษ-กันทรลักษ์",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3320,
+          "name": "พยุห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 332001,
+          "name": "พยุห์"
+        },
+        "postcode": "33230"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:07:14.073Z",
+      "updatedAt": "2019-11-26T09:07:14.073Z",
+      "migrateId": "P08001258",
+      "viewer": 2,
+      "slug": "สุพรรณโภชนา"
+    },
+    {
+      "placeId": "30919",
+      "status": "approved",
+      "name": "ส้มตำบัณฑิต",
+    "introduction": "ส้มตำบัณฑิต ศรีสะเกษ เป็นร้านส้มตำยอดนิยมที่ขึ้นชื่อเรื่องรสชาติจัดจ้าน แซ่บถึงใจ พร้อมเมนูอาหารอีสานหลากหลาย",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.35596",
+      "longitude": "104.15787",
+      "location": {
+        "address": "90 หมู่ 3 ถนนรัฐประชา",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3309,
+          "name": "ราษีไศล"
+        },
+        "subDistrict": {
+          "subDistrictId": 330901,
+          "name": "เมืองคง"
+        },
+        "postcode": "33160"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:05:57.082Z",
+      "updatedAt": "2019-11-26T09:05:57.082Z",
+      "migrateId": "P08001257",
+      "viewer": 2,
+      "slug": "ส้มตำบัณฑิต"
+    },
+    {
+      "placeId": "578",
+      "status": "approved",
+      "name": "สวนอาหารเวียงคำ",
+    "introduction": "สวนอาหารเวียงคำ ศรีสะเกษ เป็นร้านอาหารบรรยากาศสวนร่มรื่น มีเมนูอาหารไทย-อีสานรสเด็ด เหมาะสำหรับครอบครัวและกลุ่มเพื่อน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.33117",
+      "longitude": "104.17467",
+      "location": {
+        "address": "24 หมู่ 11 ถนนราษีไศล-สุวรรณภูมิ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3309,
+          "name": "ราษีไศล"
+        },
+        "subDistrict": {
+          "subDistrictId": 330901,
+          "name": "เมืองคง"
+        },
+        "postcode": "33160"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:04:22.096Z",
+      "updatedAt": "2019-11-26T09:04:22.096Z",
+      "migrateId": "P08001256",
+      "viewer": 4,
+      "slug": "สวนอาหารเวียงคำ"
+    },
+    {
+      "placeId": "10898",
+      "status": "approved",
+      "name": "รสดี 2",
+    "introduction": "รสดี 2 ศรีสะเกษ เป็นร้านอาหารอีสานยอดนิยมที่มีเมนูหลากหลาย รสชาติจัดจ้าน และบริการเป็นกันเอง เหมาะสำหรับชาวท้องถิ่นและนักท่องเที่ยว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11195",
+      "longitude": "104.32941",
+      "location": {
+        "address": "998/10 ถนนวันลูกเสือ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:01:41.058Z",
+      "updatedAt": "2019-11-26T09:01:41.058Z",
+      "migrateId": "P08001255",
+      "viewer": 2,
+      "slug": "รสดี-2"
+    },
+    {
+      "placeId": "10900",
+      "status": "approved",
+      "name": "รสดี 1",
+    "introduction": "รสดี 1 ศรีสะเกษ เป็นร้านอาหารอีสานชื่อดังที่มีเมนูเด็ดหลากหลาย รสชาติจัดจ้านและเป็นที่นิยมของคนท้องถิ่นและนักท่องเที่ยว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11227",
+      "longitude": "104.32929",
+      "location": {
+        "address": "917/19 ถนนวันลูกเสือ",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T09:01:04.038Z",
+      "updatedAt": "2019-11-26T09:01:04.038Z",
+      "migrateId": "P08001254",
+      "viewer": 2,
+      "slug": "รสดี-1"
+    },
+    {
+      "placeId": "22781",
+      "status": "approved",
+      "name": "ครัวฉำฉา",
+    "introduction": "ครัวฉำฉา ศรีสะเกษ เป็นร้านอาหารไทย-อีสานที่มีชื่อเสียงในเรื่องความสดใหม่ของวัตถุดิบ รสชาติจัดจ้านและบรรยากาศเป็นกันเอง เหมาะสำหรับมื้อครอบครัว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11410",
+      "longitude": "104.33598",
+      "location": {
+        "address": "1454/9 ถนนอุบล",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T08:59:39.061Z",
+      "updatedAt": "2019-11-26T08:59:39.061Z",
+      "migrateId": "P08001253",
+      "viewer": 2,
+      "slug": "ครัวฉำฉา"
+    },
+    {
+      "placeId": "19052",
+      "status": "approved",
+      "name": "เลิศอีสาน",
+    "introduction": "เลิศอีสาน ศรีสะเกษ เป็นร้านอาหารอีสานยอดนิยมที่เสิร์ฟเมนูรสแซ่บ รสชาติแบบต้นตำรับ เหมาะสำหรับคนรักอาหารอีสานแท้ ๆ",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11928",
+      "longitude": "104.32514",
+      "location": {
+        "address": "125/3 ถนนเทพา",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T08:57:31.005Z",
+      "updatedAt": "2019-11-26T08:57:31.005Z",
+      "migrateId": "P08001251",
+      "viewer": 2,
+      "slug": "เลิศอีสาน"
+    },
+    {
+      "placeId": "7839",
+      "status": "approved",
+      "name": "สุธีโภชนา",
+    "introduction": "สุธีโภชนา ศรีสะเกษ เป็นร้านอาหารไทย-อีสานที่มีเมนูหลากหลาย รสชาติกลมกล่อมและราคาย่อมเยา เหมาะสำหรับมื้อครอบครัวและเพื่อนฝูง",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.12462",
+      "longitude": "104.31152",
+      "location": {
+        "address": "27/1 หมู่ 11 ถนนศรีสะเกษ-อุทุมพรพิสัย",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330116,
+          "name": "หญ้าปล้อง"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-11-26T08:29:49.183Z",
+      "updatedAt": "2019-11-26T08:29:49.183Z",
+      "migrateId": "P08001247",
+      "viewer": 2,
+      "slug": "สุธีโภชนา"
+    },
+    {
+      "placeId": "11674",
+      "status": "approved",
+      "name": "ปุ๊กลาบเป็ด",
+    "introduction": "ปุ๊กลาบเป็ด ศรีสะเกษ เป็นร้านอาหารอีสานชื่อดังที่ขึ้นชื่อเรื่องลาบเป็ดรสแซ่บ และเมนูอาหารอีสานพื้นบ้านที่รสจัดจ้านและอร่อยถึงใจ",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.04939",
+      "longitude": "104.03151",
+      "location": {
+        "address": "13 หมู่ 8 ถนนศรีสะเกษ-อุทุมพรพิสัย",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3312,
+          "name": "ห้วยทับทัน"
+        },
+        "subDistrict": {
+          "subDistrictId": 331201,
+          "name": "ห้วยทับทัน"
+        },
+        "postcode": "33210"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-10-24T04:41:40.019Z",
+      "updatedAt": "2019-10-24T04:41:40.019Z",
+      "migrateId": "P08001579",
+      "viewer": 2,
+      "slug": "ปุ๊กลาบเป็ด"
+    },
+    {
+      "placeId": "7967",
+      "status": "approved",
+      "name": "สุภาวดีไก่ย่าง",
+    "introduction": "สุภาวดีไก่ย่าง ศรีสะเกษ เป็นร้านไก่ย่างยอดนิยมที่ขึ้นชื่อเรื่องไก่ย่างหนังกรอบ เนื้อนุ่ม รสชาติเข้มข้น พร้อมเมนูอาหารอีสานหลากหลาย",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.05268",
+      "longitude": "104.03062",
+      "location": {
+        "address": "257 ถนนศรีสะเกษ-ห้วยทับทัน",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3312,
+          "name": "ห้วยทับทัน"
+        },
+        "subDistrict": {
+          "subDistrictId": 331201,
+          "name": "ห้วยทับทัน"
+        },
+        "postcode": "33210"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-10-24T04:31:40.007Z",
+      "updatedAt": "2019-10-24T04:31:40.007Z",
+      "migrateId": "P08001567",
+      "viewer": 2,
+      "slug": "สุภาวดีไก่ย่าง"
+    },
+    {
+      "placeId": "9844",
+      "status": "approved",
+      "name": "สันติโภชนา",
+      "introduction": "อาหารตามสั่ง เปิด  7.00-22.00 น.",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.64422",
+      "longitude": "104.64188",
+      "location": {
+        "address": "51 หมู่ 2 ถนนเขาพระวิหาร",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330416,
+          "name": "หนองหญ้าลาด"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-10-02T09:02:27.082Z",
+      "updatedAt": "2019-10-02T09:02:27.082Z",
+      "migrateId": "P08000364",
+      "viewer": 2,
+      "slug": "สันติโภชนา"
+    },
+    {
+      "placeId": "8316",
+      "status": "approved",
+      "name": "ก๋วยเตี๋ยวเรือเสือใหญ่",
+      "introduction": "ร้านก๋วยเตี๋ยวที่มีบรรยากาศร่มรื่น ตกแต่งแบบสบายๆ อย่างเป็นกันเอง ลูกค้าสามารถนั่งผ่อนคลาย พร้อมลิ้มรสก๋วยเตี๋ยวรสชาติถูกอกถูกใจได้อย่างเพลิดเพลิน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.05219",
+      "longitude": "104.02865",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3312,
+          "name": "ห้วยทับทัน"
+        },
+        "subDistrict": {
+          "subDistrictId": 331201,
+          "name": "ห้วยทับทัน"
+        },
+        "postcode": "33210"
+      },
+      "thumbnailUrl": [
+        "https://dmc.tatdataapi.io/assets/a6fa7409-4262-4a00-abe1-5350ec022b98.jpeg"
+      ],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-09-12T10:48:27.021Z",
+      "updatedAt": "2019-09-12T10:48:27.021Z",
+      "migrateId": "P08000639",
+      "viewer": 60,
+      "slug": "ก๋วยเตี๋ยวเรือเสือใหญ่"
+    },
+    {
+      "placeId": "245",
+      "status": "approved",
+      "name": "โรงพยาบาลยางชุมน้อย",
+    "introduction": "โรงพยาบาลยางชุมน้อย จังหวัดศรีสะเกษ เป็นสถานพยาบาลระดับอำเภอที่ให้บริการรักษาพยาบาลและดูแลสุขภาพชุมชนในพื้นที่อย่างครบวงจร",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.26427",
+      "longitude": "104.39995",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3302,
+          "name": "ยางชุมน้อย"
+        },
+        "subDistrict": {
+          "subDistrictId": 330201,
+          "name": "ยางชุมน้อย"
+        },
+        "postcode": "33190"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003833",
+      "viewer": 5,
+      "slug": "โรงพยาบาลยางชุมน้อย"
+    },
+    {
+      "placeId": "247",
+      "status": "approved",
+      "name": "ยางชุมเลิศรส",
+    "introduction": "ยางชุมเลิศรส ศรีสะเกษ เป็นร้านอาหารอีสานที่มีชื่อเสียงในพื้นที่ มีเมนูหลากหลายรสจัดจ้าน อาหารสดใหม่และบริการอบอุ่น",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.26673",
+      "longitude": "104.39931",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3302,
+          "name": "ยางชุมน้อย"
+        },
+        "subDistrict": {
+          "subDistrictId": 330201,
+          "name": "ยางชุมน้อย"
+        },
+        "postcode": "33190"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007168",
+      "viewer": 6,
+      "slug": "ยางชุมเลิศรส"
+    },
+    {
+      "placeId": "4701",
+      "status": "approved",
+      "name": "แวะชิม",
+    "introduction": "แวะชิม ศรีสะเกษ เป็นร้านอาหารท้องถิ่นที่เน้นเมนูพื้นบ้าน รสชาติอร่อยแบบดั้งเดิม บรรยากาศเป็นกันเอง เหมาะสำหรับแวะพักเติมพลังระหว่างเดินทาง",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.12066",
+      "longitude": "104.35142",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330123,
+          "name": "โพธิ์"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08006688",
+      "viewer": 2,
+      "slug": "แวะชิม"
+    },
+    {
+      "placeId": "5544",
+      "status": "approved",
+      "name": "ต้น",
+      "introduction": "“ต้น” เป็นจุดเช็กอินหรือร้านในพื้นที่ศรีสะเกษ ที่ให้บรรยากาศร่มรื่น เหมาะกับการพักผ่อนและถ่ายรูป (ข้อมูลอาจต้องยืนยันเพิ่มเติม)",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.78876",
+      "longitude": "104.47227",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3314,
+          "name": "ศรีรัตนะ"
+        },
+        "subDistrict": {
+          "subDistrictId": 331401,
+          "name": "ศรีแก้ว"
+        },
+        "postcode": "33240"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007349",
+      "viewer": 2,
+      "slug": "ต้น"
+    },
+    {
+      "placeId": "8074",
+      "status": "approved",
+      "name": "ซุ่นเฮงพลาซ่า",
+    "introduction": "ซุ่นเฮงพลาซ่า ศรีสะเกษ เป็นห้างสรรพสินค้าและศูนย์การค้ายอดนิยมของเมือง ที่รวมร้านค้าหลากหลายและบริการครบครัน เหมาะสำหรับช้อปปิ้งและพักผ่อน",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.11181",
+      "longitude": "104.32840",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01002840",
+      "viewer": 1,
+      "slug": "ซุ่นเฮงพลาซ่า"
+    },
+    {
+      "placeId": "8328",
+      "status": "approved",
+      "name": "สวนเมืองลิงบ้านหว้าน",
+    "introduction": "สวนเมืองลิงบ้านหว้าน ศรีสะเกษ เป็นแหล่งท่องเที่ยวธรรมชาติที่มีฝูงลิงอาศัยอยู่จำนวนมาก ให้นักท่องเที่ยวได้สัมผัสใกล้ชิดกับธรรมชาติและสัตว์ป่าอย่างใกล้ชิด",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.37914",
+      "longitude": "104.18272",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3309,
+          "name": "ราษีไศล"
+        },
+        "subDistrict": {
+          "subDistrictId": 330914,
+          "name": "หว้านคำ"
+        },
+        "postcode": "33160"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01002666",
+      "viewer": 1,
+      "slug": "สวนเมืองลิงบ้านหว้าน"
+    },
+    {
+      "placeId": "9415",
+      "status": "approved",
+      "name": "โรงแรมศรีลำดวน",
+    "introduction": "โรงแรมศรีลำดวน ศรีสะเกษ เป็นโรงแรมมาตรฐานในเมืองที่ให้บริการที่พักสะดวกสบาย พร้อมสิ่งอำนวยความสะดวกครบครัน เหมาะสำหรับนักท่องเที่ยวและนักธุรกิจ",
+      "category": {
+        "categoryId": 2,
+        "name": "ที่พัก"
+      },
+      "sha": null,
+      "latitude": "15.11287",
+      "longitude": "104.35297",
+      "location": {
+        "address": "ซอยไทยพันทา 2",
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330123,
+          "name": "โพธิ์"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P02000567",
+      "viewer": 1,
+      "slug": "โรงแรมศรีลำดวน"
+    },
+    {
+      "placeId": "10701",
+      "status": "approved",
+      "name": "เรือนไม้สักรีสอร์ท",
+    "introduction": "เรือนไม้สักรีสอร์ท ศรีสะเกษ เป็นรีสอร์ทบรรยากาศเงียบสงบ โอบล้อมด้วยธรรมชาติ มีบ้านพักไม้สักสวยงาม เหมาะสำหรับการพักผ่อนและสัมผัสวิถีชีวิตท้องถิ่น",
+      "category": {
+        "categoryId": 2,
+        "name": "ที่พัก"
+      },
+      "sha": null,
+      "latitude": "14.62488",
+      "longitude": "104.42571",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330801,
+          "name": "สิ"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P02001228",
+      "viewer": 1,
+      "slug": "เรือนไม้สักรีสอร์ท"
+    },
+    {
+      "placeId": "11061",
+      "status": "approved",
+      "name": "ริมทางหมูกระทะ",
+    "introduction": "ริมทางหมูกระทะ ศรีสะเกษ เป็นร้านหมูกระทะยอดนิยม ที่มีบรรยากาศสบาย ๆ วัตถุดิบสดใหม่ พร้อมน้ำจิ้มรสเด็ด เหมาะสำหรับนั่งกินกับเพื่อนและครอบครัว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.33110",
+      "longitude": "104.17214",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3309,
+          "name": "ราษีไศล"
+        },
+        "subDistrict": {
+          "subDistrictId": 330901,
+          "name": "เมืองคง"
+        },
+        "postcode": "33160"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007201",
+      "viewer": 3,
+      "slug": "ริมทางหมูกระทะ"
+    },
+    {
+      "placeId": "12538",
+      "status": "approved",
+      "name": "โรงพยาบาลภูสิงห์",
+    "introduction": "โรงพยาบาลภูสิงห์ จังหวัดศรีสะเกษ เป็นสถานพยาบาลระดับอำเภอที่ให้บริการดูแลรักษาสุขภาพและช่วยเหลือชุมชนในพื้นที่อย่างครบวงจร",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.55273",
+      "longitude": "104.13210",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331703,
+          "name": "ห้วยตึ๊กชู"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003834",
+      "viewer": 1,
+      "slug": "โรงพยาบาลภูสิงห์"
+    },
+    {
+      "placeId": "13665",
+      "status": "approved",
+      "name": "ร้านเพิ่มผล",
+      "introduction": "ร้านเพิ่มผล ศรีสะเกษ มีชื่อเสียงด้านอาหารพื้นบ้าน รสชาติจัดจ้านตามแบบฉบับอีสานแท้ เหมาะสำหรับครอบครัวและนักท่องเที่ยว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11918",
+      "longitude": "104.32466",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08003371",
+      "viewer": 2,
+      "slug": "ร้านเพิ่มผล"
+    },
+    {
+      "placeId": "14958",
+      "status": "approved",
+      "name": "พีแอนด์พีคาเฟ่",
+      "introduction": "พีแอนด์พีคาเฟ่ เป็นร้านกาแฟบรรยากาศอบอุ่นในศรีสะเกษ มีเครื่องดื่มและเบเกอรี่น่าลิ้มลอง เหมาะสำหรับนั่งชิลหรือทำงาน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.10427",
+      "longitude": "104.57090",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3303,
+          "name": "กันทรารมย์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330301,
+          "name": "ดูน"
+        },
+        "postcode": "33130"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007314",
+      "viewer": 2,
+      "slug": "พีแอนด์พีคาเฟ่"
+    },
+    {
+      "placeId": "15530",
+      "status": "approved",
+      "name": "น้องต่ายเนื้อย่างเกาหลี สาขา 3",
+      "introduction": "ร้านน้องต่ายเนื้อย่างเกาหลี สาขา 3 เป็นร้านปิ้งย่างยอดนิยมในศรีสะเกษ มีเนื้อหมู เนื้อวัว และอาหารทะเลให้เลือกหลากหลาย พร้อมน้ำจิ้มรสเด็ด",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.64433",
+      "longitude": "104.64151",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330416,
+          "name": "หนองหญ้าลาด"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08006757",
+      "viewer": 2,
+      "slug": "น้องต่ายเนื้อย่างเกาหลี-สาขา-3"
+    },
+    {
+      "placeId": "15617",
+      "status": "approved",
+      "name": "ฝายหนองม่วง",
+    "introduction": "ฝายหนองม่วง จังหวัดศรีสะเกษ เป็นแหล่งน้ำธรรมชาติที่สำคัญของชุมชน ใช้สำหรับเก็บกักน้ำและส่งเสริมการเกษตรในพื้นที่ พร้อมเป็นจุดชมวิวและพักผ่อนท่ามกลางธรรมชาติ",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.09951",
+      "longitude": "104.27408",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330107,
+          "name": "หนองครก"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003991",
+      "viewer": 1,
+      "slug": "ฝายหนองม่วง"
+    },
+    {
+      "placeId": "15752",
+      "status": "approved",
+      "name": "หนองบึงบูรพ์",
+    "introduction": "หนองบึงบูรพ์ จังหวัดศรีสะเกษ เป็นแหล่งน้ำธรรมชาติขนาดใหญ่ที่มีความสำคัญต่อการเกษตรและสิ่งแวดล้อมของพื้นที่ รวมทั้งเป็นสถานที่พักผ่อนและชมธรรมชาติของชุมชนท้องถิ่น",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.31843",
+      "longitude": "104.06868",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3311,
+          "name": "บึงบูรพ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331102,
+          "name": "บึงบูรพ์"
+        },
+        "postcode": "33220"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003002",
+      "viewer": 1,
+      "slug": "หนองบึงบูรพ์"
+    },
+    {
+      "placeId": "16867",
+      "status": "approved",
+      "name": "อ่างเก็บน้ำนาจะเรีย",
+    "introduction": "อ่างเก็บน้ำนาจะเรีย จังหวัดศรีสะเกษ เป็นแหล่งเก็บกักน้ำสำหรับการเกษตรและใช้ประโยชน์ในชุมชน มีบรรยากาศร่มรื่น เหมาะสำหรับพักผ่อนและชมธรรมชาติ",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.54845",
+      "longitude": "104.27845",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330506,
+          "name": "ปรือใหญ่"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003074",
+      "viewer": 1,
+      "slug": "อ่างเก็บน้ำนาจะเรีย"
+    },
+    {
+      "placeId": "17170",
+      "status": "approved",
+      "name": "หมวยแจ่วฮ้อน (เจ้าเก่า)",
+    "introduction": "หมวยแจ่วฮ้อน (เจ้าเก่า) ศรีสะเกษ เป็นร้านแจ่วฮ้อนชื่อดังที่มีรสชาติจัดจ้าน กลมกล่อม หม้อชาบูร้อน ๆ เหมาะสำหรับกินกับเพื่อนและครอบครัว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.10732",
+      "longitude": "104.33986",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330123,
+          "name": "โพธิ์"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08006702",
+      "viewer": 2,
+      "slug": "หมวยแจ่วฮ้อน-(เจ้าเก่า)"
+    },
+    {
+      "placeId": "17404",
+      "status": "approved",
+      "name": "ห้องอาหารมองไทย",
+    "introduction": "ห้องอาหารมองไทย ศรีสะเกษ เป็นร้านอาหารที่เน้นเมนูอาหารไทยและอีสาน รสชาติดั้งเดิม บรรยากาศอบอุ่น เหมาะสำหรับมื้อครอบครัวและกลุ่มเพื่อน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.10614",
+      "longitude": "104.32960",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007339",
+      "viewer": 2,
+      "slug": "ห้องอาหารมองไทย"
+    },
+    {
+      "placeId": "18209",
+      "status": "approved",
+      "name": "มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย วิทยาลัยสงฆ์ศรี",
+    "introduction": "มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย วิทยาลัยสงฆ์ศรีสะเกษ เป็นสถาบันการศึกษาด้านพระพุทธศาสนาและสงฆ์ในจังหวัดศรีสะเกษ ที่มุ่งเน้นการศึกษา ปฏิบัติธรรม และเผยแผ่พระพุทธศาสนาในพื้นที่",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.13446",
+      "longitude": "104.35840",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330122,
+          "name": "น้ำคำ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003039",
+      "viewer": 1,
+      "slug": "มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย-วิทยาลัยสงฆ์ศรี"
+    },
+    {
+      "placeId": "20151",
+      "status": "approved",
+      "name": "สวนอาหารกฤษกัลยา",
+    "introduction": "สวนอาหารกฤษกัลยา ศรีสะเกษ เป็นร้านอาหารบรรยากาศสวน ร่มรื่น มีเมนูอาหารไทย-อีสานหลากหลาย รสชาติจัดจ้าน เหมาะสำหรับมื้อครอบครัวและจัดเลี้ยง",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.92830",
+      "longitude": "104.39838",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3320,
+          "name": "พยุห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 332001,
+          "name": "พยุห์"
+        },
+        "postcode": "33230"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007350",
+      "viewer": 2,
+      "slug": "สวนอาหารกฤษกัลยา"
+    },
+    {
+      "placeId": "21723",
+      "status": "approved",
+      "name": "เค้กคุณหนู",
+    "introduction": "เค้กคุณหนู ศรีสะเกษ เป็นร้านเบเกอรี่ชื่อดังที่ขึ้นชื่อเรื่องเค้กสดใหม่ รสชาติหวานละมุน และของหวานหลากหลาย เหมาะสำหรับซื้อเป็นของฝากหรือกินในร้าน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11574",
+      "longitude": "104.32788",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007300",
+      "viewer": 2,
+      "slug": "เค้กคุณหนู"
+    },
+    {
+      "placeId": "22266",
+      "status": "approved",
+      "name": "ร้านอาหารครัวปริญญา",
+      "introduction": "ร้านครัวปริญญา ศรีสะเกษ ให้บริการอาหารไทย-อีสานหลากหลายเมนู รสชาติอร่อย บรรยากาศเป็นกันเอง เหมาะสำหรับมื้อครอบครัว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.10674",
+      "longitude": "104.65041",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3303,
+          "name": "กันทรารมย์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330302,
+          "name": "โนนสัง"
+        },
+        "postcode": "33130"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007337",
+      "viewer": 3,
+      "slug": "ร้านอาหารครัวปริญญา"
+    },
+    {
+      "placeId": "25281",
+      "status": "approved",
+      "name": "อ่างเก็บน้ำห้วยตะแบง",
+    "introduction": "อ่างเก็บน้ำห้วยตะแบง จังหวัดศรีสะเกษ เป็นแหล่งน้ำสำคัญที่ใช้ในการเกษตรและบริหารจัดการน้ำในพื้นที่ ช่วยส่งเสริมความมั่นคงด้านน้ำและสร้างความสมดุลทางธรรมชาติ",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.49014",
+      "longitude": "104.47760",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330802,
+          "name": "บักดอง"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01004007",
+      "viewer": 1,
+      "slug": "อ่างเก็บน้ำห้วยตะแบง"
+    },
+    {
+      "placeId": "25402",
+      "status": "approved",
+      "name": "อ่างเก็บน้ำห้วยโอตาลัต",
+    "introduction": "อ่างเก็บน้ำห้วยโอตาลัต จังหวัดศรีสะเกษ เป็นแหล่งน้ำสำคัญสำหรับการเกษตรและการจัดการน้ำในพื้นที่ ช่วยส่งเสริมการพัฒนาชุมชนและรักษาสิ่งแวดล้อมในท้องถิ่น",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.54633",
+      "longitude": "104.23705",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3317,
+          "name": "ภูสิงห์"
+        },
+        "subDistrict": {
+          "subDistrictId": 331701,
+          "name": "โคกตาล"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003012",
+      "viewer": 1,
+      "slug": "อ่างเก็บน้ำห้วยโอตาลัต"
+    },
+    {
+      "placeId": "25649",
+      "status": "approved",
+      "name": "ฝายหัวนา",
+    "introduction": "ฝายหัวนา จังหวัดศรีสะเกษ เป็นฝายเก็บกักน้ำชุมชนที่ช่วยส่งเสริมการเกษตรและอนุรักษ์น้ำในพื้นที่ พร้อมเป็นแหล่งพักผ่อนธรรมชาติของชุมชนท้องถิ่น",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "15.13423",
+      "longitude": "104.70283",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3303,
+          "name": "กันทรารมย์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330306,
+          "name": "หนองแก้ว"
+        },
+        "postcode": "33130"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003021",
+      "viewer": 1,
+      "slug": "ฝายหัวนา"
+    },
+    {
+      "placeId": "25970",
+      "status": "approved",
+      "name": "บะหมี่เฮียตี๋",
+      "introduction": "บะหมี่เฮียตี๋ เป็นร้านก๋วยเตี๋ยวชื่อดังในศรีสะเกษ ขึ้นชื่อเรื่องเส้นบะหมี่เหนียวนุ่ม น้ำซุปกลมกล่อม และเกี๊ยวอร่อย",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11462",
+      "longitude": "104.32873",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007303",
+      "viewer": 2,
+      "slug": "บะหมี่เฮียตี๋"
+    },
+    {
+      "placeId": "26872",
+      "status": "approved",
+      "name": "ร้านอาหารฟาร์มทอง",
+      "introduction": "ร้านฟาร์มทอง เป็นร้านอาหารในศรีสะเกษที่ให้บรรยากาศธรรมชาติ เน้นอาหารพื้นบ้านและเมนูสดใหม่จากวัตถุดิบท้องถิ่น",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.12014",
+      "longitude": "104.33112",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08004281",
+      "viewer": 2,
+      "slug": "ร้านอาหารฟาร์มทอง"
+    },
+    {
+      "placeId": "27833",
+      "status": "approved",
+      "name": "คอฟฟี่อินเลิฟ",
+      "introduction": "คอฟฟี่อินเลิฟ ศรีสะเกษ เป็นร้านกาแฟน่ารัก ตกแต่งอบอุ่น มีเครื่องดื่มหลากหลายและขนมเค้กโฮมเมด เหมาะแก่การนั่งพักผ่อน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.10766",
+      "longitude": "104.34010",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330123,
+          "name": "โพธิ์"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007301",
+      "viewer": 2,
+      "slug": "คอฟฟี่อินเลิฟ"
+    },
+    {
+      "placeId": "28334",
+      "status": "approved",
+      "name": "ช. กาแฟสด",
+    "introduction": "ช. กาแฟสด ศรีสะเกษ เป็นร้านกาแฟที่มีชื่อเสียงในพื้นที่ ด้วยเมนูกาแฟสดหลากหลาย รสชาติหอมเข้มข้น พร้อมบรรยากาศเป็นกันเอง เหมาะสำหรับนั่งพักผ่อนหรือทำงาน",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.64674",
+      "longitude": "104.65054",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3304,
+          "name": "กันทรลักษ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330406,
+          "name": "น้ำอ้อม"
+        },
+        "postcode": "33110"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007342",
+      "viewer": 2,
+      "slug": "ช-กาแฟสด"
+    },
+    {
+      "placeId": "28440",
+      "status": "approved",
+      "name": "ชิมดูกาแฟสด",
+      "introduction": "ร้านชิมดูกาแฟสด มีชื่อเสียงด้านกาแฟรสเข้มและหอมกรุ่น บรรยากาศเรียบง่าย เหมาะสำหรับคอกาแฟที่ชื่นชอบความเป็นกันเอง",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11192",
+      "longitude": "104.32920",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330102,
+          "name": "เมืองใต้"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007304",
+      "viewer": 2,
+      "slug": "ชิมดูกาแฟสด"
+    },
+    {
+      "placeId": "28858",
+      "status": "approved",
+      "name": "เจ๊นาหมูกระทะ",
+    "introduction": "เจ๊นาหมูกระทะ ศรีสะเกษ เป็นร้านหมูกระทะยอดนิยมที่มีวัตถุดิบสดใหม่ น้ำจิ้มรสเด็ด และบรรยากาศเป็นกันเอง เหมาะสำหรับนั่งกินกับเพื่อนหรือครอบครัว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "14.74832",
+      "longitude": "104.36097",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3306,
+          "name": "ไพรบึง"
+        },
+        "subDistrict": {
+          "subDistrictId": 330601,
+          "name": "ไพรบึง"
+        },
+        "postcode": "33180"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08006882",
+      "viewer": 2,
+      "slug": "เจ๊นาหมูกระทะ"
+    },
+    {
+      "placeId": "30142",
+      "status": "approved",
+      "name": "ร้านลาบบัวทอง",
+    "introduction": "ร้านลาบบัวทอง ศรีสะเกษ เป็นร้านอาหารอีสานชื่อดังที่มีเมนูลาบและส้มตำรสแซ่บ พร้อมอาหารพื้นบ้านรสจัดจ้านและบริการอบอุ่น",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.12371",
+      "longitude": "104.30106",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330116,
+          "name": "หญ้าปล้อง"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007333",
+      "viewer": 2,
+      "slug": "ร้านลาบบัวทอง"
+    },
+    {
+      "placeId": "31004",
+      "status": "approved",
+      "name": "ร้านอาหารบ้านทรู",
+      "introduction": "ร้านอาหารบ้านทรู จังหวัดศรีสะเกษ บริการอาหารไทยและอีสานในบรรยากาศบ้านสวน รสชาติอร่อย ถูกปากทั้งคนท้องถิ่นและนักท่องเที่ยว",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.11876",
+      "longitude": "104.33302",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330101,
+          "name": "เมืองเหนือ"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08007307",
+      "viewer": 2,
+      "slug": "ร้านอาหารบ้านทรู"
+    },
+    {
+      "placeId": "31231",
+      "status": "approved",
+      "name": "ฝายบ้านเสวต",
+      "introduction": "ฝายบ้านเสวตเป็นแหล่งน้ำธรรมชาติในศรีสะเกษ มีบรรยากาศเย็นสบาย เหมาะสำหรับพักผ่อน เล่นน้ำ และทำกิจกรรมกลางแจ้งกับครอบครัว",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.86839",
+      "longitude": "104.13482",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3305,
+          "name": "ขุขันธ์"
+        },
+        "subDistrict": {
+          "subDistrictId": 330521,
+          "name": "สำโรงตาเจ็น"
+        },
+        "postcode": "33140"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01003022",
+      "viewer": 1,
+      "slug": "ฝายบ้านเสวต"
+    },
+    {
+      "placeId": "32008",
+      "status": "approved",
+      "name": "ร้านใบเตย",
+      "introduction": "ร้านใบเตย ศรีสะเกษ เป็นร้านอาหารพื้นบ้านที่ขึ้นชื่อเรื่องเมนูปลาและอาหารอีสานแท้ รสจัดจ้าน บรรยากาศเรียบง่าย",
+      "category": {
+        "categoryId": 8,
+        "name": "ร้านอาหาร กาแฟ เบเกอรี่"
+      },
+      "sha": null,
+      "latitude": "15.12283",
+      "longitude": "104.30323",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3301,
+          "name": "เมืองศรีสะเกษ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330116,
+          "name": "หญ้าปล้อง"
+        },
+        "postcode": "33000"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P08006736",
+      "viewer": 2,
+      "slug": "ร้านใบเตย"
+    },
+    {
+      "placeId": "32713",
+      "status": "approved",
+      "name": "สนามกีฬาอำเภอขุนหาญ",
+  "introduction": "สนามกีฬาอำเภอขุนหาญ เป็นศูนย์กลางกิจกรรมกีฬาและออกกำลังกายในศรีสะเกษ มีสนามฟุตบอล ลานกีฬา และพื้นที่สำหรับกิจกรรมชุมชน",
+      "category": {
+        "categoryId": 13,
+        "name": "สถานที่อื่นๆ"
+      },
+      "sha": null,
+      "latitude": "14.61779",
+      "longitude": "104.42377",
+      "location": {
+        "address": null,
+        "province": {
+          "provinceId": 585,
+          "name": "ศรีสะเกษ"
+        },
+        "district": {
+          "districtId": 3308,
+          "name": "ขุนหาญ"
+        },
+        "subDistrict": {
+          "subDistrictId": 330801,
+          "name": "สิ"
+        },
+        "postcode": "33150"
+      },
+      "thumbnailUrl": [],
+      "tags": [],
+      "distance": null,
+      "createdAt": "2019-06-06T10:14:07.000Z",
+      "updatedAt": "2019-06-06T10:14:07.000Z",
+      "migrateId": "P01002124",
+      "viewer": 1,
+      "slug": "สนามกีฬาอำเภอขุนหาญ"
+    }
+  ],
+  "query": {
+    "provinceId": "585",
+    "limit": 100,
+    "page": 1,
+    "type": "place",
+    "hasIntroduction": false,
+    "hasThumbnail": false,
+    "hasName": false
+  },
+  "pagination": {
+    "pageNumber": 1,
+    "pageSize": 100,
+    "total": 97
+  }
+}

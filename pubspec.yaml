@@ -10,6 +10,15 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  file_picker: ^8.0.0
+  image_picker: ^1.0.7
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.2.5
+  http: ^1.1.0
+  provider: ^6.1.2
+  cached_network_image: ^3.3.1
+  fluttertoast: ^8.2.4
+  connectivity_plus: ^6.0.3
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +27,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
+  # Assets
+  assets:
+    - assets/images/
+    - assets/data/response_1759296972786.json

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme_manager.dart';
+import '../user_manager.dart';
 import 'favorites_screen.dart';
 import 'privacy_policy_screen.dart';
 
@@ -203,9 +204,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ThemeManager _themeManager = ThemeManager();
-  bool isLoggedIn = false;
-  String userName = 'ผู้เยี่ยมชม';
-  String userEmail = '';
+  final UserManager _userManager = UserManager();
 
   final List<Map<String, dynamic>> menuItems = const [
     {'icon': Icons.favorite, 'label': 'รายการโปรด', 'count': '3', 'route': 'favorites'},
@@ -216,15 +215,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _themeManager.addListener(_onThemeChanged);
+    _userManager.addListener(_onUserChanged);
   }
 
   @override
   void dispose() {
     _themeManager.removeListener(_onThemeChanged);
+    _userManager.removeListener(_onUserChanged);
     super.dispose();
   }
 
   void _onThemeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _onUserChanged() {
     if (mounted) {
       setState(() {});
     }
@@ -280,14 +287,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        if (isLoggedIn)
+                        if (_userManager.isLoggedIn)
                           IconButton(
                             onPressed: () {
-                              setState(() {
-                                isLoggedIn = false;
-                                userName = 'ผู้เยี่ยมชม';
-                                userEmail = '';
-                              });
+                              _userManager.logout();
                             },
                             icon: Icon(Icons.logout, color: Colors.white),
                           ),
@@ -304,7 +307,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Icon(
-                            isLoggedIn ? Icons.account_circle : Icons.person,
+                            _userManager.isLoggedIn ? Icons.account_circle : Icons.person,
                             size: 32,
                             color: Colors.white,
                           ),
@@ -315,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                userName,
+                                _userManager.userName,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -323,8 +326,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               Text(
-                                isLoggedIn 
-                                    ? userEmail 
+                                _userManager.isLoggedIn 
+                                    ? _userManager.userEmail 
                                     : 'เข้าสู่ระบบเพื่อประสบการณ์ที่ดีขึ้น',
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.8),
@@ -344,8 +347,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    // Auth Buttons (แสดงเฉพาะเมื่อยังไม่ได้ล็อกอิน)
-                    if (!isLoggedIn) ...[
+                    // Auth Buttons
+                    if (!_userManager.isLoggedIn) ...[
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -358,11 +361,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                             
                             if (result != null && result['isLoggedIn'] == true) {
-                              setState(() {
-                                isLoggedIn = true;
-                                userName = result['name'] ?? 'ผู้ใช้ใหม่';
-                                userEmail = result['email'] ?? '';
-                              });
+                              _userManager.login(
+                                name: result['name'] ?? 'ผู้ใช้ใหม่',
+                                email: result['email'] ?? '',
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -397,11 +399,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                             
                             if (result != null && result['isLoggedIn'] == true) {
-                              setState(() {
-                                isLoggedIn = true;
-                                userName = result['name'] ?? 'ผู้ใช้ใหม่';
-                                userEmail = result['email'] ?? '';
-                              });
+                              _userManager.login(
+                                name: result['name'] ?? 'ผู้ใช้ใหม่',
+                                email: result['email'] ?? '',
+                              );
                             }
                           },
                           style: OutlinedButton.styleFrom(
@@ -501,8 +502,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )).toList(),
                     ),
                     
-                    // เพิ่มข้อมูลผู้ใช้เมื่อล็อกอินแล้ว
-                    if (isLoggedIn) ...[
+                    // Account Info
+                    if (_userManager.isLoggedIn) ...[
                       SizedBox(height: 32),
                       Container(
                         width: double.infinity,
@@ -537,7 +538,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Icon(Icons.person, color: _themeManager.textSecondaryColor),
                                 SizedBox(width: 8),
                                 Text(
-                                  'ชื่อ: $userName',
+                                  'ชื่อ: ${_userManager.userName}',
                                   style: TextStyle(color: _themeManager.textPrimaryColor),
                                 ),
                               ],
@@ -548,7 +549,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Icon(Icons.email, color: _themeManager.textSecondaryColor),
                                 SizedBox(width: 8),
                                 Text(
-                                  'อีเมล: $userEmail',
+                                  'อีเมล: ${_userManager.userEmail}',
                                   style: TextStyle(color: _themeManager.textPrimaryColor),
                                 ),
                               ],
