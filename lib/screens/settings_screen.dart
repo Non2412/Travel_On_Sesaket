@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../theme_manager.dart';
 import 'privacy_policy_screen.dart';
 import 'notification_settings_screen.dart';
-import 'api_test_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -105,18 +104,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: 'เวอร์ชัน 1.0.0',
               onTap: () {
                 _showAboutDialog();
-              },
-            ),
-            Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
-            _buildSettingsTile(
-              icon: Icons.api,
-              title: 'ทดสอบ API',
-              subtitle: 'ทดสอบการเชื่อมต่อกับ API Server',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ApiTestScreen()),
-                );
               },
             ),
             Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),

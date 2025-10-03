@@ -14,6 +14,7 @@ import 'favorites_screen.dart';
 import '../points_manager.dart';
 import '../theme_manager.dart';
 import '../favorites_manager.dart';
+import '../user_manager.dart';
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late PointsManager _pointsManager;
   late ThemeManager _themeManager;
   late FavoritesManager _favoritesManager;
+  late UserManager _userManager;
   final TextEditingController _searchController = TextEditingController();
   
   List<dynamic> allPlaces = [];
@@ -42,10 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _pointsManager = PointsManager();
     _themeManager = ThemeManager();
     _favoritesManager = FavoritesManager();
+    _userManager = UserManager();
     
     _pointsManager.addListener(_onPointsChanged);
     _themeManager.addListener(_onThemeChanged);
     _favoritesManager.addListener(_onFavoritesChanged);
+    _userManager.addListener(_onUserChanged);
     ActivityData.addListener(_refreshData);
     
     loadPlacesData();
@@ -57,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pointsManager.removeListener(_onPointsChanged);
     _themeManager.removeListener(_onThemeChanged);
     _favoritesManager.removeListener(_onFavoritesChanged);
+    _userManager.removeListener(_onUserChanged);
     ActivityData.removeListener(_refreshData);
     super.dispose();
   }
@@ -70,6 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onFavoritesChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _onUserChanged() {
     if (mounted) setState(() {});
   }
 
@@ -554,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       radius: 30,
                       backgroundColor: Colors.white,
                       child: Icon(
-                        Icons.person,
+                        _userManager.isLoggedIn ? Icons.account_circle : Icons.person,
                         size: 35,
                         color: _themeManager.primaryColor,
                       ),
@@ -613,16 +622,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 SizedBox(height: 16),
+                // แสดงชื่อผู้ใช้
                 Text(
-                  'โปรไฟล์',
+                  _userManager.userName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                // แสดงอีเมล
                 Text(
-                  'จัดการบัญชีและข้อมูลการท่องเที่ยว',
+                  _userManager.isLoggedIn 
+                      ? _userManager.userEmail 
+                      : 'เข้าสู่ระบบเพื่อประสบการณ์ที่ดีขึ้น',
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 14,
@@ -697,7 +710,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-                Divider(),
                 Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
                 _buildDrawerItem(
                   icon: Icons.settings,
@@ -765,6 +777,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showLogoutDialog() {
+    // ตรวจสอบว่าล็อกอินอยู่หรือไม่
+    if (!_userManager.isLoggedIn) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('คุณยังไม่ได้เข้าสู่ระบบ'),
+          backgroundColor: _themeManager.textSecondaryColor,
+        ),
+      );
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -787,7 +810,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             TextButton(
               onPressed: () {
+                _userManager.logout();
                 Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('ออกจากระบบสำเร็จ'),
+                    backgroundColor: Colors.green[600],
+                  ),
+                );
               },
               child: Text(
                 'ออกจากระบบ',
@@ -899,7 +929,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
+  
   String _formatEventDateTime(Map<String, dynamic> event) {
     if (event['date'] != null && event['time'] != null) {
       final date = event['date'] as DateTime;

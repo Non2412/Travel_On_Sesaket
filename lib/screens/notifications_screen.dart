@@ -457,18 +457,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<void> _refreshNotifications() async {
-    // Simulate API call
+    // Simulate API call to refresh notifications
     await Future.delayed(const Duration(seconds: 1));
-    // Add new notification for demo
-    _notificationService.addNotification(
-      NotificationItem(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        title: 'การแจ้งเตือนใหม่',
-        message: 'ข้อความแจ้งเตือนที่อัพเดทล่าสุด',
-        time: DateTime.now(),
-        type: NotificationType.system,
-        isRead: false,
-      ),
-    );
+    // Just refresh the current state without adding new notifications
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

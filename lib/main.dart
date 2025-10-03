@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/activities_screen.dart';
-import 'screens/my_reviews_screen.dart';
 import 'screens/notifications_screen.dart';
 import 'screens/profile_screen.dart';
 import 'points_manager.dart';
@@ -245,7 +244,6 @@ class MainScreenState extends State<MainScreen> {
       HomeScreen(onNavigateToTab: _navigateToTab),
       const SearchScreen(),
       const ActivitiesScreen(),
-      MyReviewsScreen(),
       const NotificationsScreen(),
       const ProfileScreen(),
     ];
