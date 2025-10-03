@@ -214,18 +214,6 @@ class MainScreenState extends State<MainScreen> {
     ];
   }
 
-  @override
-  void dispose() {
-    _themeManager.removeListener(_onThemeChanged);
-    super.dispose();
-  }
-
-  void _onThemeChanged() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   void _navigateToTab(int index) {
     setState(() {
       _currentIndex = index;
