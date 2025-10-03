@@ -1,7 +1,9 @@
 import 'my_reviews_screen.dart';
 import 'package:flutter/material.dart';
 import 'thread_list_screen.dart';
+import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'points_screen.dart';
 import 'checkin_screen.dart';
 import 'settings_screen.dart';
@@ -12,13 +14,11 @@ import 'favorites_screen.dart';
 import '../points_manager.dart';
 import '../theme_manager.dart';
 import '../favorites_manager.dart';
-import '../services/api_service.dart';
-import '../models/api_models.dart';
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(int)? onNavigateToTab;
-
+  
   const HomeScreen({super.key, this.onNavigateToTab});
 
   @override
@@ -30,26 +30,24 @@ class _HomeScreenState extends State<HomeScreen> {
   late ThemeManager _themeManager;
   late FavoritesManager _favoritesManager;
   final TextEditingController _searchController = TextEditingController();
-
-  List<TouristAttraction> allPlaces = [];
+  
+  List<dynamic> allPlaces = [];
   List<Map<String, dynamic>> categories = [];
-  List<TouristAttraction> recommendedPlaces = [];
-  Map<String, dynamic>? dashboardStats;
+  List<dynamic> recommendedPlaces = [];
   bool loading = true;
-  bool isUsingFallbackData = false;
-
+  
   @override
   void initState() {
     super.initState();
     _pointsManager = PointsManager();
     _themeManager = ThemeManager();
     _favoritesManager = FavoritesManager();
-
+    
     _pointsManager.addListener(_onPointsChanged);
     _themeManager.addListener(_onThemeChanged);
     _favoritesManager.addListener(_onFavoritesChanged);
     ActivityData.addListener(_refreshData);
-
+    
     loadPlacesData();
   }
 
@@ -78,104 +76,66 @@ class _HomeScreenState extends State<HomeScreen> {
   void _refreshData() {
     if (mounted) setState(() {});
   }
-
+  
   Future<void> loadPlacesData() async {
     try {
-      setState(() {
-        loading = true;
-      });
-
-      debugPrint('Loading tourist attractions...');
-
-      // โหลดสถานที่ท่องเที่ยว (ApiService จะจัดการ fallback เอง)
-      final attractionsData = await ApiService.getTouristAttractions();
-      debugPrint(
-        'Attractions data received: ${attractionsData?.length ?? 0} items',
+      final String response = await rootBundle.loadString(
+        'assets/data/response_1759296972786.json'
       );
-
-      // โหลดสถิติ dashboard
-      final statsData = await ApiService.getDashboardStats();
-      debugPrint('Dashboard stats loaded: ${statsData != null}');
-
-      if (attractionsData != null && attractionsData.isNotEmpty) {
-        final attractions = attractionsData
-            .map((data) => TouristAttraction.fromJson(data))
-            .toList();
-
-        setState(() {
-          allPlaces = attractions;
-          categories = _countCategories(attractions);
-          recommendedPlaces = _getRandomPlaces(attractions, 2);
-          dashboardStats = statsData;
-          isUsingFallbackData = false; // ใช้ fallback data เสมอตอนนี้
-          loading = false;
-        });
-
-        debugPrint('Successfully loaded ${attractions.length} attractions');
-        debugPrint('Recommended places: ${recommendedPlaces.length}');
-        debugPrint('Using fallback data: $isUsingFallbackData');
-      } else {
-        debugPrint('Failed to load attractions data - no data received');
-        setState(() {
-          loading = false;
-          allPlaces = [];
-          categories = [];
-          recommendedPlaces = [];
-          isUsingFallbackData = false;
-        });
-      }
+      final data = json.decode(response);
+      
+      setState(() {
+        allPlaces = data['data'] ?? [];
+        categories = _countCategories(allPlaces);
+        recommendedPlaces = _getRandomPlaces(allPlaces, 2);
+        loading = false;
+      });
     } catch (e) {
       debugPrint('Error loading places: $e');
-      setState(() {
-        loading = false;
-        allPlaces = [];
-        categories = [];
-        recommendedPlaces = [];
-        isUsingFallbackData = false;
-      });
+      setState(() => loading = false);
     }
   }
 
-  List<Map<String, dynamic>> _countCategories(
-    List<TouristAttraction> placesData,
-  ) {
+  List<Map<String, dynamic>> _countCategories(List<dynamic> placesData) {
     Map<String, Map<String, dynamic>> categoryMap = {};
-
+    
     for (var place in placesData) {
-      String catName = place.category;
+      String catName = place['category']['name'];
       if (!categoryMap.containsKey(catName)) {
-        categoryMap[catName] = {'id': place.id, 'name': catName, 'count': 0};
+        categoryMap[catName] = {
+          'id': place['category']['categoryId'],
+          'name': catName,
+          'count': 0
+        };
       }
-      categoryMap[catName]!['count'] =
-          (categoryMap[catName]!['count'] ?? 0) + 1;
+      categoryMap[catName]!['count'] = (categoryMap[catName]!['count'] ?? 0) + 1;
     }
-
+    
     return categoryMap.values.toList();
   }
 
-  List<TouristAttraction> _getRandomPlaces(
-    List<TouristAttraction> places,
-    int count,
-  ) {
+  List<dynamic> _getRandomPlaces(List<dynamic> places, int count) {
     if (places.isEmpty) return [];
     final random = Random();
     final shuffled = List.from(places)..shuffle(random);
-    return shuffled.take(count).cast<TouristAttraction>().toList();
+    return shuffled.take(count).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final allActivities = ActivityData.getActivities();
-
+    
     if (loading) {
       return Scaffold(
         backgroundColor: _themeManager.backgroundColor,
         body: Center(
-          child: CircularProgressIndicator(color: _themeManager.primaryColor),
+          child: CircularProgressIndicator(
+            color: _themeManager.primaryColor,
+          ),
         ),
       );
     }
-
+    
     return Scaffold(
       backgroundColor: _themeManager.backgroundColor,
       drawer: _buildDrawer(),
@@ -234,25 +194,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   widget.onNavigateToTab!(3);
                                 }
                               },
-                              child: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                              ),
+                              child: Icon(Icons.notifications, color: Colors.white),
                             ),
                             SizedBox(width: 12),
                             CircleAvatar(
-                              backgroundColor: Colors.white.withValues(
-                                alpha: 0.2,
-                              ),
+                              backgroundColor: Colors.white.withValues(alpha: 0.2),
                               child: Icon(Icons.person, color: Colors.white),
                             ),
                           ],
                         ),
                       ],
                     ),
-
+                    
                     SizedBox(height: 20),
-
+                    
                     // Search Bar
                     GestureDetector(
                       onTap: () {
@@ -265,10 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.white.withValues(alpha: 0.95),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: Row(
                           children: [
                             Icon(Icons.search, color: Colors.grey[600]),
@@ -286,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
+              
               // Content
               Padding(
                 padding: EdgeInsets.all(24),
@@ -305,13 +257,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSpacing: 12,
                           childAspectRatio: 0.9,
                         ),
-                        itemCount: categories.length > 6
-                            ? 6
-                            : categories.length,
+                        itemCount: categories.length > 6 ? 6 : categories.length,
                         itemBuilder: (context, index) {
                           final cat = categories[index];
                           final icons = ['🏛️', '🌳', '🍜', '🛍️', '🏨', '🎭'];
-
+                          
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -329,9 +279,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: _themeManager.isDarkMode
-                                        ? Colors.black.withValues(alpha: 0.3)
-                                        : Colors.grey.withValues(alpha: 0.1),
+                                    color: _themeManager.isDarkMode 
+                                      ? Colors.black.withValues(alpha: 0.3)
+                                      : Colors.grey.withValues(alpha: 0.1),
                                     blurRadius: 4,
                                     offset: Offset(0, 2),
                                   ),
@@ -370,19 +320,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
-
+                    
                     SizedBox(height: 24),
-
+                    
                     // Events
                     _buildSection(
                       'กิจกรรม',
                       allActivities.isEmpty
                           ? _buildEmptyEventsState()
                           : Column(
-                              children: allActivities
-                                  .take(3)
-                                  .map((event) => _buildEventCard(event))
-                                  .toList(),
+                              children: allActivities.take(3).map((event) => _buildEventCard(event)).toList(),
                             ),
                       showSeeAll: allActivities.isNotEmpty,
                       onSeeAllTap: () {
@@ -391,29 +338,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                     ),
-
+                    
                     SizedBox(height: 24),
-
+                    
                     // Places
                     _buildSection(
                       'สถานที่แนะนำ',
-                      loading
-                          ? Container(
-                              padding: EdgeInsets.all(32),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: _themeManager.primaryColor,
-                                ),
-                              ),
-                            )
-                          : recommendedPlaces.isEmpty
-                          ? _buildEmptyPlacesState()
-                          : Column(
-                              children: recommendedPlaces
-                                  .map((place) => _buildPlaceCard(place))
-                                  .toList(),
-                            ),
-                      showSeeAll: recommendedPlaces.isNotEmpty,
+                      Column(
+                        children: recommendedPlaces.map((place) => _buildPlaceCard(place)).toList(),
+                      ),
+                      showSeeAll: true,
                       onSeeAllTap: () {
                         Navigator.push(
                           context,
@@ -433,48 +367,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPlaceCard(TouristAttraction place) {
-    final placeId = place.id.toString();
+  Widget _buildPlaceCard(dynamic place) {
+    final placeId = place['placeId']?.toString() ?? '';
     final isFavorite = _favoritesManager.isFavorite(placeId);
+    final thumbnailUrl = place['thumbnailUrl'] != null && 
+                         (place['thumbnailUrl'] as List).isNotEmpty
+        ? place['thumbnailUrl'][0]
+        : null;
+    
+    final location = place['location'];
+    final districtName = location?['district']?['name'] ?? '';
 
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlaceDetailScreen(
-              place: {
-                'id': place.id,
-                'name': place.name,
-                'description': place.description,
-                'category': {'name': place.category},
-                'district': place.district,
-                'address': place.address,
-                'image_url': place.imageUrl,
-                'average_rating': place.averageRating,
-                'review_count': place.reviewCount,
-                'latitude': place.latitude,
-                'longitude': place.longitude,
-                'opening_hours': place.openingHours,
-                'contact_info': place.contactInfo,
-                'website': place.website,
-              },
-            ),
+            builder: (context) => PlaceDetailScreen(place: place),
           ),
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: _themeManager.cardColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: _themeManager.isDarkMode
-                  ? Colors.black.withValues(alpha: 0.3)
-                  : Colors.grey.withValues(alpha: 0.1),
+              color: _themeManager.isDarkMode 
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
               blurRadius: 6,
-              offset: const Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),
@@ -483,42 +407,40 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Image
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               child: Container(
                 width: double.infinity,
                 height: 200,
-                color: _themeManager.isDarkMode
-                    ? Colors.grey[800]
-                    : Colors.grey[200],
-                child: place.imageUrl != null
-                    ? Image.network(
-                        place.imageUrl!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Center(
-                            child: Icon(
-                              Icons.image,
-                              size: 48,
-                              color: _themeManager.textSecondaryColor,
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Icon(
-                          Icons.image,
-                          size: 48,
-                          color: _themeManager.textSecondaryColor,
-                        ),
+                color: _themeManager.isDarkMode 
+                  ? Colors.grey[800] 
+                  : Colors.grey[200],
+                child: thumbnailUrl != null
+                  ? Image.network(
+                      thumbnailUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.image,
+                            size: 48,
+                            color: _themeManager.textSecondaryColor,
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 48,
+                        color: _themeManager.textSecondaryColor,
                       ),
+                    ),
               ),
             ),
-
+            
             // Content
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -527,7 +449,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: Text(
-                          place.name,
+                          place['name'] ?? '',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -542,30 +464,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             SnackBar(
                               content: Text(
                                 _favoritesManager.isFavorite(placeId)
-                                    ? 'เพิ่มลงรายการโปรดแล้ว'
-                                    : 'ลบออกจากรายการโปรดแล้ว',
+                                  ? 'เพิ่มลงรายการโปรดแล้ว'
+                                  : 'ลบออกจากรายการโปรดแล้ว'
                               ),
-                              duration: const Duration(seconds: 2),
+                              duration: Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
-                              backgroundColor:
-                                  _favoritesManager.isFavorite(placeId)
-                                  ? Colors.green[600]
-                                  : _themeManager.textSecondaryColor,
+                              backgroundColor: _favoritesManager.isFavorite(placeId)
+                                ? Colors.green[600]
+                                : _themeManager.textSecondaryColor,
                             ),
                           );
                         },
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite
-                              ? Colors.red
-                              : _themeManager.textSecondaryColor,
+                          color: isFavorite ? Colors.red : _themeManager.textSecondaryColor,
                         ),
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 12),
-
+                  
+                  SizedBox(height: 12),
+                  
                   Row(
                     children: [
                       Icon(
@@ -573,10 +492,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         size: 16,
                         color: _themeManager.textSecondaryColor,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          '${place.district} • ${place.category}',
+                          '$districtName • ${place['category']['name'] ?? ''}',
                           style: TextStyle(
                             fontSize: 14,
                             color: _themeManager.textSecondaryColor,
@@ -585,15 +504,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 8),
-
+                  
+                  SizedBox(height: 8),
+                  
                   Row(
                     children: [
-                      const Icon(Icons.star, size: 16, color: Colors.amber),
-                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.remove_red_eye,
+                        size: 16,
+                        color: _themeManager.textSecondaryColor,
+                      ),
+                      SizedBox(width: 4),
                       Text(
-                        '${place.averageRating.toStringAsFixed(1)} (${place.reviewCount} รีวิว)',
+                        '${place['viewer'] ?? 0} ครั้ง',
                         style: TextStyle(
                           fontSize: 14,
                           color: _themeManager.textSecondaryColor,
@@ -618,7 +541,9 @@ class _HomeScreenState extends State<HomeScreen> {
           // Header
           Container(
             width: double.infinity,
-            decoration: BoxDecoration(gradient: _themeManager.headerGradient),
+            decoration: BoxDecoration(
+              gradient: _themeManager.headerGradient,
+            ),
             padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -647,10 +572,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(25),
@@ -662,7 +584,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.stars, color: Colors.white, size: 20),
+                            Icon(
+                              Icons.stars,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                             SizedBox(width: 8),
                             Text(
                               '${_pointsManager.currentPoints}',
@@ -705,7 +631,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-
+          
           // Menu Items
           Expanded(
             child: ListView(
@@ -718,7 +644,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CheckInScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => CheckInScreen(),
+                      ),
                     );
                   },
                 ),
@@ -742,9 +670,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => MyReviewsScreen(),
-                      ),
+                      MaterialPageRoute(builder: (context) => MyReviewsScreen()),
                     );
                   },
                 ),
@@ -772,11 +698,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 Divider(),
-                Divider(
-                  color: _themeManager.textSecondaryColor.withValues(
-                    alpha: 0.3,
-                  ),
-                ),
+                Divider(color: _themeManager.textSecondaryColor.withValues(alpha: 0.3)),
                 _buildDrawerItem(
                   icon: Icons.settings,
                   title: 'ตั้งค่า',
@@ -784,7 +706,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SettingsScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => SettingsScreen(),
+                      ),
                     );
                   },
                 ),
@@ -823,10 +747,17 @@ class _HomeScreenState extends State<HomeScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: _themeManager.textSecondaryColor, size: 24),
+      leading: Icon(
+        icon,
+        color: _themeManager.textSecondaryColor,
+        size: 24,
+      ),
       title: Text(
         title,
-        style: TextStyle(fontSize: 16, color: _themeManager.textPrimaryColor),
+        style: TextStyle(
+          fontSize: 16,
+          color: _themeManager.textPrimaryColor,
+        ),
       ),
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -858,7 +789,10 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('ออกจากระบบ', style: TextStyle(color: Colors.red)),
+              child: Text(
+                'ออกจากระบบ',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );
@@ -898,50 +832,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildEmptyPlacesState() {
-    return Container(
-      padding: EdgeInsets.all(32),
-      child: Column(
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: 48,
-            color: _themeManager.textSecondaryColor,
-          ),
-          SizedBox(height: 12),
-          Text(
-            'ไม่พบข้อมูลสถานที่ท่องเที่ยว',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: _themeManager.textSecondaryColor,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 4),
-          Text(
-            'เกิดข้อผิดพลาดในการโหลดข้อมูล',
-            style: TextStyle(
-              fontSize: 14,
-              color: _themeManager.textSecondaryColor,
-            ),
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              loadPlacesData();
-            },
-            child: Text('ลองใหม่'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _themeManager.primaryColor,
-              foregroundColor: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildEventCard(Map<String, dynamic> event) {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
@@ -950,9 +840,9 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: _themeManager.isDarkMode
-                ? Colors.black.withValues(alpha: 0.3)
-                : Colors.grey.withValues(alpha: 0.1),
+            color: _themeManager.isDarkMode 
+              ? Colors.black.withValues(alpha: 0.3)
+              : Colors.grey.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -968,7 +858,10 @@ class _HomeScreenState extends State<HomeScreen> {
               color: _themeManager.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.event, color: _themeManager.primaryColor),
+            child: Icon(
+              Icons.event,
+              color: _themeManager.primaryColor,
+            ),
           ),
           SizedBox(width: 16),
           Expanded(
@@ -1015,13 +908,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return '';
   }
-
-  Widget _buildSection(
-    String title,
-    Widget content, {
-    bool showSeeAll = false,
-    VoidCallback? onSeeAllTap,
-  }) {
+  
+  Widget _buildSection(String title, Widget content, {bool showSeeAll = false, VoidCallback? onSeeAllTap}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

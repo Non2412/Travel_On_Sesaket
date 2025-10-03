@@ -291,11 +291,6 @@ class MainScreenState extends State<MainScreen> {
                 label: 'กิจกรรม',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.rate_review_outlined),
-                activeIcon: Icon(Icons.rate_review),
-                label: 'รีวิว',
-              ),
-              BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_outlined),
                 activeIcon: Icon(Icons.notifications),
                 label: 'แจ้งเตือน',
